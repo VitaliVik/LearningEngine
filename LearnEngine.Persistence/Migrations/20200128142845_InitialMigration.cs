@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace LearnEngine.Persistence.Migrations
+namespace LearningEngine.Persistence.Migrations
 {
     public partial class InitialMigration : Migration
     {

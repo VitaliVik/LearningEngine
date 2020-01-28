@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LearnEngine.Persistence.Models
+namespace LearningEngine.Persistence.Models
 {
     [Flags]
     public enum TypeAccess
