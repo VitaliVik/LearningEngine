@@ -21,9 +21,13 @@ namespace LearningEngine.Api.Controllers
         {
             _mediator = mediator;
         }
-
-        [HttpPost("/token")]
-        public async Task<IActionResult> Token(string username, string password)
+        [HttpGet("token")]
+        public IActionResult Token()
+        {
+            return Ok("bibus");
+        }
+        [HttpPost("token")]
+        public async Task<IActionResult> Token([FromForm]string username, [FromForm] string password)
         {
             var query = new GetIdentityQuery(username, password);
             var identity = await _mediator.Send(query);
@@ -47,7 +51,7 @@ namespace LearningEngine.Api.Controllers
                 access_token = encodedJwt,
                 username = identity.Name
             };
-            return Ok(response);
+            return new JsonResult(response);
         }
 
     }

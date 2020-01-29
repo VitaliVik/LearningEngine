@@ -34,6 +34,14 @@ namespace LearningEngine.Persistence.Models
                 .HasForeignKey(thm => thm.ParentThemeId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<User>()
+                .HasData(new User
+                {
+                    Id = 1,
+                    Email = "rolit@mail.com",
+                    UserName = "rolit",
+                    Password = "123"
+                });
         }
     }
 }

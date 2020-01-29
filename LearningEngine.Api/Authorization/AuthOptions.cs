@@ -10,8 +10,8 @@ namespace LearningEngine.Api.Authorization
     public class AuthOptions
     {
         public const string ISSUER = "LearningEngine.Api.Authorization";
-        public const string AUDIENCE = "LearningEngine.Client";
-        public const string KEY = "1234";
+        public const string AUDIENCE = "https://localhost:44336/";
+        public const string KEY = "mysupersecret_secretkey!123";
         public const int LIFETIME = 1;
         public static SymmetricSecurityKey GetSymmetricSecurityKey()
         {

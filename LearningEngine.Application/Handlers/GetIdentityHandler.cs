@@ -30,6 +30,7 @@ namespace LearningEngine.Application.Handlers
                     new Claim(ClaimsIdentity.DefaultRoleClaimType, "user")
                 };
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+                return claimsIdentity;
             }
             return null;
         }

@@ -45,6 +45,7 @@ namespace LearningEngine.Api
                 });
             services.AddControllers();
             services.AddMediatR(typeof(LearningEngine.Application.Handlers.GetIdentityHandler).Assembly);
+            services.AddSingleton<LearningEngine.Persistence.Models.LearnEngineContext>();
             
         }
 
@@ -56,8 +57,8 @@ namespace LearningEngine.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseAuthorization();
