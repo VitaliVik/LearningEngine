@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningEngine.Domain", "Le
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningEngine.Persistence", "LearnEngine.Persistence\LearningEngine.Persistence.csproj", "{02BC1765-BA01-485C-A6A6-A1063C61D8BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningEngine.Application", "LearningEngine.Application\LearningEngine.Application.csproj", "{C8774429-B463-4A91-B857-B0A90CADF866}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningEngine.Api", "LearningEngine.Api\LearningEngine.Api.csproj", "{AE4E4577-1A5D-4F95-9795-99CDE7AC00AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{02BC1765-BA01-485C-A6A6-A1063C61D8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02BC1765-BA01-485C-A6A6-A1063C61D8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02BC1765-BA01-485C-A6A6-A1063C61D8BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8774429-B463-4A91-B857-B0A90CADF866}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8774429-B463-4A91-B857-B0A90CADF866}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8774429-B463-4A91-B857-B0A90CADF866}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8774429-B463-4A91-B857-B0A90CADF866}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE4E4577-1A5D-4F95-9795-99CDE7AC00AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE4E4577-1A5D-4F95-9795-99CDE7AC00AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE4E4577-1A5D-4F95-9795-99CDE7AC00AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE4E4577-1A5D-4F95-9795-99CDE7AC00AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

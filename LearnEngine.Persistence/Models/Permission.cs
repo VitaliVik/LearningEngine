@@ -11,7 +11,7 @@ namespace LearningEngine.Persistence.Models
         public int ThemeId { get; set; }
         public Theme Theme { get; set; }
         public int UserId { get; set; }
-        public User User { get; set; }
+        public ClaimsIdentity User { get; set; }
         public TypeAccess Access { get; set; }
     }
 }

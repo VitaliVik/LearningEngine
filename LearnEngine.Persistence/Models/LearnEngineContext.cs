@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LearningEngine.Persistence.Models
 {
-    class LearnEngineContext: DbContext
+    public class LearnEngineContext: DbContext
     {
         public DbSet<Card> Cards { get; set; }
         public DbSet<Note> Notes { get; set; }
@@ -28,10 +28,12 @@ namespace LearningEngine.Persistence.Models
                 .WithMany(thm => thm.Permissions)
                 .HasForeignKey(prm => prm.ThemeId);
 
-            //modelBuilder.Entity<Theme>()
-            //    .HasOne(thm => thm.ParentTheme)
-            //    .WithMany(thm => thm.SubThemes)
-            //    .HasForeignKey(thm => thm.ParentThemeId);
+            modelBuilder.Entity<Theme>()
+                .HasOne(thm => thm.ParentTheme)
+                .WithMany(thm => thm.SubThemes)
+                .HasForeignKey(thm => thm.ParentThemeId)
+                .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }
