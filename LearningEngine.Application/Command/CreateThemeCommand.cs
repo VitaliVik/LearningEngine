@@ -7,6 +7,10 @@ namespace LearningEngine.Application.Command
 {
     class CreateThemeCommand : IRequest<bool>
     {
-        //todo
+        public string UserName { get; }
+        public CreateThemeCommand()
+        {
+
+        }
     }
 }

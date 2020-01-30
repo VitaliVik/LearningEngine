@@ -58,7 +58,15 @@ namespace LearningEngine.Api
                 optionsBuilder.UseSqlServer(connectionString, builder => builder.MigrationsAssembly("LearningEngine.Persistence"));
                 return new LearnEngineContext(optionsBuilder.Options);
             });
-
+            services.AddDbContext<LearnEngineContext>((provider, opt)  => 
+            {
+                var configureService = provider.GetService<IConfigurationService>();
+                var connectionString = configureService.GetConfiguration().GetConnectionString(nameof(LearnEngineContext));
+                var optionsBuilder = new DbContextOptionsBuilder();
+                optionsBuilder.UseSqlServer(connectionString, builder => builder.MigrationsAssembly("LearningEngine.Persistence"));
+                opt = optionsBuilder;
+            });
+        
             services.AddControllers();
             services.AddMediatR(typeof(LearningEngine.Persistence.Handlers.GetIdentityHandler).Assembly);
             
