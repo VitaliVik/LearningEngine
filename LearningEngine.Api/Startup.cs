@@ -15,6 +15,7 @@ using LearningEngine.Api.Authorization;
 using MediatR;
 using LearningEngine.Persistence.Models;
 using LearningEngine.Api.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace LearningEngine.Api
 {
@@ -45,7 +46,19 @@ namespace LearningEngine.Api
                         ValidateIssuerSigningKey = true
                     };
                 });
-            services.AddSingleton<DependencyResolver>();
+            services.AddTransient<IEnviromentService, EnviromentService>();
+            services.AddTransient<IConfigurationService, ConfigurationService>(provider =>
+            new ConfigurationService(provider.GetService<IEnviromentService>()));
+
+            services.AddScoped(provider =>
+            {
+                var configureService = provider.GetService<IConfigurationService>();
+                var connectionString = configureService.GetConfiguration().GetConnectionString(nameof(LearnEngineContext));
+                var optionsBuilder = new DbContextOptionsBuilder<LearnEngineContext>();
+                optionsBuilder.UseSqlServer(connectionString, builder => builder.MigrationsAssembly("LearningEngine.Persistence"));
+                return new LearnEngineContext(optionsBuilder.Options);
+            });
+
             services.AddControllers();
             services.AddMediatR(typeof(LearningEngine.Persistence.Handlers.GetIdentityHandler).Assembly);
             
