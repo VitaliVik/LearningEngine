@@ -5,12 +5,22 @@ using System.Text;
 
 namespace LearningEngine.Application.Command
 {
-    class CreateThemeCommand : IRequest<bool>
+    public class CreateThemeCommand : IRequest<bool>
     {
-        public string UserName { get; }
-        public CreateThemeCommand()
+        public CreateThemeCommand(string userName, string themeName, string description, bool isPublic, int? parentThemeId = null)
         {
-
+            UserName = userName;
+            ThemeName = themeName;
+            Description = description;
+            IsPublic = isPublic;
+            ParentThemeId = parentThemeId;
         }
+
+        public string UserName { get; }
+        public string ThemeName { get; }
+        public string Description { get; }
+        public bool IsPublic { get; }
+        public int? ParentThemeId { get; }
+
     }
 }

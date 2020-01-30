@@ -10,7 +10,7 @@ namespace LearningEngine.Persistence.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public List<Theme> SubThemes { get; set; }
-        public int ParentThemeId { get; set; }
+        public int? ParentThemeId { get; set; }
         public Theme ParentTheme { get; set; }
         public bool IsPublic { get; set; }
 

@@ -4,14 +4,16 @@ using LearningEngine.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LearningEngine.Persistence.Migrations
 {
     [DbContext(typeof(LearnEngineContext))]
-    partial class LearnEngineContextModelSnapshot : ModelSnapshot
+    [Migration("20200130131717_parentThemeCanBeNull")]
+    partial class parentThemeCanBeNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,7 +112,7 @@ namespace LearningEngine.Persistence.Migrations
 
                     b.HasIndex("ParentThemeId");
 
-                    b.ToTable("Themes");
+                    b.ToTable("Theme");
                 });
 
             modelBuilder.Entity("LearningEngine.Persistence.Models.User", b =>

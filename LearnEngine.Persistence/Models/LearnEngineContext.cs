@@ -11,6 +11,7 @@ namespace LearningEngine.Persistence.Models
         public DbSet<Note> Notes { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Theme> Themes { get; set; }
 
         public LearnEngineContext(DbContextOptions<LearnEngineContext> options): base(options)
         {
