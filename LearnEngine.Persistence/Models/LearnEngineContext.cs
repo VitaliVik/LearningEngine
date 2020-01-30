@@ -41,6 +41,12 @@ namespace LearningEngine.Persistence.Models
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<User>()
+                .HasIndex(usr => usr.UserName)
+                .IsUnique();
+            modelBuilder.Entity<User>()
+                .HasIndex(usr => usr.Email)
+                .IsUnique();
+            modelBuilder.Entity<User>()
                 .HasData(new User
                 {
                     Id = 1,

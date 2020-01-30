@@ -9,6 +9,9 @@ using LearningEngine.Application.Query;
 using System.IdentityModel.Tokens.Jwt;
 using LearningEngine.Api.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
+using LearningEngine.Api.ViewModels;
+using LearningEngine.Application.Command;
 
 namespace LearningEngine.Api.Controllers
 {
@@ -54,5 +57,15 @@ namespace LearningEngine.Api.Controllers
             return new JsonResult(response);
         }
 
+        [HttpPost("register")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register([FromForm]RegisterViewModel vm)
+        {
+            var command = new RegisterUserCommand(vm.UserName, vm.Email, vm.Password);
+
+            var result = await _mediator.Send(command);
+
+            return Ok();
+        }
     }
 }
