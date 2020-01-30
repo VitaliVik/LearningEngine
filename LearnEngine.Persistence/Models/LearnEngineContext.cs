@@ -12,10 +12,15 @@ namespace LearningEngine.Persistence.Models
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<User> Users { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public LearnEngineContext(DbContextOptions<LearnEngineContext> options): base(options)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=LearnEngineDb;Trusted_Connection=true");
+
         }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=LearnEngineDb;Trusted_Connection=true");
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,7 +43,7 @@ namespace LearningEngine.Persistence.Models
                 .HasData(new User
                 {
                     Id = 1,
-                    Email = "rolit@mail.com",
+                    Email = "rolit@mail.cor",
                     UserName = "rolit",
                     Password = "123"
                 });

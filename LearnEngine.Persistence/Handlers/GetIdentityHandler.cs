@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using System.Linq;
 
-namespace LearningEngine.Application.Handlers
+namespace LearningEngine.Persistence.Handlers
 {
     public class GetIdentityHandler : RequestHandler<GetIdentityQuery, ClaimsIdentity>
     {

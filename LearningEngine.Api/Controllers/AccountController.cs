@@ -40,9 +40,9 @@ namespace LearningEngine.Api.Controllers
                 issuer: AuthOptions.ISSUER,
                 audience: AuthOptions.AUDIENCE,
                 claims: identity.Claims,
-                expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                expires: now.Add(TimeSpan.FromDays(AuthOptions.LIFETIME)),
                 signingCredentials: new Microsoft.IdentityModel.Tokens
-                    .SigningCredentials(AuthOptions.GetSymmetricSecurityKey(),SecurityAlgorithms.HmacSha256)
+                    .SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256Signature)
                 );
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 

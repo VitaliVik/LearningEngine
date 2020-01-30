@@ -13,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using LearningEngine.Api.Authorization;
 using MediatR;
+using LearningEngine.Persistence.Models;
+using LearningEngine.Api.Services;
 
 namespace LearningEngine.Api
 {
@@ -43,9 +45,9 @@ namespace LearningEngine.Api
                         ValidateIssuerSigningKey = true
                     };
                 });
+            services.AddSingleton<DependencyResolver>();
             services.AddControllers();
-            services.AddMediatR(typeof(LearningEngine.Application.Handlers.GetIdentityHandler).Assembly);
-            services.AddSingleton<LearningEngine.Persistence.Models.LearnEngineContext>();
+            services.AddMediatR(typeof(LearningEngine.Persistence.Handlers.GetIdentityHandler).Assembly);
             
         }
 
@@ -61,7 +63,7 @@ namespace LearningEngine.Api
             app.UseStaticFiles();
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
