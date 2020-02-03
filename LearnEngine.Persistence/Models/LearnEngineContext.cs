@@ -73,7 +73,7 @@ namespace LearningEngine.Persistence.Models
                         Name = "linq",
                         Description = "all about linq",
                         IsPublic = true,
-                        ParentThemeId = 1
+                        ParentThemeId = 2
                     }
                 });
 

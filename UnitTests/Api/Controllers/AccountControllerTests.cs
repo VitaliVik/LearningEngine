@@ -16,7 +16,7 @@ namespace UnitTests.Api.Controllers
 {
     public class AccountControllerTests
     {
-        Mock<Mediator> _mock;
+        readonly Mock<Mediator> _mock;
         public AccountControllerTests()
         {
             _mock = new Mock<Mediator>();

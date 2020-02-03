@@ -6,13 +6,12 @@ using System.Text;
 
 namespace LearningEngine.Application.Query
 {
-    public class GetThemeQuery: IRequest<ThemeDto>
+    public class GetThemeSubThemesQuery : IRequest<List<ThemeDto>>
     {
-        public GetThemeQuery(string themeName)
+        public string ThemeName { get; private set; }
+        public GetThemeSubThemesQuery(string themeName)
         {
             ThemeName = themeName;
         }
-
-        public string ThemeName { get; private set; }
     }
 }

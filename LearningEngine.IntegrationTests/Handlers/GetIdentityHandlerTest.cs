@@ -13,7 +13,7 @@ namespace LearningEngine.IntegrationTests.Handlers
     [Collection("DatabaseCollection")]
     public class GetIdentityHandlerTest
     {
-        LearnEngineContext _context;
+        readonly LearnEngineContext _context;
         public GetIdentityHandlerTest(DatabaseFixture fixture)
         {
             _context = fixture.Context;

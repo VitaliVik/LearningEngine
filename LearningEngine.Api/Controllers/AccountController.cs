@@ -63,7 +63,7 @@ namespace LearningEngine.Api.Controllers
         {
             var command = new RegisterUserCommand(vm.UserName, vm.Email, vm.Password);
 
-            var result = await _mediator.Send(command);
+            await _mediator.Send(command);
 
             return Ok();
         }

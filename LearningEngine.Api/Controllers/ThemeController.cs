@@ -30,16 +30,42 @@ namespace LearningEngine.Api.Controllers
 
             var command = new CreateThemeCommand(vm.UserName, vm.ThemeName, vm.Description, vm.IsPublic, vm.ParentThemeId);
 
-            var result = await _mediator.Send(command);
+            await _mediator.Send(command);
 
             return Ok();
         }
+
+        //[HttpPost("{themename}/note")]
+        //public async Task<IActionResult> AddNote()
+        //{
+        //    var command = new CreateNoteCommand();
+
+        //    var result = await _mediator.Send(command);
+
+        //    return Ok();
+        //}
+
 
         [HttpGet("{themename}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetTheme([FromRoute] string themename)
         {
-            var query = new GetThemeQuery(themename);
+            var query = new GetThemeHeaderQuery(themename);
+
+            var result = await _mediator.Send(query);
+
+            return Ok(result);
+        }
+
+
+        
+
+
+        [HttpGet("{themename}/subthemes")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetSubThemes(string themename)
+        {
+            var query = new GetThemeSubThemesQuery(themename);
 
             var result = await _mediator.Send(query);
 

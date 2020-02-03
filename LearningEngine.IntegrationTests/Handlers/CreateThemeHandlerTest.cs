@@ -17,8 +17,7 @@ namespace LearningEngine.IntegrationTests.Handlers
     [Collection("DatabaseCollection")]
     public class CreateThemeHandlerTest
     {
-        LearnEngineContext _context;
-        DatabaseFixture fixture;
+        readonly LearnEngineContext _context;
         public CreateThemeHandlerTest(DatabaseFixture fixture)
         {
             _context = fixture.Context;
@@ -35,7 +34,7 @@ namespace LearningEngine.IntegrationTests.Handlers
 
             var result = await handler.Handle(command, CancellationToken.None);
 
-            Assert.Equal(default(Unit), result);
+            Assert.Equal(default, result);
         }
 
         [Theory]
