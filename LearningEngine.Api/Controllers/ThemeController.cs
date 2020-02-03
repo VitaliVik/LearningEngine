@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using LearningEngine.Api.ViewModels;
 using LearningEngine.Application.Command;
+using LearningEngine.Application.Query;
 
 namespace LearningEngine.Api.Controllers
 {
@@ -35,9 +36,14 @@ namespace LearningEngine.Api.Controllers
         }
 
         [HttpGet("{themename}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetTheme([FromRoute] string themename)
         {
             var query = new GetThemeQuery(themename);
+
+            var result = await _mediator.Send(query);
+
+            return Ok(result);
         }
     }
 }

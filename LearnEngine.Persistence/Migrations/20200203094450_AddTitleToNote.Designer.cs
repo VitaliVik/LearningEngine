@@ -4,14 +4,16 @@ using LearningEngine.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LearningEngine.Persistence.Migrations
 {
     [DbContext(typeof(LearnEngineContext))]
-    partial class LearnEngineContextModelSnapshot : ModelSnapshot
+    [Migration("20200203094450_AddTitleToNote")]
+    partial class AddTitleToNote
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,22 +65,6 @@ namespace LearningEngine.Persistence.Migrations
                     b.HasIndex("ThemeId");
 
                     b.ToTable("Notes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Content = "deffered execution exist",
-                            ThemeId = 3,
-                            Title = "deffered execution"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Content = "GC - is garbage collector",
-                            ThemeId = 3,
-                            Title = "GC "
-                        });
                 });
 
             modelBuilder.Entity("LearningEngine.Persistence.Models.Permission", b =>
@@ -131,23 +117,6 @@ namespace LearningEngine.Persistence.Migrations
                     b.HasIndex("ParentThemeId");
 
                     b.ToTable("Themes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 2,
-                            Description = "all about .NET",
-                            IsPublic = true,
-                            Name = "dotNet"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "all about linq",
-                            IsPublic = true,
-                            Name = "linq",
-                            ParentThemeId = 1
-                        });
                 });
 
             modelBuilder.Entity("LearningEngine.Persistence.Models.User", b =>

@@ -1,11 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LearningEngine.Persistence.Models
 {
-    public class LearnEngineContext: DbContext
+    public class LearnEngineContext : DbContext
     {
         public DbSet<Card> Cards { get; set; }
         public DbSet<Note> Notes { get; set; }
@@ -13,7 +11,7 @@ namespace LearningEngine.Persistence.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Theme> Themes { get; set; }
 
-        public LearnEngineContext(DbContextOptions<LearnEngineContext> options): base(options)
+        public LearnEngineContext(DbContextOptions<LearnEngineContext> options) : base(options)
         {
 
         }
@@ -60,6 +58,44 @@ namespace LearningEngine.Persistence.Models
             modelBuilder.Entity<Theme>()
                 .Property(thm => thm.Name)
                 .IsRequired();
+            modelBuilder.Entity<Theme>()
+                .HasData(new List<Theme> {
+                    new Theme
+                    {
+                        Id = 2,
+                        Name = "dotNet",
+                        Description = "all about .NET",
+                        IsPublic = true,
+                    },
+                    new Theme
+                    {
+                        Id = 3,
+                        Name = "linq",
+                        Description = "all about linq",
+                        IsPublic = true,
+                        ParentThemeId = 1
+                    }
+                });
+
+            modelBuilder.Entity<Note>()
+                .HasData(new List<Note>
+                {
+                    new Note
+                    {
+                        Id = 1,
+                        ThemeId = 3,
+                        Content = "deffered execution exist",
+                        Title = "deffered execution"
+                    },
+                    new Note
+                    {
+                        Id = 2,
+                        ThemeId = 3,
+                        Content = "GC - is garbage collector",
+                        Title = "GC "
+                    }
+                });
+
 
         }
     }

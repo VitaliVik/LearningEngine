@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20200128150033_ParentThemeAdd.Designer.cs" />
     <Compile Remove="Migrations\20200130121309_init3.cs" />
     <Compile Remove="Migrations\20200130121309_init3.Designer.cs" />
+    <Compile Remove="Migrations\20200203103200_AddThemeData.cs" />
+    <Compile Remove="Migrations\20200203103200_AddThemeData.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
