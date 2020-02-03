@@ -7,10 +7,11 @@ using LearningEngine.Persistence.Models;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using System.Linq;
+using System.Threading;
 
 namespace LearningEngine.Persistence.Handlers
 {
-    public class GetIdentityHandler : RequestHandler<GetIdentityQuery, ClaimsIdentity>
+    public class GetIdentityHandler : IRequestHandler<GetIdentityQuery, ClaimsIdentity>
     {
         private readonly LearnEngineContext _context;
         public GetIdentityHandler(LearnEngineContext context)
@@ -18,7 +19,7 @@ namespace LearningEngine.Persistence.Handlers
             _context = context;
         }
 
-        protected override ClaimsIdentity Handle(GetIdentityQuery request)
+        public Task<ClaimsIdentity> Handle(GetIdentityQuery request, CancellationToken cancellationToken)
         {
             var user = _context.Users
                 .FirstOrDefault(usr => usr.UserName == request.UserName && usr.Password == request.Password);
@@ -30,9 +31,10 @@ namespace LearningEngine.Persistence.Handlers
                     new Claim(ClaimsIdentity.DefaultRoleClaimType, "user")
                 };
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-                return claimsIdentity;
+                return Task.Run(() => claimsIdentity);
             }
-            return null;
+            return Task.Run(() => (ClaimsIdentity)null);
         }
+
     }
 }

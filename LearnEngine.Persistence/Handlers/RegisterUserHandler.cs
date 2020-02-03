@@ -4,6 +4,8 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Reflection;
+using LearningEngine.Application.Exceptions;
+using System;
 
 namespace LearningEngine.Persistence.Handlers
 {
@@ -25,7 +27,16 @@ namespace LearningEngine.Persistence.Handlers
                 UserName = request.UserName
             };
             await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw new RegisterUserException(ex);
+            }
+
             return default;
         }
 

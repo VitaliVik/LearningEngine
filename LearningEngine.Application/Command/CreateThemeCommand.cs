@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LearningEngine.Application.Command
 {
-    public class CreateThemeCommand : IRequest<bool>
+    public class CreateThemeCommand : IRequest
     {
         public CreateThemeCommand(string userName, string themeName, string description, bool isPublic, int? parentThemeId = null)
         {

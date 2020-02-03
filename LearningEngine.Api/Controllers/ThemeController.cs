@@ -21,19 +21,23 @@ namespace LearningEngine.Api.Controllers
         {
             _mediator = mediator;
         }
+
+
         [HttpPost]
         public async Task<IActionResult> CreateTheme([FromForm]CreateThemeViewModel vm)
         {
+
             var command = new CreateThemeCommand(vm.UserName, vm.ThemeName, vm.Description, vm.IsPublic, vm.ParentThemeId);
 
             var result = await _mediator.Send(command);
 
-            if (result == false)
-            {
-                return BadRequest();
-            }
-
             return Ok();
+        }
+
+        [HttpGet("{themename}")]
+        public async Task<IActionResult> GetTheme([FromRoute] string themename)
+        {
+            var query = new GetThemeQuery(themename);
         }
     }
 }

@@ -43,9 +43,11 @@ namespace LearningEngine.Persistence.Models
             modelBuilder.Entity<User>()
                 .HasIndex(usr => usr.UserName)
                 .IsUnique();
+
             modelBuilder.Entity<User>()
                 .HasIndex(usr => usr.Email)
                 .IsUnique();
+
             modelBuilder.Entity<User>()
                 .HasData(new User
                 {
@@ -54,6 +56,11 @@ namespace LearningEngine.Persistence.Models
                     UserName = "rolit",
                     Password = "123"
                 });
+
+            modelBuilder.Entity<Theme>()
+                .Property(thm => thm.Name)
+                .IsRequired();
+
         }
     }
 }
