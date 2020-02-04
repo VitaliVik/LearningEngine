@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LearningEngine.Application.Command;
 using LearningEngine.Application.Query;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -30,6 +31,16 @@ namespace LearningEngine.Api.Controllers
             var result = await _mediator.Send(query);
 
             return Ok(result);
+        }
+
+        [HttpPost("{themename}/note")]
+        public async Task<IActionResult> AddNote([FromForm]string themeName, [FromForm]string title, [FromForm]string content)
+        {
+            var command = new CreateNoteCommand(themeName, title, content);
+
+            var result = await _mediator.Send(command);
+
+            return Ok();
         }
     }
 }

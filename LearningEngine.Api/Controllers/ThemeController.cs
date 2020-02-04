@@ -35,15 +35,6 @@ namespace LearningEngine.Api.Controllers
             return Ok();
         }
 
-        //[HttpPost("{themename}/note")]
-        //public async Task<IActionResult> AddNote()
-        //{
-        //    var command = new CreateNoteCommand();
-
-        //    var result = await _mediator.Send(command);
-
-        //    return Ok();
-        //}
 
 
         [HttpGet("{themename}")]
