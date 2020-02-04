@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UseCase\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\LearnEngine.Domain\LearningEngine.Domain.csproj" />
   </ItemGroup>
 

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using LearningEngine.Api.ViewModels;
 using LearningEngine.Domain.Command;
 using LearningEngine.Domain.Query;
+using LearningEngine.Application.UseCase.Command;
 
 namespace LearningEngine.Api.Controllers
 {
@@ -23,12 +24,12 @@ namespace LearningEngine.Api.Controllers
             _mediator = mediator;
         }
 
-
+        
         [HttpPost]
-        public async Task<IActionResult> CreateTheme([FromForm]CreateThemeViewModel vm)
+        public async Task<IActionResult> CreateUserTheme([FromForm]CreateThemeViewModel vm)
         {
 
-            var command = new CreateThemeCommand(vm.UserName, vm.ThemeName, vm.Description, vm.IsPublic, vm.ParentThemeId);
+            var command = new CreateUserThemeCommand(vm.UserName, vm.ThemeName, vm.Description, vm.IsPublic, vm.ParentThemeId);
 
             await _mediator.Send(command);
 

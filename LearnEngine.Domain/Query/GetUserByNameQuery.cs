@@ -3,10 +3,10 @@ using MediatR;
 
 namespace LearningEngine.Domain.Query
 {
-    public class GetUserByNameCommand : IRequest<UserDto>
+    public class GetUserByNameQuery : IRequest<UserDto>
     {
         public string UserName { get; private set; }
-        public GetUserByNameCommand(string userName)
+        public GetUserByNameQuery(string userName)
         {
             UserName = userName;
         }

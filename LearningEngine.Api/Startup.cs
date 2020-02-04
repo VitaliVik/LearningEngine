@@ -66,7 +66,8 @@ namespace LearningEngine.Api
             });
         
             services.AddControllers();
-            services.AddMediatR(typeof(LearningEngine.Persistence.Handlers.GetIdentityHandler).Assembly);
+            services.AddMediatR(typeof(LearningEngine.Persistence.Handlers.GetIdentityHandler).Assembly, 
+                typeof(LearningEngine.Application.UseCase.Handler.CreateUserThemeHandler).Assembly);
             
         }
 
