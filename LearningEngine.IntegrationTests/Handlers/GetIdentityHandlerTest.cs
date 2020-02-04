@@ -1,4 +1,4 @@
-﻿using LearningEngine.Application.Query;
+﻿using LearningEngine.Domain.Query;
 using LearningEngine.Persistence.Handlers;
 using LearningEngine.Persistence.Models;
 using System;

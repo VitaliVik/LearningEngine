@@ -1,10 +1,10 @@
-﻿using LearningEngine.Application.DTO;
+﻿using LearningEngine.Domain.DTO;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LearningEngine.Application.Query
+namespace LearningEngine.Domain.Query
 {
     public class GetThemeSubThemesQuery : IRequest<List<ThemeDto>>
     {

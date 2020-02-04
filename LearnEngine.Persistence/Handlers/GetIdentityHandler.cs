@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using MediatR;
-using LearningEngine.Application.Query;
+using LearningEngine.Domain.Query;
 using LearningEngine.Persistence.Models;
 using System.Threading.Tasks;
 using System.Security.Claims;

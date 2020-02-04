@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LearningEngine.Application.Command
+namespace LearningEngine.Domain.Command
 {
     public class RegisterUserCommand: IRequest
     {

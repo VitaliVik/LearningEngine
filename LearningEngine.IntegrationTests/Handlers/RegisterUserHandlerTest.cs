@@ -4,7 +4,7 @@ using System.Text;
 using Xunit;
 using LearningEngine.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
-using LearningEngine.Application.Command;
+using LearningEngine.Domain.Command;
 using LearningEngine.Persistence.Handlers;
 using LearningEngine.Api.ViewModels;
 using System.Threading;

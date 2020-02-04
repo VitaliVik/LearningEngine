@@ -1,5 +1,5 @@
-﻿using LearningEngine.Application.DTO;
-using LearningEngine.Application.Query;
+﻿using LearningEngine.Domain.DTO;
+using LearningEngine.Domain.Query;
 using LearningEngine.Persistence.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

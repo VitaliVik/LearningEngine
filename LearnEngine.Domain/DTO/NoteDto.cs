@@ -1,4 +1,4 @@
-﻿namespace LearningEngine.Application.DTO
+﻿namespace LearningEngine.Domain.DTO
 {
     public class NoteDto
     {

@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using LearningEngine.Application.Query;
+using LearningEngine.Domain.Query;
 using System.IdentityModel.Tokens.Jwt;
 using LearningEngine.Api.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using LearningEngine.Api.ViewModels;
-using LearningEngine.Application.Command;
+using LearningEngine.Domain.Command;
 
 namespace LearningEngine.Api.Controllers
 {

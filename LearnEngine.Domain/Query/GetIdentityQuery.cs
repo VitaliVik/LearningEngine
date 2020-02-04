@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System.Security.Claims;
 
-namespace LearningEngine.Application.Query
+namespace LearningEngine.Domain.Query
 {
     public class GetIdentityQuery : IRequest<ClaimsIdentity>
     {

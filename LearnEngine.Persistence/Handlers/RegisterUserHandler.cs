@@ -1,4 +1,4 @@
-﻿using LearningEngine.Application.Command;
+﻿using LearningEngine.Domain.Command;
 using LearningEngine.Persistence.Models;
 using MediatR;
 using System.Threading;

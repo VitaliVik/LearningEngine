@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using LearningEngine.Api.ViewModels;
-using LearningEngine.Application.Command;
-using LearningEngine.Application.Query;
+using LearningEngine.Domain.Command;
+using LearningEngine.Domain.Query;
 
 namespace LearningEngine.Api.Controllers
 {
