@@ -46,7 +46,7 @@ namespace LearningEngine.IntegrationTests.Handlers
             var command = new CreateThemeCommand(username, themeName, description, true);
             var handler = new CreateThemeHandler(_context);
 
-            Func<Task> act = async () => await handler.Handle(command, CancellationToken.None);
+            Func<Task> act =  () => handler.Handle(command, CancellationToken.None);
 
             Assert.ThrowsAsync<CreateThemeException>(act);
         }

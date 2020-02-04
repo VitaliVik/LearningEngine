@@ -1,6 +1,8 @@
 ﻿using LearningEngine.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
+using System.IO;
 using Xunit;
 
 namespace LearningEngine.IntegrationTests.Handlers
@@ -10,22 +12,20 @@ namespace LearningEngine.IntegrationTests.Handlers
         private DbContextOptionsBuilder<LearnEngineContext> _optionsBuilder;
         public DatabaseFixture()
         {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("testsettings.json")
+                .Build();
             _optionsBuilder = new DbContextOptionsBuilder<LearnEngineContext>();
-            _optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=LearningEngineTestDb;Trusted_Connection=true");
-            _context = new LearnEngineContext(_optionsBuilder.Options);
+            _optionsBuilder.UseSqlServer(configuration.GetConnectionString("Default"));
             Context.Database.EnsureDeleted();
             Context.Database.EnsureCreated();
         }
 
 
-        private LearnEngineContext _context;
         public LearnEngineContext Context 
         { 
-            get 
-            { 
-                _context = new LearnEngineContext(_optionsBuilder.Options);
-                return _context;
-            } 
+            get => new LearnEngineContext(_optionsBuilder.Options);
         }
 
     }
