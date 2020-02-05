@@ -3,6 +3,8 @@ using LearningEngine.Persistence.Handlers;
 using LearningEngine.Persistence.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +20,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             _context = fixture.Context;
         }
+
         [Fact]
         public async Task GetIdentityWhenUserDataCorrect()
         {
@@ -29,6 +32,9 @@ namespace LearningEngine.IntegrationTests.Handlers
             var result = await handler.Handle(query, CancellationToken.None);
 
             Assert.NotNull(result);
+            Assert.Equal(2, result.Claims.Count());
+            Assert.Equal("somename", result.Claims.FirstOrDefault(clm => clm.Type == ClaimsIdentity.DefaultNameClaimType).Value);
+            Assert.Equal("user", result.Claims.FirstOrDefault(clm => clm.Type == ClaimsIdentity.DefaultRoleClaimType).Value);
         }
 
         [Theory]

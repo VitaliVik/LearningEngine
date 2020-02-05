@@ -11,6 +11,7 @@ using MediatR;
 using LearningEngine.Application.Exceptions;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace LearningEngine.IntegrationTests.Handlers
 {
@@ -26,24 +27,24 @@ namespace LearningEngine.IntegrationTests.Handlers
         [Fact]
         public async Task CreateThemeWithCorrectData()
         {
-            var correctUser = new User { UserName = "correctUser", Password = "123" };
-            _context.Users.Add(correctUser);
-            _context.SaveChanges();
-            var command = new CreateThemeCommand(correctUser.UserName, "someTheme", "just theme", true);
+            var command = new CreateThemeCommand("someTheme", "just theme", true);
             var handler = new CreateThemeHandler(_context);
-
             var result = await handler.Handle(command, CancellationToken.None);
 
-            Assert.Equal(default, result);
+            var theme = _context.Themes.OrderByDescending(thm => thm.Id).FirstOrDefault();
+
+            Assert.Equal(command.ThemeName, theme.Name);
+            Assert.Equal(command.Description, theme.Description);
+            Assert.True(theme.IsPublic);
         }
 
         [Theory]
-        [InlineData(null, null, null)]
-        [InlineData("rolit", null, null)]
-        [InlineData(null, "themename", "desription")]
-        public void CreateThemeWithIncorrectData(string username, string themeName, string description)
+        [InlineData(null, null)]
+        [InlineData("themename", null)]
+        [InlineData("null", "description")]
+        public void CreateThemeWithIncorrectData(string themeName, string description)
         {
-            var command = new CreateThemeCommand(username, themeName, description, true);
+            var command = new CreateThemeCommand(themeName, description, true);
             var handler = new CreateThemeHandler(_context);
 
             Func<Task> act =  () => handler.Handle(command, CancellationToken.None);
@@ -61,16 +62,19 @@ namespace LearningEngine.IntegrationTests.Handlers
             };
             _context.Themes.Add(parentTheme);
             _context.SaveChanges();
-            var command = new CreateThemeCommand("rolit", "LINQ", "all about linq", true, parentTheme.Id);
+            var command = new CreateThemeCommand("LINQ", "all about linq", true, parentTheme.Id);
             var handler = new CreateThemeHandler(_context);
             await handler.Handle(command, CancellationToken.None);
 
             var result = _context.Themes
                 .Include(thm => thm.ParentTheme)
-                .FirstOrDefault(thm => thm.Name == "LINQ");
+                .OrderByDescending(thm => thm.Id)
+                .FirstOrDefault();
 
             Assert.NotNull(result);
             Assert.NotNull(result.ParentTheme);
+            Assert.Equal(parentTheme.Name, result.ParentTheme.Name);
+            Assert.Equal(parentTheme.Description, result.ParentTheme.Description);
         }
     }
 }

@@ -16,6 +16,8 @@ using MediatR;
 using LearningEngine.Persistence.Models;
 using LearningEngine.Api.Services;
 using Microsoft.EntityFrameworkCore;
+using LearningEngine.Domain.Interfaces;
+using LearningEngine.Persistence.Transaction;
 
 namespace LearningEngine.Api
 {
@@ -64,7 +66,8 @@ namespace LearningEngine.Api
                 var connectionString = configureService.GetConfiguration().GetConnectionString(nameof(LearnEngineContext));
                 opt.UseSqlServer(connectionString, builder => builder.MigrationsAssembly("LearningEngine.Persistence")); 
             });
-        
+            services.AddScoped<ITransactionUnitOfWork>(sp => 
+            new TransactionUnitOfWork(sp.GetRequiredService<LearnEngineContext>()));
             services.AddControllers();
             services.AddMediatR(typeof(LearningEngine.Persistence.Handlers.GetIdentityHandler).Assembly, 
                 typeof(LearningEngine.Application.UseCase.Handler.CreateUserThemeHandler).Assembly);

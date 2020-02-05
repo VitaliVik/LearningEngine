@@ -58,6 +58,7 @@ namespace LearningEngine.Persistence.Models
             modelBuilder.Entity<Theme>()
                 .Property(thm => thm.Name)
                 .IsRequired();
+            
             modelBuilder.Entity<Theme>()
                 .HasData(new List<Theme> {
                     new Theme

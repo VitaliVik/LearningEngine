@@ -36,6 +36,9 @@ namespace LearningEngine.IntegrationTests.Handlers
 
             var user = _context.Users.FirstOrDefault(user => user.UserName == "username");
             Assert.NotNull(user);
+            Assert.Equal("username", user.UserName);
+            Assert.Equal("email@post.org", user.Email);
+            Assert.Equal("123", user.Password);
         }
 
         [Fact]
