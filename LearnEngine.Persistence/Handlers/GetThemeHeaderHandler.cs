@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LearningEngine.Persistence.Handlers
 {
-    class GetThemeHeaderHandler : IRequestHandler<GetThemeHeaderQuery, ThemeDto>
+    public class GetThemeHeaderHandler : IRequestHandler<GetThemeHeaderQuery, ThemeDto>
     {
         readonly LearnEngineContext _context;
         public GetThemeHeaderHandler(LearnEngineContext context)

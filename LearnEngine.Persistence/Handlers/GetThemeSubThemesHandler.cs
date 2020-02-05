@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace LearningEngine.Persistence.Handlers
 {
-    class GetThemeSubThemesHandler : IRequestHandler<GetThemeSubThemesQuery, List<ThemeDto>>
+    public class GetThemeSubThemesHandler : IRequestHandler<GetThemeSubThemesQuery, List<ThemeDto>>
     {
         readonly LearnEngineContext _context;
 

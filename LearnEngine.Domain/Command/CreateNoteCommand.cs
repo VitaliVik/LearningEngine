@@ -7,14 +7,14 @@ namespace LearningEngine.Domain.Command
 {
     public class CreateNoteCommand: IRequest
     {
-        public CreateNoteCommand(string themeName, string title, string content)
+        public CreateNoteCommand(int themeId, string title, string content)
         {
-            ThemeName = themeName;
+            ThemeId = themeId;
             Title = title;
             Content = content;
         }
 
-        public string ThemeName { get; private set; }
+        public int ThemeId { get; private set; }
         public string Title { get; private set; }
         public string Content { get; private set; }
     }

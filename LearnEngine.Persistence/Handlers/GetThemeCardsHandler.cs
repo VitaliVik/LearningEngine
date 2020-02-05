@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace LearningEngine.Persistence.Handlers
 {
-    class GetThemeCardsHandler : IRequestHandler<GetThemeCardsQuery, List<CardDto>>
+    public class GetThemeCardsHandler : IRequestHandler<GetThemeCardsQuery, List<CardDto>>
     {
         readonly LearnEngineContext _context;
         public GetThemeCardsHandler(LearnEngineContext context)

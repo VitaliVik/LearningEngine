@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace LearningEngine.Persistence.Handlers
 {
-    class GetThemeNotesHandler : IRequestHandler<GetThemeNotesQuery, List<NoteDto>>
+    public class GetThemeNotesHandler : IRequestHandler<GetThemeNotesQuery, List<NoteDto>>
     {
         readonly LearnEngineContext _context;
         public GetThemeNotesHandler(LearnEngineContext context)

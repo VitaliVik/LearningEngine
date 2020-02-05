@@ -22,21 +22,21 @@ namespace LearningEngine.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("{themename}")]
+        [HttpGet("{themeId}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetNotes(string themename)
+        public async Task<IActionResult> GetNotes(int themeId)
         {
-            var query = new GetThemeNotesQuery(themename);
+            var query = new GetThemeNotesQuery(themeId);
 
             var result = await _mediator.Send(query);
 
             return Ok(result);
         }
 
-        [HttpPost("{themename}/note")]
-        public async Task<IActionResult> AddNote([FromForm]string themeName, [FromForm]string title, [FromForm]string content)
+        [HttpPost("{themeId}/note")]
+        public async Task<IActionResult> AddNote([FromForm]int themeId, [FromForm]string title, [FromForm]string content)
         {
-            var command = new CreateNoteCommand(themeName, title, content);
+            var command = new CreateNoteCommand(themeId, title, content);
 
             var result = await _mediator.Send(command);
 

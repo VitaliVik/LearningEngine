@@ -22,9 +22,9 @@ namespace LearningEngine.Api.Controllers
 
         [HttpGet("{themename}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetCards(string themename)
+        public async Task<IActionResult> GetCards(int themeId)
         {
-            var query = new GetThemeCardsQuery(themename);
+            var query = new GetThemeCardsQuery(themeId);
 
             var result = await _mediator.Send(query);
 
