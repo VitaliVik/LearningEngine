@@ -22,7 +22,7 @@ namespace LearningEngine.Persistence.Handlers
         {
             var theme = await _context.Themes
                 .Include(thm => thm.ParentTheme)
-                .FirstOrDefaultAsync(thm => thm.Name == request.ThemeName);
+                .FirstOrDefaultAsync(thm => thm.Name + thm.Id == request.ThemeNameId);
             if (theme != null)
             {
                 var themeDto = new ThemeDto { Id = theme.Id, Name = theme.Name, Desription = theme.Description, IsPublic = theme.IsPublic };

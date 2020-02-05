@@ -7,9 +7,9 @@ namespace LearningEngine.Domain.Query
     {
         public GetThemeHeaderQuery(string themeName)
         {
-            ThemeName = themeName;
+            ThemeNameId = themeName;
         }
 
-        public string ThemeName { get; private set; }
+        public string ThemeNameId { get; private set; }
     }
 }
