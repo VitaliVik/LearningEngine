@@ -6,10 +6,10 @@ namespace LearningEngine.Domain.Query
 {
     public class GetThemeNotesQuery : IRequest<List<NoteDto>>
     {
-        public string ThemeNameId { get; private set; }
-        public GetThemeNotesQuery(string themeName)
+        public int ThemeId { get; private set; }
+        public GetThemeNotesQuery(int themeId)
         {
-            ThemeNameId = themeName;
+            ThemeId = themeId;
         }
     }
 }

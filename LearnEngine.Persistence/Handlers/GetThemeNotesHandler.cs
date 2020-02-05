@@ -22,7 +22,7 @@ namespace LearningEngine.Persistence.Handlers
         {
             var theme = await _context.Themes
                 .Include(thm => thm.Notes)
-                .FirstOrDefaultAsync(thm => thm.Name + thm.Id == request.ThemeNameId);
+                .FirstOrDefaultAsync(thm => thm.Id == request.ThemeId);
 
             if (theme != null)
             {

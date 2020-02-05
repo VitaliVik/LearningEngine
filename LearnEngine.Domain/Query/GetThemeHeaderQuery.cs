@@ -5,11 +5,11 @@ namespace LearningEngine.Domain.Query
 {
     public class GetThemeHeaderQuery : IRequest<ThemeDto>
     {
-        public GetThemeHeaderQuery(string themeName)
+        public GetThemeHeaderQuery(int themeId)
         {
-            ThemeNameId = themeName;
+            ThemeId = themeId;
         }
 
-        public string ThemeNameId { get; private set; }
+        public int ThemeId { get; private set; }
     }
 }

@@ -8,10 +8,10 @@ namespace LearningEngine.Domain.Query
 {
     public class GetThemeSubThemesQuery : IRequest<List<ThemeDto>>
     {
-        public string ThemeNameId { get; private set; }
-        public GetThemeSubThemesQuery(string themeName)
+        public int ThemeId { get; private set; }
+        public GetThemeSubThemesQuery(int themeId)
         {
-            ThemeNameId = themeName;
+            ThemeId = themeId;
         }
     }
 }

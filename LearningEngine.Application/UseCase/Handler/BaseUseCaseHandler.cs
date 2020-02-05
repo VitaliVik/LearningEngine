@@ -27,7 +27,7 @@ namespace LearningEngine.Application.UseCase.Handler
                 await _uow.CommitTransaction();
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
                 await _uow.RollbackTransaction();
                 throw;

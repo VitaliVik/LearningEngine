@@ -11,7 +11,6 @@ using MediatR;
 using LearningEngine.Application.Exceptions;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace LearningEngine.IntegrationTests.Handlers
 {

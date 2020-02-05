@@ -7,10 +7,10 @@ namespace LearningEngine.Domain.Query
 {
     public class GetThemeCardsQuery : IRequest<List<CardDto>>
     {
-        public string ThemeNameId { get; private set; }
-        public GetThemeCardsQuery(string themeName)
+        public int ThemeId { get; private set; }
+        public GetThemeCardsQuery(int themeId)
         {
-            ThemeNameId = themeName;
+            ThemeId = themeId;
         }
     }
 }

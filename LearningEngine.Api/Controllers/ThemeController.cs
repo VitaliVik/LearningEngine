@@ -38,11 +38,11 @@ namespace LearningEngine.Api.Controllers
 
 
 
-        [HttpGet("{themename}")]
+        [HttpGet("{themeId}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetTheme([FromRoute] string themename)
+        public async Task<IActionResult> GetTheme([FromRoute] int themeId)
         {
-            var query = new GetThemeHeaderQuery(themename);
+            var query = new GetThemeHeaderQuery(themeId);
 
             var result = await _mediator.Send(query);
 
@@ -53,11 +53,11 @@ namespace LearningEngine.Api.Controllers
         
 
 
-        [HttpGet("{themename}/subthemes")]
+        [HttpGet("{themeId}/subthemes")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetSubThemes(string themename)
+        public async Task<IActionResult> GetSubThemes(int themeId)
         {
-            var query = new GetThemeSubThemesQuery(themename);
+            var query = new GetThemeSubThemesQuery(themeId);
 
             var result = await _mediator.Send(query);
 
