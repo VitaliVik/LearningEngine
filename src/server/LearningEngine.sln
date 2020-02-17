@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningEngine.IntegrationT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningEngine.UnitTests", "Tests\LearningEngine.UnitTests\LearningEngine.UnitTests.csproj", "{267E39A1-9AD6-4137-A376-34E38D90B490}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DDEDECEE-C978-4002-91E4-AC0228DE619A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{939FA494-D407-4A07-8AF4-91BE2E50E926} = {DDEDECEE-C978-4002-91E4-AC0228DE619A}
+		{267E39A1-9AD6-4137-A376-34E38D90B490} = {DDEDECEE-C978-4002-91E4-AC0228DE619A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8E805C1B-84F7-4006-BD09-0F213DE08336}
