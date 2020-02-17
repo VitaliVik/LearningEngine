@@ -31,12 +31,16 @@ namespace LearningEngine.Persistence.Models
                 .HasOne(prm => prm.Theme)
                 .WithMany(thm => thm.Permissions)
                 .HasForeignKey(prm => prm.ThemeId);
+            modelBuilder.Entity<Theme>()
+                .HasKey(t => t.Id);
 
             modelBuilder.Entity<Theme>()
                 .HasOne(thm => thm.ParentTheme)
                 .WithMany(thm => thm.SubThemes)
                 .HasForeignKey(thm => thm.ParentThemeId)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.NoAction);
+   
 
             modelBuilder.Entity<User>()
                 .HasIndex(usr => usr.UserName)
@@ -58,7 +62,7 @@ namespace LearningEngine.Persistence.Models
             modelBuilder.Entity<Theme>()
                 .Property(thm => thm.Name)
                 .IsRequired();
-            
+
             modelBuilder.Entity<Theme>()
                 .HasData(new List<Theme> {
                     new Theme

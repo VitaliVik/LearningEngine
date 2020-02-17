@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningEngine.Persistence.Migrations
 {
     [DbContext(typeof(LearnEngineContext))]
-    [Migration("20200203103413_AddThemeData")]
+    [Migration("20200217100314_AddThemeData")]
     partial class AddThemeData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -148,7 +148,7 @@ namespace LearningEngine.Persistence.Migrations
                             Description = "all about linq",
                             IsPublic = true,
                             Name = "linq",
-                            ParentThemeId = 1
+                            ParentThemeId = 2
                         });
                 });
 

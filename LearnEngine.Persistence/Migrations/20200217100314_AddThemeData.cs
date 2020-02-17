@@ -14,7 +14,7 @@ namespace LearningEngine.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Themes",
                 columns: new[] { "Id", "Description", "IsPublic", "Name", "ParentThemeId" },
-                values: new object[] { 3, "all about linq", true, "linq", 1 });
+                values: new object[] { 3, "all about linq", true, "linq", 2 });
 
             migrationBuilder.InsertData(
                 table: "Notes",
@@ -42,12 +42,12 @@ namespace LearningEngine.Persistence.Migrations
             migrationBuilder.DeleteData(
                 table: "Themes",
                 keyColumn: "Id",
-                keyValue: 2);
+                keyValue: 3);
 
             migrationBuilder.DeleteData(
                 table: "Themes",
                 keyColumn: "Id",
-                keyValue: 3);
+                keyValue: 2);
         }
     }
 }
