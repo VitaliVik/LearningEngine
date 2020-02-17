@@ -51,6 +51,9 @@ namespace LearningEngine.Api
             services.AddTransient<IEnviromentService, EnviromentService>();
             services.AddTransient<IConfigurationService, ConfigurationService>(provider =>
             new ConfigurationService(provider.GetService<IEnviromentService>()));
+            services.AddCors(options => options.AddPolicy("defaultPolicy",
+                builder => builder.WithOrigins("http://localhost:3000")
+                ));
 
             //services.AddScoped(provider =>
             //{
@@ -81,7 +84,7 @@ namespace LearningEngine.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors("defaultPolicy");
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseRouting();
