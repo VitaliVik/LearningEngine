@@ -36,8 +36,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LearnEngine.Domain\LearningEngine.Domain.csproj" />
     <ProjectReference Include="..\LearningEngine.Application\LearningEngine.Application.csproj" />
+    <ProjectReference Include="..\LearningEngine.Domain\LearningEngine.Domain.csproj" />
   </ItemGroup>
 
 </Project>

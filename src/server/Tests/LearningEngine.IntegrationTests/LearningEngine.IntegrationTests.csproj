@@ -37,10 +37,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LearnEngine.Domain\LearningEngine.Domain.csproj" />
-    <ProjectReference Include="..\LearnEngine.Persistence\LearningEngine.Persistence.csproj" />
-    <ProjectReference Include="..\LearningEngine.Api\LearningEngine.Api.csproj" />
-    <ProjectReference Include="..\LearningEngine.Application\LearningEngine.Application.csproj" />
+    <ProjectReference Include="..\..\LearningEngine.Api\LearningEngine.Api.csproj" />
+    <ProjectReference Include="..\..\LearningEngine.Application\LearningEngine.Application.csproj" />
+    <ProjectReference Include="..\..\LearningEngine.Domain\LearningEngine.Domain.csproj" />
+    <ProjectReference Include="..\..\LearningEngine.Persistence\LearningEngine.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
