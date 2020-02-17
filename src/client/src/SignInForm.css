@@ -1,0 +1,19 @@
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-self: center;
+    align-items: center;
+    background-color: rgb(211, 209, 209);
+    margin: auto;
+    margin-top: 20%;
+}
+
+#login {
+    width: 100%;
+    display: flex;
+    margin: auto;
+}
+#password {
+    display: flex;
+}
