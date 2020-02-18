@@ -1,5 +1,6 @@
 ﻿using LearningEngine.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
@@ -7,9 +8,13 @@ using Xunit;
 
 namespace LearningEngine.IntegrationTests.Handlers
 {
-    public class DatabaseFixture
+    public class DatabaseFixture : IDisposable
     {
         private DbContextOptionsBuilder<LearnEngineContext> _optionsBuilder;
+        private LearnEngineContext _context;
+        private IDbContextTransaction _currentTransaction;
+        
+       
         public DatabaseFixture()
         {
             var configuration = new ConfigurationBuilder()
@@ -18,16 +23,38 @@ namespace LearningEngine.IntegrationTests.Handlers
                 .Build();
             _optionsBuilder = new DbContextOptionsBuilder<LearnEngineContext>();
             _optionsBuilder.UseSqlServer(configuration.GetConnectionString("Default"));
-            Context.Database.EnsureDeleted();
-            Context.Database.EnsureCreated();
+            _context = new LearnEngineContext(_optionsBuilder.Options);
+            if (!_context.Database.CanConnect())
+            {
+                _context.Database.EnsureCreated();
+            }
         }
+
 
 
         public LearnEngineContext Context 
-        { 
-            get => new LearnEngineContext(_optionsBuilder.Options);
+        {
+            get
+            {
+                if (_currentTransaction == null)
+                {
+                    _currentTransaction = _context.Database.BeginTransaction();
+                    return _context;
+                }
+                else
+                {
+                    _currentTransaction.Rollback();
+                    _context = new LearnEngineContext(_optionsBuilder.Options);
+                    _currentTransaction = _context.Database.BeginTransaction();
+                    return _context;
+                }
+            }
         }
 
+        public void Dispose()
+        {
+            _currentTransaction.Rollback();
+        }
     }
 
 }
