@@ -10,8 +10,11 @@ export default async function accounts(state = initialState, action: {type: Stri
         formData.set("password", action.payload.password);
         let data = await axios.post("https://localhost:5001/api/account/token", formData)
             .then(res => res.data);
+        console.log(data);
         let res = {token: data.access_token, username: data.username};
-        return res;
+        state.token = res.token;
+        state.username = res.username;
+        return state;
     }
     return state;
 }

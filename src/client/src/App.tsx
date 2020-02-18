@@ -1,10 +1,13 @@
 import React from 'react';
-import {connect} from "react-redux"; 
 import SignInForm from './SignForm';
 import { Switch, Route } from 'react-router-dom';
 import Header from './Header';
 
-class App extends React.Component{
+export default class App extends React.Component<{}, any>{
+  // constructor(props:any) {
+  //   super(props);
+    
+  // }
 
   render() {
     return (
@@ -21,19 +24,16 @@ class App extends React.Component{
     
 
   }
-  clickHandler() {
-    this.props.onCheck();
-  }
 }
 
-export default connect(state => ({
-  track: []
-}),  
-dispatch => ({
-  onSignIn(user){
+// export default connect(state => ({
+//   track: []
+// }),  
+// dispatch => ({
+//   onSignIn(username:String, password:String){
     
-  },
-  onCheck: () => {
-    dispatch({type: "CHECK", payload: {}});
-  }
-}))(App);
+//   },
+//   onCheck: () => {
+//     dispatch({type: "CHECK", payload: {}});
+//   }
+// }))(App);
