@@ -34,6 +34,12 @@ namespace LearningEngine.Persistence.Models
                 .HasIndex(usr => usr.Email)
                 .IsUnique();
             modelBuilder.Entity<User>()
+                .Property(usr => usr.Password)
+                .IsRequired();
+            modelBuilder.Entity<User>()
+                .Property(usr => usr.Email)
+                .HasMaxLength(100);
+            modelBuilder.Entity<User>()
                 .HasData(new User
                 {
                     Id = 1,
@@ -53,6 +59,9 @@ namespace LearningEngine.Persistence.Models
 
             modelBuilder.Entity<Theme>()
                 .Property(thm => thm.Name)
+                .IsRequired();
+            modelBuilder.Entity<Theme>()
+                .Property(thm => thm.Description)
                 .IsRequired();
 
             modelBuilder.Entity<Theme>()

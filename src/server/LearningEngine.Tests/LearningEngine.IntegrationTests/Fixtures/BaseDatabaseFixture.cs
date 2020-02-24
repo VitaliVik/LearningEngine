@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LearningEngine.IntegrationTests.Fixtures
@@ -23,6 +26,15 @@ namespace LearningEngine.IntegrationTests.Fixtures
             {
                 context.Database.EnsureCreated();
             }
+
+            var pendingMigration = context.Database.GetPendingMigrations().ToList();
+
+            if (pendingMigration.Any())
+            {
+                var migrator = context.Database.GetService<IMigrator>();
+                pendingMigration.ForEach(migration => migrator.Migrate(migration));
+            }
+
         }
 
         private DbContextOptions<TContext> GetOptions()

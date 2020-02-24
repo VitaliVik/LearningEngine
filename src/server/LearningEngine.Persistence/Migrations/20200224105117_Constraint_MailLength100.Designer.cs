@@ -4,14 +4,16 @@ using LearningEngine.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LearningEngine.Persistence.Migrations
 {
     [DbContext(typeof(LearnEngineContext))]
-    partial class LearnEngineContextModelSnapshot : ModelSnapshot
+    [Migration("20200224105117_Constraint_MailLength100")]
+    partial class Constraint_MailLength100
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

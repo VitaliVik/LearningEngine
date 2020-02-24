@@ -46,7 +46,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         [Theory]
         [InlineData(null, null)]
         [InlineData("themename", null)]
-        [InlineData("null", "description")]
+        [InlineData(null, "description")]
         public async Task CreateThemeWithIncorrectData(string themeName, string description)
         {
             await UseContext(async (context) =>
@@ -56,7 +56,7 @@ namespace LearningEngine.IntegrationTests.Handlers
                 var handler = new CreateThemeHandler(context);
 
                 //Act
-                Func<Task> act = () => handler.Handle(command, CancellationToken.None);
+                Func<Task> act = async () =>  await handler.Handle(command, CancellationToken.None);
 
                 //Assert
                 await Assert.ThrowsAsync<CreateThemeException>(act);
