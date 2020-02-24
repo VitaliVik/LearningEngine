@@ -22,18 +22,7 @@ namespace LearningEngine.IntegrationTests.Fixtures
 
             var context = _createContext();
 
-            if (!context.Database.CanConnect())
-            {
-                context.Database.EnsureCreated();
-            }
-
-            var pendingMigration = context.Database.GetPendingMigrations().ToList();
-
-            if (pendingMigration.Any())
-            {
-                var migrator = context.Database.GetService<IMigrator>();
-                pendingMigration.ForEach(migration => migrator.Migrate(migration));
-            }
+            context.Database.Migrate();
 
         }
 
