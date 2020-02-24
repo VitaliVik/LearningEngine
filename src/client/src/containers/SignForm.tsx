@@ -1,13 +1,23 @@
 import React, { SyntheticEvent, FormEvent } from 'react';
-import { store } from "./index";
 import "./SignInForm.css";
-import { EventType } from '@testing-library/react';
+import { NavLink } from 'react-router-dom';
 
+interface SignInProps {
+   onLogin(login:string, password:string): any;
+}
 
-export default class SignInForm extends React.Component<{}, {login: string, password: string}> {
-    constructor(props: any) {
+interface SignInState {
+    login: string,
+    password: string
+}
+
+export default class SignInForm extends React.Component<SignInProps, SignInState> {
+    constructor(props: SignInProps) {
         super(props);
-        this.state = {login: "", password: ""};
+        this.state = {
+            login: "",
+            password: ""
+        };
         
     }
 
@@ -20,6 +30,8 @@ export default class SignInForm extends React.Component<{}, {login: string, pass
                     <input type="password" id="password" placeholder="Пароль" onChange={this.passwordChangeHandle.bind(this)}/>
                     <br />
                     <button>Войти</button>
+                    <NavLink to="/registration">Регистрация
+                    </NavLink>
                 </form>
             </div>
         );
@@ -35,10 +47,7 @@ export default class SignInForm extends React.Component<{}, {login: string, pass
 
     onSubmitHandle(event: SyntheticEvent) {
         event.preventDefault();
-        store.dispatch({ 
-            type: "USER_SIGNIN", 
-            payload: { login: this.state.login, password: this.state.password } 
-        });
+        this.props.onLogin(this.state.login, this.state.password);
     }
 }
 

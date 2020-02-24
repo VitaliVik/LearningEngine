@@ -1,20 +1,37 @@
-import { act } from "react-dom/test-utils";
-import axios from "axios";
-const initialState = {token: "", username: ""};
+import {
+    GET_TOKEN,
+    GET_TOKEN_SUCCESS,
+    GET_TOKEN_FAIL
+} from '../actions/getToken';
 
-export default async function accounts(state = initialState, action: {type: String, payload: {login:string, password:string}}) : Promise<{token:String, username:String}> {
-    if (action.type === "USER_SIGNIN")
-    {
-        let formData: FormData = new FormData();
-        formData.set("username", action.payload.login);
-        formData.set("password", action.payload.password);
-        let data = await axios.post("https://localhost:5001/api/account/token", formData)
-            .then(res => res.data);
-        console.log(data);
-        let res = {token: data.access_token, username: data.username};
-        state.token = res.token;
-        state.username = res.username;
-        return state;
+const initialState = {token: "", username: "", isLoading: false, error: ""};
+
+export default function accounts(state: any = initialState, action: any):{token: string, username: string, isLoading: boolean, error: any} {
+    
+    switch (action.type) {
+        case GET_TOKEN: 
+            return {
+                ...state,
+                isLoading: true,
+                error: null
+            };
+
+
+        case GET_TOKEN_SUCCESS: 
+            return {
+                isLoading: false,
+                error: null,
+                token: action.payload.token,
+                username: action.payload.username
+            };
+        case GET_TOKEN_FAIL: {
+            return {
+                ...state,
+                error: action.payload
+            };
+        }
+        default:
+            return state;
+
     }
-    return state;
 }
