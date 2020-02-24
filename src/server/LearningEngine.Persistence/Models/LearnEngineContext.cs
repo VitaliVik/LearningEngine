@@ -16,11 +16,6 @@ namespace LearningEngine.Persistence.Models
 
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Permission>()
@@ -31,25 +26,13 @@ namespace LearningEngine.Persistence.Models
                 .HasOne(prm => prm.Theme)
                 .WithMany(thm => thm.Permissions)
                 .HasForeignKey(prm => prm.ThemeId);
-            modelBuilder.Entity<Theme>()
-                .HasKey(t => t.Id);
-
-            modelBuilder.Entity<Theme>()
-                .HasOne(thm => thm.ParentTheme)
-                .WithMany(thm => thm.SubThemes)
-                .HasForeignKey(thm => thm.ParentThemeId)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.NoAction);
-   
 
             modelBuilder.Entity<User>()
                 .HasIndex(usr => usr.UserName)
                 .IsUnique();
-
             modelBuilder.Entity<User>()
                 .HasIndex(usr => usr.Email)
                 .IsUnique();
-
             modelBuilder.Entity<User>()
                 .HasData(new User
                 {
@@ -58,6 +41,15 @@ namespace LearningEngine.Persistence.Models
                     UserName = "rolit",
                     Password = "123"
                 });
+
+            modelBuilder.Entity<Theme>()
+                .HasKey(t => t.Id);
+            modelBuilder.Entity<Theme>()
+                .HasOne(thm => thm.ParentTheme)
+                .WithMany(thm => thm.SubThemes)
+                .HasForeignKey(thm => thm.ParentThemeId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Theme>()
                 .Property(thm => thm.Name)
@@ -100,8 +92,6 @@ namespace LearningEngine.Persistence.Models
                         Title = "GC "
                     }
                 });
-
-
         }
     }
 }

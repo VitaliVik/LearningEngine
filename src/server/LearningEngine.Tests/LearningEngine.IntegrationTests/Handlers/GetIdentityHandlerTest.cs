@@ -1,4 +1,5 @@
 ﻿using LearningEngine.Domain.Query;
+using LearningEngine.IntegrationTests.Fixtures;
 using LearningEngine.Persistence.Handlers;
 using LearningEngine.Persistence.Models;
 using System;
@@ -13,28 +14,31 @@ using Xunit;
 namespace LearningEngine.IntegrationTests.Handlers
 {
     [Collection("DatabaseCollection")]
-    public class GetIdentityHandlerTest
+    public class GetIdentityHandlerTest : BaseContextTests<LearnEngineContext>
     {
-        readonly LearnEngineContext _context;
-        public GetIdentityHandlerTest(DatabaseFixture fixture)
+        public GetIdentityHandlerTest(LearningEngineFixture fixture)
+            : base(fixture)
         {
-            _context = fixture.Context;
         }
 
         [Fact]
         public async Task GetIdentityWhenUserDataCorrect()
         {
-            var query = new GetIdentityQuery("somename", "123");
-            var handler = new GetIdentityHandler(_context);
-            _context.Add(new User { UserName = "somename", Password = "123" });
-            _context.SaveChanges();
+            await UseContext(async (context) =>
+            {
+                var query = new GetIdentityQuery("somename", "123");
+                var handler = new GetIdentityHandler(context);
+                context.Add(new User { UserName = "somename", Password = "123" });
+                context.SaveChanges();
 
-            var result = await handler.Handle(query, CancellationToken.None);
+                var result = await handler.Handle(query, CancellationToken.None);
 
-            Assert.NotNull(result);
-            Assert.Equal(2, result.Claims.Count());
-            Assert.Equal("somename", result.Claims.FirstOrDefault(clm => clm.Type == ClaimsIdentity.DefaultNameClaimType).Value);
-            Assert.Equal("user", result.Claims.FirstOrDefault(clm => clm.Type == ClaimsIdentity.DefaultRoleClaimType).Value);
+                Assert.NotNull(result);
+                Assert.Equal(2, result.Claims.Count());
+                Assert.Equal("somename", result.Claims.FirstOrDefault(clm => clm.Type == ClaimsIdentity.DefaultNameClaimType).Value);
+                Assert.Equal("user", result.Claims.FirstOrDefault(clm => clm.Type == ClaimsIdentity.DefaultRoleClaimType).Value);
+
+            });
         }
 
         [Theory]
@@ -43,12 +47,16 @@ namespace LearningEngine.IntegrationTests.Handlers
         [InlineData("rolit", "")]
         public async Task GetIndenityWithIncorrectData(string username, string password)
         {
-            var query = new GetIdentityQuery(username, password);
-            var handler = new GetIdentityHandler(_context);
+            await UseContext(async (context) =>
+            {
+                var query = new GetIdentityQuery(username, password);
+                var handler = new GetIdentityHandler(context);
 
-            var result = await handler.Handle(query, CancellationToken.None);
+                var result = await handler.Handle(query, CancellationToken.None);
 
-            Assert.Null(result);
+                Assert.Null(result);
+
+            });
         }
     }
 }
