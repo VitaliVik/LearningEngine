@@ -23,9 +23,14 @@ namespace LearningEngine.Persistence.Handlers
         public Task<ClaimsIdentity> Handle(GetIdentityQuery request, CancellationToken cancellationToken)
         {
             var user = _context.Users
-                .FirstOrDefault(usr => usr.UserName == request.UserName && usr.Password == PasswordHasher.GetHash(request.Password, request.UserName));
+                .FirstOrDefault(usr => usr.UserName == request.UserName);
             if (user != null)
             {
+                var passwordCorrect = user.Password.SequenceEqual(PasswordHasher.GetHash(request.Password, request.UserName));
+                if (!passwordCorrect)
+                {
+                    return Task.FromResult((ClaimsIdentity)null);
+                }
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
@@ -34,7 +39,7 @@ namespace LearningEngine.Persistence.Handlers
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
                 return Task.Run(() => claimsIdentity);
             }
-            return Task.Run(() => (ClaimsIdentity)null);
+            return Task.FromResult((ClaimsIdentity)null);
         }
 
     }

@@ -4,14 +4,16 @@ using LearningEngine.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LearningEngine.Persistence.Migrations
 {
     [DbContext(typeof(LearnEngineContext))]
-    partial class LearnEngineContextModelSnapshot : ModelSnapshot
+    [Migration("20200224130818_DB_DeletePasswordField")]
+    partial class DB_DeletePasswordField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,11 +164,6 @@ namespace LearningEngine.Persistence.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<byte[]>("Password")
-                        .IsRequired()
-                        .HasColumnType("varbinary(64)")
-                        .HasMaxLength(64);
-
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(450)");
 
@@ -187,7 +184,6 @@ namespace LearningEngine.Persistence.Migrations
                         {
                             Id = 1,
                             Email = "rolit@mail.cor",
-                            Password = new byte[] { 34, 22, 251, 167, 215, 101, 240, 213, 55, 98, 27, 159, 248, 119, 191, 223, 139, 53, 131, 5, 241, 224, 207, 83, 179, 206, 76, 178, 191, 94, 134, 102, 156, 172, 222, 210, 74, 107, 22, 106, 14, 27, 177, 136, 78, 197, 208, 136, 215, 90, 245, 106, 145, 219, 50, 9, 106, 255, 251, 66, 111, 244, 162, 161 },
                             UserName = "rolit"
                         });
                 });

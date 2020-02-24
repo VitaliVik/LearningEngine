@@ -36,7 +36,8 @@ namespace LearningEngine.Persistence.Models
                 .IsUnique();
             modelBuilder.Entity<User>()
                 .Property(usr => usr.Password)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(64);
             modelBuilder.Entity<User>()
                 .Property(usr => usr.Email)
                 .HasMaxLength(100);

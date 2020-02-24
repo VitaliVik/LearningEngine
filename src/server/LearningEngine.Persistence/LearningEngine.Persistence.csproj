@@ -19,6 +19,10 @@
     <Compile Remove="Migrations\20200214155453_mig1.Designer.cs" />
     <Compile Remove="Migrations\20200217095223_addThemeIdConstr.cs" />
     <Compile Remove="Migrations\20200217095223_addThemeIdConstr.Designer.cs" />
+    <Compile Remove="Migrations\20200224125635_DB_ChangePasswordTypeToByteArray.cs" />
+    <Compile Remove="Migrations\20200224125635_DB_ChangePasswordTypeToByteArray.Designer.cs" />
+    <Compile Remove="Migrations\20200224130133_DB_ChangePasswordTypeToByteArray.cs" />
+    <Compile Remove="Migrations\20200224130133_DB_ChangePasswordTypeToByteArray.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

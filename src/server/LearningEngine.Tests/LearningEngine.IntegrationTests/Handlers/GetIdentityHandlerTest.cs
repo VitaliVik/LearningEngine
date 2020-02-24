@@ -29,7 +29,7 @@ namespace LearningEngine.IntegrationTests.Handlers
             {
                 var query = new GetIdentityQuery("somename", "123");
                 var handler = new GetIdentityHandler(context);
-                context.Add(new User { UserName = "somename", Password = PasswordHasher.GetHash("123","somename") });
+                context.Add(new User { UserName = "somename", Password = PasswordHasher.GetHash("123", "somename") });
                 context.SaveChanges();
 
                 var result = await handler.Handle(query, CancellationToken.None);
