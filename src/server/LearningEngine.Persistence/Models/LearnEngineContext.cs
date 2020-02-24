@@ -47,7 +47,8 @@ namespace LearningEngine.Persistence.Models
                     Id = 1,
                     Email = "rolit@mail.cor",
                     UserName = "rolit",
-                    Password = PasswordHasher.GetHash("123", "rolit")
+                    Password = System.Convert.FromBase64String("Ihb7p9dl8NU3Yhuf+He/34s1gwXx4M9Ts" +
+                    "85Msr9ehmacrN7SSmsWag4bsYhOxdCI11r1apHbMglq//tCb/SioQ==")
                 });
 
             modelBuilder.Entity<Theme>()

@@ -17,9 +17,11 @@ namespace LearningEngine.IntegrationTests.Handlers
     [Collection("DatabaseCollection")]
     public class GetIdentityHandlerTest : BaseContextTests<LearnEngineContext>
     {
-        public GetIdentityHandlerTest(LearningEngineFixture fixture)
+        private readonly IPasswordHasher _hasher;
+        public GetIdentityHandlerTest(LearningEngineFixture fixture, IPasswordHasher hasher)
             : base(fixture)
         {
+            _hasher = hasher;
         }
 
         [Fact]
@@ -28,8 +30,8 @@ namespace LearningEngine.IntegrationTests.Handlers
             await UseContext(async (context) =>
             {
                 var query = new GetIdentityQuery("somename", "123");
-                var handler = new GetIdentityHandler(context);
-                context.Add(new User { UserName = "somename", Password = PasswordHasher.GetHash("123", "somename") });
+                var handler = new GetIdentityHandler(context, _hasher);
+                context.Add(new User { UserName = "somename", Password = _hasher.GetHash("123", "somename") });
                 context.SaveChanges();
 
                 var result = await handler.Handle(query, CancellationToken.None);
@@ -51,7 +53,7 @@ namespace LearningEngine.IntegrationTests.Handlers
             await UseContext(async (context) =>
             {
                 var query = new GetIdentityQuery(username, password);
-                var handler = new GetIdentityHandler(context);
+                var handler = new GetIdentityHandler(context, _hasher);
 
                 var result = await handler.Handle(query, CancellationToken.None);
 

@@ -13,9 +13,11 @@ namespace LearningEngine.Persistence.Handlers
     public  class RegisterUserHandler : IRequestHandler<RegisterUserCommand>
     {
         private readonly LearnEngineContext _context;
-        public RegisterUserHandler(LearnEngineContext context)
+        private readonly IPasswordHasher _hasher;
+        public RegisterUserHandler(LearnEngineContext context, IPasswordHasher hasher)
         {
             _context = context;
+            _hasher = hasher;
         }
 
 
@@ -26,7 +28,7 @@ namespace LearningEngine.Persistence.Handlers
                 Email = request.Email,
                 UserName = request.UserName,
             };
-            user.Password = PasswordHasher.GetHash(request.Password, request.UserName);
+            user.Password = _hasher.GetHash(request.Password, request.UserName);
             await _context.Users.AddAsync(user);
             try
             {

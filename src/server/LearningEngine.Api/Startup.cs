@@ -18,6 +18,7 @@ using LearningEngine.Api.Services;
 using Microsoft.EntityFrameworkCore;
 using LearningEngine.Domain.Interfaces;
 using LearningEngine.Persistence.Transaction;
+using LearningEngine.Persistence.Utils;
 
 namespace LearningEngine.Api
 {
@@ -48,6 +49,7 @@ namespace LearningEngine.Api
                         ValidateIssuerSigningKey = true
                     };
                 });
+            services.AddSingleton<IPasswordHasher>(sp => new PasswordHasher());
             services.AddTransient<IEnviromentService, EnviromentService>();
             services.AddTransient<IConfigurationService, ConfigurationService>(provider =>
             new ConfigurationService(provider.GetService<IEnviromentService>()));

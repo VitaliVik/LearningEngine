@@ -15,9 +15,11 @@ namespace LearningEngine.Persistence.Handlers
     public class GetIdentityHandler : IRequestHandler<GetIdentityQuery, ClaimsIdentity>
     {
         private readonly LearnEngineContext _context;
-        public GetIdentityHandler(LearnEngineContext context)
+        private readonly IPasswordHasher _hasher;
+        public GetIdentityHandler(LearnEngineContext context, IPasswordHasher hasher)
         {
             _context = context;
+            _hasher = hasher;
         }
 
         public Task<ClaimsIdentity> Handle(GetIdentityQuery request, CancellationToken cancellationToken)
@@ -26,7 +28,7 @@ namespace LearningEngine.Persistence.Handlers
                 .FirstOrDefault(usr => usr.UserName == request.UserName);
             if (user != null)
             {
-                var passwordCorrect = user.Password.SequenceEqual(PasswordHasher.GetHash(request.Password, request.UserName));
+                var passwordCorrect = user.Password.SequenceEqual(_hasher.GetHash(request.Password, request.UserName));
                 if (!passwordCorrect)
                 {
                     return Task.FromResult((ClaimsIdentity)null);

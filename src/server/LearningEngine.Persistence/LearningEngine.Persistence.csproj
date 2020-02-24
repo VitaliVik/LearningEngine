@@ -23,6 +23,8 @@
     <Compile Remove="Migrations\20200224125635_DB_ChangePasswordTypeToByteArray.Designer.cs" />
     <Compile Remove="Migrations\20200224130133_DB_ChangePasswordTypeToByteArray.cs" />
     <Compile Remove="Migrations\20200224130133_DB_ChangePasswordTypeToByteArray.Designer.cs" />
+    <Compile Remove="Migrations\20200224153228_Data_ChangeUserPasswordToBase64StringInSeed.cs" />
+    <Compile Remove="Migrations\20200224153228_Data_ChangeUserPasswordToBase64StringInSeed.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
