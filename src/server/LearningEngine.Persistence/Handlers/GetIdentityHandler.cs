@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using System.Linq;
 using System.Threading;
+using LearningEngine.Persistence.Utils;
 
 namespace LearningEngine.Persistence.Handlers
 {
@@ -22,7 +23,7 @@ namespace LearningEngine.Persistence.Handlers
         public Task<ClaimsIdentity> Handle(GetIdentityQuery request, CancellationToken cancellationToken)
         {
             var user = _context.Users
-                .FirstOrDefault(usr => usr.UserName == request.UserName && usr.Password == request.Password);
+                .FirstOrDefault(usr => usr.UserName == request.UserName && usr.Password == PasswordHasher.GetHash(request.Password, request.UserName));
             if (user != null)
             {
                 var claims = new List<Claim>

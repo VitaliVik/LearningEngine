@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
+using LearningEngine.Persistence.Utils;
 
 namespace LearningEngine.IntegrationTests.Handlers
 {
@@ -34,7 +35,7 @@ namespace LearningEngine.IntegrationTests.Handlers
                 Assert.NotNull(user);
                 Assert.Equal("username", user.UserName);
                 Assert.Equal("email@post.org", user.Email);
-                Assert.Equal("123", user.Password);
+                Assert.Equal(PasswordHasher.GetHash("123", user.UserName), user.Password);
             });
         }
 

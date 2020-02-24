@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LearningEngine.Persistence.Utils;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace LearningEngine.Persistence.Models
@@ -45,7 +46,7 @@ namespace LearningEngine.Persistence.Models
                     Id = 1,
                     Email = "rolit@mail.cor",
                     UserName = "rolit",
-                    Password = "123"
+                    Password = PasswordHasher.GetHash("123", "rolit")
                 });
 
             modelBuilder.Entity<Theme>()

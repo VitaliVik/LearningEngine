@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using LearningEngine.Application.Exceptions;
 using System;
+using LearningEngine.Persistence.Utils;
 
 namespace LearningEngine.Persistence.Handlers
 {
@@ -23,9 +24,9 @@ namespace LearningEngine.Persistence.Handlers
             var user = new User
             {
                 Email = request.Email,
-                Password = request.Password,
-                UserName = request.UserName
+                UserName = request.UserName,
             };
+            user.Password = PasswordHasher.GetHash(request.Password, request.UserName);
             await _context.Users.AddAsync(user);
             try
             {

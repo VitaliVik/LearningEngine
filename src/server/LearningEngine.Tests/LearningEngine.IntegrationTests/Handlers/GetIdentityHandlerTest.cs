@@ -2,6 +2,7 @@
 using LearningEngine.IntegrationTests.Fixtures;
 using LearningEngine.Persistence.Handlers;
 using LearningEngine.Persistence.Models;
+using LearningEngine.Persistence.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace LearningEngine.IntegrationTests.Handlers
             {
                 var query = new GetIdentityQuery("somename", "123");
                 var handler = new GetIdentityHandler(context);
-                context.Add(new User { UserName = "somename", Password = "123" });
+                context.Add(new User { UserName = "somename", Password = PasswordHasher.GetHash("123","somename") });
                 context.SaveChanges();
 
                 var result = await handler.Handle(query, CancellationToken.None);
