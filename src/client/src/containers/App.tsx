@@ -9,15 +9,13 @@ import { bindActionCreators } from 'redux';
 import { getToken } from '../actions/getToken';
 
 class App extends React.Component<any, any>{
-  constructor(props: any) {
-    super(props);
-    console.log(props);
-  }
-
   render() {
+    const { getToken, isLoading, error, token} = this.props;
     return (
       <div>
         <Header></Header>
+        <button onClick={() => console.log(this.props)}></button>
+        {!isLoading && !error && <h1>{token}</h1>}
         <Switch>
         <Route path="/registration">
             <RegistrationForm />
@@ -57,7 +55,7 @@ let mapToStateProps = (state:any) => ({ ...state});
 
 let mapToDispatchProps = (dispatch: any) => 
   bindActionCreators({
-    getToken: getToken
+    getToken
   }, dispatch);
 
 

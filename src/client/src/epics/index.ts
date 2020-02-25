@@ -1,4 +1,5 @@
 import {combineEpics} from 'redux-observable';
-import getUserToken from './getUserTokenEpic';
+import getTokenEpic from './getUserTokenEpic';
+import 'rxjs';
 
-export const rootEpic = combineEpics(getUserToken);
+export const rootEpic = combineEpics(getTokenEpic);

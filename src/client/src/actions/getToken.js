@@ -12,7 +12,7 @@ export const getTokenFail = (message) => ({
     payload: message
 });
 
-export const getTokenSuccess = (token) => ({
+export const getTokenSuccess = (res) => ({
     type: GET_TOKEN_SUCCESS,
-    payload: token
+    payload: {access_token: res.access_token, username: res.username}
 });

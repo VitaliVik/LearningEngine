@@ -4,9 +4,9 @@ import {
     GET_TOKEN_FAIL
 } from '../actions/getToken';
 
-const initialState = {token: "", username: "", isLoading: false, error: ""};
+const initialState = {accesss_token: "", username: "", isLoading: false, error: ""};
 
-export default function accounts(state: any = initialState, action: any):{token: string, username: string, isLoading: boolean, error: any} {
+export default function accounts(state: any = initialState, action: any):{access_token: string, username: string, isLoading: boolean, error: any} {
     
     switch (action.type) {
         case GET_TOKEN: 
@@ -21,7 +21,7 @@ export default function accounts(state: any = initialState, action: any):{token:
             return {
                 isLoading: false,
                 error: null,
-                token: action.payload.token,
+                access_token: action.payload.access_token,
                 username: action.payload.username
             };
         case GET_TOKEN_FAIL: {
