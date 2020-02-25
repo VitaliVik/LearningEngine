@@ -6,6 +6,6 @@ namespace LearningEngine.Persistence.Utils
 {
     public interface IPasswordHasher
     {
-        byte[] GetHash(string password, string salt);
+        byte[] GetHash(string password, string username);
     }
 }
