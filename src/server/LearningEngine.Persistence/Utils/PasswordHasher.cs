@@ -11,10 +11,13 @@ namespace LearningEngine.Persistence.Utils
     {
         public byte[] GetHash(string password, string username)
         {
-            if (password == "" || username == "" ||
-                password == null || username == null)
+            if (string.IsNullOrEmpty(password))
             {
-                throw new Exception("Неверный формат пароля или пользовательского имени");
+                throw new ArgumentNullException("Поле пароль имеет некорректное значение");
+            }
+            if (string.IsNullOrEmpty(username))
+            {
+                throw new ArgumentNullException("Поле имя пользователя имеет некорректное значение");
             }
             var hasher = SHA512.Create();
             var byteArray = hasher.ComputeHash(Encoding.ASCII.GetBytes(password + username));

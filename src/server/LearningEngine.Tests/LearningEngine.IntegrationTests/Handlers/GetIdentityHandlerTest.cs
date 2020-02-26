@@ -1,5 +1,6 @@
 ﻿using LearningEngine.Domain.Query;
 using LearningEngine.IntegrationTests.Fixtures;
+using LearningEngine.IntegrationTests.Fixtures.Mocks;
 using LearningEngine.Persistence.Handlers;
 using LearningEngine.Persistence.Models;
 using LearningEngine.Persistence.Utils;
@@ -18,13 +19,11 @@ namespace LearningEngine.IntegrationTests.Handlers
     [Collection("DatabaseCollection")]
     public class GetIdentityHandlerTest : BaseContextTests<LearnEngineContext>
     {
-        private readonly Mock<IPasswordHasher> _mock;
+        private readonly Mocks _mocks;
         public GetIdentityHandlerTest(LearningEngineFixture fixture)
             : base(fixture)
         {
-            _mock = new Mock<IPasswordHasher>();
-            _mock.Setup(m => m.GetHash(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(new byte[64]);
+            _mocks = new Mocks();
         }
 
         [Fact]
@@ -32,6 +31,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
+                var _mock = _mocks.HasherMocks.HasherMock;
                 var query = new GetIdentityQuery("somename", "123");
                 var handler = new GetIdentityHandler(context, _mock.Object);
                 context.Add(new User { UserName = "somename", Password = _mock.Object.GetHash("123", "somename") });
@@ -55,6 +55,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
+                var _mock = _mocks.HasherMocks.HasherMock;
                 var query = new GetIdentityQuery(username, password);
                 var handler = new GetIdentityHandler(context, _mock.Object);
 
@@ -63,6 +64,15 @@ namespace LearningEngine.IntegrationTests.Handlers
                 Assert.Null(result);
 
             });
+        }
+
+        public class Mocks
+        {
+            public Mocks()
+            {
+                HasherMocks = new HasherMocks(new HasherTestData());
+            }
+            public HasherMocks HasherMocks { get; set; }
         }
     }
 }

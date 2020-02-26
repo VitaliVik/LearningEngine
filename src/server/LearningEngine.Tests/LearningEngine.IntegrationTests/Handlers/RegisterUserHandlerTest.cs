@@ -10,19 +10,19 @@ using System.Threading.Tasks;
 using Xunit;
 using LearningEngine.Persistence.Utils;
 using Moq;
+using LearningEngine.IntegrationTests.Fixtures.Mocks;
 
 namespace LearningEngine.IntegrationTests.Handlers
 {
     [Collection("DatabaseCollection")]
     public class RegisterUserHandlerTest : BaseContextTests<LearnEngineContext>
     {
-        private readonly Mock<IPasswordHasher> _mock;
+        private readonly Mocks _mocks;
+
         public RegisterUserHandlerTest(LearningEngineFixture fixture)
             : base(fixture)
         {
-            _mock = new Mock<IPasswordHasher>();
-            _mock.Setup(m => m.GetHash(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(new byte[64]);
+            _mocks = new Mocks();
         }
 
 
@@ -31,6 +31,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
+                var _mock = _mocks.HasherMocks.HasherMock;
                 var handler = new RegisterUserHandler(context, _mock.Object);
                 var command = new RegisterUserCommand("username", "email@post.org", "123");
 
@@ -49,6 +50,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
+                var _mock = _mocks.HasherMocks.HasherMock;
                 var username = "noname";
                 var email = "email@gmail.com";
                 var handler = new RegisterUserHandler(context, _mock.Object);
@@ -59,6 +61,15 @@ namespace LearningEngine.IntegrationTests.Handlers
 
                 await Assert.ThrowsAsync<RegisterUserException>(act);
             });
+        }
+
+        public class Mocks
+        {
+            public Mocks()
+            {
+                HasherMocks = new HasherMocks(new HasherTestData());
+            }
+            public HasherMocks HasherMocks { get; set; }
         }
     }
 }

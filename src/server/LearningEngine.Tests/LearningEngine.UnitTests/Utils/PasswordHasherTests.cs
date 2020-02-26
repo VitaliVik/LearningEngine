@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace LearningEngine.UnitTests.Utils
 {
@@ -42,7 +43,7 @@ namespace LearningEngine.UnitTests.Utils
             Action act = () => hasher.GetHash(password, username);
 
             //assert
-            Assert.Throws<Exception>(act);
+            Assert.Throws<ArgumentNullException>(act);
         }
 
         [Fact]
@@ -53,10 +54,12 @@ namespace LearningEngine.UnitTests.Utils
 
             //act
             byte[] result1 = hasher.GetHash("rolit", "123");
-            byte[] result2 = hasher.GetHash("rolit", "123");
+            byte[] result2 = SHA512.Create()
+                .ComputeHash(Encoding.ASCII.GetBytes("rolit" + "123"));
 
             //assert
             Assert.True(result1.SequenceEqual(result2));
         }
+
     }
 }
