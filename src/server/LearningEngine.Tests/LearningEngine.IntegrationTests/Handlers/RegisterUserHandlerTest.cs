@@ -28,8 +28,8 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                var _mock = new HasherMocks().HasherMock;
-                var handler = new RegisterUserHandler(context, _mock.Object);
+                var mock = new HasherMocks();
+                var handler = new RegisterUserHandler(context, mock.HasherMock.Object);
                 var command = new RegisterUserCommand("username", "email@post.org", "123");
 
                 await handler.Handle(command, CancellationToken.None);
@@ -38,7 +38,7 @@ namespace LearningEngine.IntegrationTests.Handlers
                 Assert.NotNull(user);
                 Assert.Equal("username", user.UserName);
                 Assert.Equal("email@post.org", user.Email);
-                Assert.Equal(_mock.Object.GetHash("123", user.UserName), user.Password);
+                Assert.Equal(mock.Hash, user.Password);
             });
         }
 
@@ -47,10 +47,10 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                var _mock = new HasherMocks().HasherMock;
+                var mock = new HasherMocks().HasherMock;
                 var username = "noname";
                 var email = "email@gmail.com";
-                var handler = new RegisterUserHandler(context, _mock.Object);
+                var handler = new RegisterUserHandler(context, mock.Object);
                 var command = new RegisterUserCommand(username, email, "123");
                 await handler.Handle(command, CancellationToken.None);
 

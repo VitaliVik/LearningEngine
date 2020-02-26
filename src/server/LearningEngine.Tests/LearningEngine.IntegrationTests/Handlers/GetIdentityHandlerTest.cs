@@ -29,10 +29,10 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                var _mock = new HasherMocks();
+                var mock = new HasherMocks();
                 var query = new GetIdentityQuery("somename", "123");
-                var handler = new GetIdentityHandler(context, _mock.HasherMock.Object);
-                context.Add(new User { UserName = "somename", Password =  _mock.Hash});
+                var handler = new GetIdentityHandler(context, mock.HasherMock.Object);
+                context.Add(new User { UserName = "somename", Password =  mock.Hash});
                 context.SaveChanges();
 
                 var result = await handler.Handle(query, CancellationToken.None);
@@ -53,9 +53,9 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                var _mock = new HasherMocks().HasherMock;
+                var mock = new HasherMocks().HasherMock;
                 var query = new GetIdentityQuery(username, password);
-                var handler = new GetIdentityHandler(context, _mock.Object);
+                var handler = new GetIdentityHandler(context, mock.Object);
 
                 var result = await handler.Handle(query, CancellationToken.None);
 

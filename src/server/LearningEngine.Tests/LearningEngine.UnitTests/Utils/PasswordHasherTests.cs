@@ -51,15 +51,15 @@ namespace LearningEngine.UnitTests.Utils
         {
             //arange
             PasswordHasher hasher = new PasswordHasher();
+            byte[] expected = Convert.FromBase64String("Ihb7p9dl8NU3Yhuf+He/34s1gwXx4M9Ts85Msr9ehmacrN7SSm" +
+                "sWag4bsYhOxdCI11r1apHbMglq//tCb/SioQ==");
 
             //act
             byte[] result1 = hasher.GetHash("123", "rolit");
-            byte[] result2 = System.Convert
-                .FromBase64String("Ihb7p9dl8NU3Yhuf+He/34s1gwXx4M9Ts85Msr9ehmacrN7SSm" +
-                "sWag4bsYhOxdCI11r1apHbMglq//tCb/SioQ==");
+
 
             //assert
-            Assert.True(result1.SequenceEqual(result2));
+            Assert.True(result1.SequenceEqual(expected));
         }
 
     }
