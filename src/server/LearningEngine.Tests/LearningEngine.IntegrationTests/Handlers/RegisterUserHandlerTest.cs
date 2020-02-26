@@ -9,17 +9,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using LearningEngine.Persistence.Utils;
+using Moq;
 
 namespace LearningEngine.IntegrationTests.Handlers
 {
     [Collection("DatabaseCollection")]
     public class RegisterUserHandlerTest : BaseContextTests<LearnEngineContext>
     {
-        private readonly IPasswordHasher _hasher;
-        public RegisterUserHandlerTest(LearningEngineFixture fixture, IPasswordHasher hasher)
+        private readonly Mock<IPasswordHasher> _mock;
+        public RegisterUserHandlerTest(LearningEngineFixture fixture)
             : base(fixture)
         {
-            _hasher = hasher;
+            _mock = new Mock<IPasswordHasher>();
+            _mock.Setup(m => m.GetHash(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(new byte[64]);
         }
 
 
@@ -28,7 +31,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                var handler = new RegisterUserHandler(context, _hasher);
+                var handler = new RegisterUserHandler(context, _mock.Object);
                 var command = new RegisterUserCommand("username", "email@post.org", "123");
 
                 await handler.Handle(command, CancellationToken.None);
@@ -37,7 +40,7 @@ namespace LearningEngine.IntegrationTests.Handlers
                 Assert.NotNull(user);
                 Assert.Equal("username", user.UserName);
                 Assert.Equal("email@post.org", user.Email);
-                Assert.Equal(_hasher.GetHash("123", user.UserName), user.Password);
+                Assert.Equal(_mock.Object.GetHash("123", user.UserName), user.Password);
             });
         }
 
@@ -48,7 +51,7 @@ namespace LearningEngine.IntegrationTests.Handlers
             {
                 var username = "noname";
                 var email = "email@gmail.com";
-                var handler = new RegisterUserHandler(context, _hasher);
+                var handler = new RegisterUserHandler(context, _mock.Object);
                 var command = new RegisterUserCommand(username, email, "123");
                 await handler.Handle(command, CancellationToken.None);
 
