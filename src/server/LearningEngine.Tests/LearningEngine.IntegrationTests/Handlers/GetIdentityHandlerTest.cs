@@ -70,7 +70,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             public Mocks()
             {
-                HasherMocks = new HasherMocks(new HasherTestData());
+                HasherMocks = new HasherMocks();
             }
             public HasherMocks HasherMocks { get; set; }
         }
