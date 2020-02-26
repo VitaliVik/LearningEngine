@@ -19,11 +19,9 @@ namespace LearningEngine.IntegrationTests.Handlers
     [Collection("DatabaseCollection")]
     public class GetIdentityHandlerTest : BaseContextTests<LearnEngineContext>
     {
-        private readonly Mocks _mocks;
         public GetIdentityHandlerTest(LearningEngineFixture fixture)
             : base(fixture)
         {
-            _mocks = new Mocks();
         }
 
         [Fact]
@@ -31,10 +29,10 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                var _mock = _mocks.HasherMocks.HasherMock;
+                var _mock = new HasherMocks();
                 var query = new GetIdentityQuery("somename", "123");
-                var handler = new GetIdentityHandler(context, _mock.Object);
-                context.Add(new User { UserName = "somename", Password = _mock.Object.GetHash("123", "somename") });
+                var handler = new GetIdentityHandler(context, _mock.HasherMock.Object);
+                context.Add(new User { UserName = "somename", Password =  _mock.Hash});
                 context.SaveChanges();
 
                 var result = await handler.Handle(query, CancellationToken.None);
@@ -55,7 +53,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                var _mock = _mocks.HasherMocks.HasherMock;
+                var _mock = new HasherMocks().HasherMock;
                 var query = new GetIdentityQuery(username, password);
                 var handler = new GetIdentityHandler(context, _mock.Object);
 
@@ -64,15 +62,6 @@ namespace LearningEngine.IntegrationTests.Handlers
                 Assert.Null(result);
 
             });
-        }
-
-        public class Mocks
-        {
-            public Mocks()
-            {
-                HasherMocks = new HasherMocks();
-            }
-            public HasherMocks HasherMocks { get; set; }
         }
     }
 }
