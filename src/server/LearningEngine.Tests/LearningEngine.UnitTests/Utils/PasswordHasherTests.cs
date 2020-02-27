@@ -59,7 +59,7 @@ namespace LearningEngine.UnitTests.Utils
 
 
             //assert
-            Assert.True(result1.SequenceEqual(expected));
+            Assert.Equal(expected, result1);
         }
 
     }
