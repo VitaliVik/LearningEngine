@@ -1,8 +1,10 @@
 ﻿using LearningEngine.Domain.Query;
 using LearningEngine.IntegrationTests.Fixtures;
+using LearningEngine.IntegrationTests.Fixtures.Mocks;
 using LearningEngine.Persistence.Handlers;
 using LearningEngine.Persistence.Models;
 using LearningEngine.Persistence.Utils;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +19,9 @@ namespace LearningEngine.IntegrationTests.Handlers
     [Collection("DatabaseCollection")]
     public class GetIdentityHandlerTest : BaseContextTests<LearnEngineContext>
     {
-        private readonly IPasswordHasher _hasher;
-        public GetIdentityHandlerTest(LearningEngineFixture fixture, IPasswordHasher hasher)
+        public GetIdentityHandlerTest(LearningEngineFixture fixture)
             : base(fixture)
         {
-            _hasher = hasher;
         }
 
         [Fact]
@@ -29,9 +29,10 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
+                var mock = new HasherMocks();
                 var query = new GetIdentityQuery("somename", "123");
-                var handler = new GetIdentityHandler(context, _hasher);
-                context.Add(new User { UserName = "somename", Password = _hasher.GetHash("123", "somename") });
+                var handler = new GetIdentityHandler(context, mock.HasherMock.Object);
+                context.Add(new User { UserName = "somename", Password =  mock.Hash});
                 context.SaveChanges();
 
                 var result = await handler.Handle(query, CancellationToken.None);
@@ -47,13 +48,14 @@ namespace LearningEngine.IntegrationTests.Handlers
         [Theory]
         [InlineData("somename", "qwerty")]
         [InlineData("dominator1488", "01.12.2008")]
-        [InlineData("rolit", "")]
+        [InlineData("rolit", "4124124234")]
         public async Task GetIndenityWithIncorrectData(string username, string password)
         {
             await UseContext(async (context) =>
             {
+                var mock = new HasherMocks().HasherMock;
                 var query = new GetIdentityQuery(username, password);
-                var handler = new GetIdentityHandler(context, _hasher);
+                var handler = new GetIdentityHandler(context, mock.Object);
 
                 var result = await handler.Handle(query, CancellationToken.None);
 

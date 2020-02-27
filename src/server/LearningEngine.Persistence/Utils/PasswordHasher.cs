@@ -9,8 +9,16 @@ namespace LearningEngine.Persistence.Utils
 {
     public class PasswordHasher: IPasswordHasher
     {
-        public byte[] GetHash([NotNull]string password, [NotNull]string username)
+        public byte[] GetHash(string password, string username)
         {
+            if (string.IsNullOrEmpty(password))
+            {
+                throw new ArgumentNullException("Поле пароль имеет некорректное значение");
+            }
+            if (string.IsNullOrEmpty(username))
+            {
+                throw new ArgumentNullException("Поле имя пользователя имеет некорректное значение");
+            }
             var hasher = SHA512.Create();
             var byteArray = hasher.ComputeHash(Encoding.ASCII.GetBytes(password + username));
             return byteArray;

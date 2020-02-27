@@ -9,17 +9,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using LearningEngine.Persistence.Utils;
+using Moq;
+using LearningEngine.IntegrationTests.Fixtures.Mocks;
 
 namespace LearningEngine.IntegrationTests.Handlers
 {
     [Collection("DatabaseCollection")]
     public class RegisterUserHandlerTest : BaseContextTests<LearnEngineContext>
     {
-        private readonly IPasswordHasher _hasher;
-        public RegisterUserHandlerTest(LearningEngineFixture fixture, IPasswordHasher hasher)
+        public RegisterUserHandlerTest(LearningEngineFixture fixture)
             : base(fixture)
         {
-            _hasher = hasher;
         }
 
 
@@ -28,7 +28,8 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                var handler = new RegisterUserHandler(context, _hasher);
+                var mock = new HasherMocks();
+                var handler = new RegisterUserHandler(context, mock.HasherMock.Object);
                 var command = new RegisterUserCommand("username", "email@post.org", "123");
 
                 await handler.Handle(command, CancellationToken.None);
@@ -37,7 +38,7 @@ namespace LearningEngine.IntegrationTests.Handlers
                 Assert.NotNull(user);
                 Assert.Equal("username", user.UserName);
                 Assert.Equal("email@post.org", user.Email);
-                Assert.Equal(_hasher.GetHash("123", user.UserName), user.Password);
+                Assert.Equal(mock.Hash, user.Password);
             });
         }
 
@@ -46,9 +47,10 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
+                var mock = new HasherMocks().HasherMock;
                 var username = "noname";
                 var email = "email@gmail.com";
-                var handler = new RegisterUserHandler(context, _hasher);
+                var handler = new RegisterUserHandler(context, mock.Object);
                 var command = new RegisterUserCommand(username, email, "123");
                 await handler.Handle(command, CancellationToken.None);
 
