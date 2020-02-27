@@ -57,7 +57,6 @@ namespace LearningEngine.UnitTests.Utils
             //act
             byte[] result1 = hasher.GetHash("123", "rolit");
 
-
             //assert
             Assert.Equal(expected, result1);
         }

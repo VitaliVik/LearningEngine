@@ -22,6 +22,7 @@ namespace LearningEngine.IntegrationTests.Fixtures.Mocks
             HasherMock = new Mock<IPasswordHasher>();
             HasherMock.Setup(m => m.GetHash(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(byteArray);
+            Hash = byteArray;
         }
 
     }
