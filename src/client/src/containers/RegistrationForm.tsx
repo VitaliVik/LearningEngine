@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 export default class RegistrationForm extends React.Component<any, any, any> {
     constructor(props:any) {
         super(props);

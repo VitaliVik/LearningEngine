@@ -1,30 +1,35 @@
 import React from 'react';
 import SignInForm from './SignForm';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Header from './Header';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import RegistrationForm from './RegistrationForm';
 import { bindActionCreators } from 'redux';
 import { getToken } from '../actions/getToken';
+import { fetchTheme } from '../actions/fetchTheme';
+
 
 class App extends React.Component<any, any>{
   render() {
-    const { getToken, isLoading, error, token} = this.props;
+    const { getToken, fetchTheme, isLoading, error, token} = this.props;
     return (
       <div>
         <Header></Header>
-        <button onClick={() => console.log(this.props)}></button>
-        {!isLoading && !error && <h1>{token}</h1>}
+        <button onClick={fetchTheme}></button>
         <Switch>
         <Route path="/registration">
             <RegistrationForm />
           </Route>
           <Route path="/signIn">
             <SignInForm onLogin={getToken}/>>
+            <br />
+          
+          </Route>
+          <Route path="/account">
+            <p>вошел подлец</p>
           </Route>
           <Route path="/">
-
           </Route>
 
         </Switch>
@@ -53,9 +58,11 @@ interface Note {
 
 let mapToStateProps = (state:any) => ({ ...state});
 
+
 let mapToDispatchProps = (dispatch: any) => 
   bindActionCreators({
-    getToken
+    getToken,
+    fetchTheme  
   }, dispatch);
 
 
