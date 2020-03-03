@@ -8,11 +8,10 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
-import {delay} from 'rxjs/operators';
 import axios from 'axios';
 
 import {
-    GET_TOKEN,
+    getToken,
     getTokenSuccess,
     getTokenFail
 } from "../actions/getToken";
@@ -20,8 +19,9 @@ import {
 const url = "https://localhost:5001/api/account/token";
 
 export default function getTokenEpic(action$: any) {
+    action$.subscribe((act:any)=>console.log(act));
     return action$
-        .ofType(GET_TOKEN)
+        .ofType(getToken.type)
         .switchMap(async (action:any) => {
             let formData: FormData = new FormData();
             formData.set('password', action.payload.password);

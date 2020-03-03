@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 
 class App extends React.Component<any, any>{
   render() {
-    const { getToken, fetchTheme, isLoading, error, token } = this.props;
+    const { getToken, fetchTheme } = this.props;
     return (
       <div>
         <Header></Header>

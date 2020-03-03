@@ -1,3 +1,3 @@
-import { createAction } from 'redux-action';
+import { createAction } from 'redux-actions';
 
 export const fetchTheme = createAction("FETCH_THEME");
