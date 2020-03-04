@@ -6,14 +6,14 @@ interface Accounts {
     accessToken: string,
     userName: string,
     isLoading: boolean,
-    error: string
+    error: any
 }
 
 const initialState: Accounts = {
     accessToken: "",
     userName: "",
     isLoading: false,
-    error: ""
+    error: undefined
 };
 
 const reducers = new ReducerBuilder<Accounts>()

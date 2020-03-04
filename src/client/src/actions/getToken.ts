@@ -1,7 +1,10 @@
 import { createAction } from ".";
 
 
-export const getToken = createAction('GET_TOKEN');
+export const getToken = createAction('GET_TOKEN', (username:string, password:string) => ({
+    username,
+    password
+}));
 
 export const getTokenFail = createAction('GET_TOKEN_FAIL', (message: string) => message);
 

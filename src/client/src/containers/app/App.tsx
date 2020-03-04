@@ -1,10 +1,10 @@
 import { getToken } from '../../actions/getToken';
 import { fetchTheme } from '../../actions/fetchTheme';
 import { Switch, Route } from 'react-router-dom';
-import SignInForm from '../SignForm';
-import Header from '../Header';
+import SignInForm from '../signInForm/SignForm';
+import Header from './Header';
 import React from 'react';
-import RegistrationForm from '../RegistrationForm';
+import RegistrationForm from '../registrationForm/RegistrationForm';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -15,13 +15,12 @@ class App extends React.Component<any, any>{
     return (
       <div>
         <Header></Header>
-        <button onClick={fetchTheme}></button>
         <Switch>
           <Route path="/registration">
             <RegistrationForm />
           </Route>
           <Route path="/signIn">
-            <SignInForm onLogin={getToken} />>
+            <SignInForm />
             <br />
           </Route>
           <Route path="/account">
@@ -50,7 +49,7 @@ interface Note {
   content: string;
 }
 
-let mapToStateProps = (state: any) => ({ ...state });
+let mapStateToProps = (state: any) => ({ ...state });
 
 
 let mapToDispatchProps = (dispatch: any) =>
@@ -61,6 +60,6 @@ let mapToDispatchProps = (dispatch: any) =>
 
 
 
-export default connect(mapToStateProps, mapToDispatchProps)(App);
+export default connect(mapStateToProps)(App);
 
 
