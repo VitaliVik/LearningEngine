@@ -9,7 +9,7 @@ class Header extends React.Component<any> {
         return (
             <div className="header">
                 <h1>Learning Engine</h1>
-                <div>{access_token != "" && <NavLink to="signIn">Войти</NavLink>} </div>
+                {/* <div>{this.props.accounts.accessToken === undefined && <NavLink to="signIn">Войти</NavLink>} </div> */}
             </div>
         );
     }

@@ -5,18 +5,18 @@ export const getToken = createAction('GET_TOKEN', (username:string, password:str
     username,
     password
 }));
-
+ 
 export const getTokenFail = createAction('GET_TOKEN_FAIL', (message: string) => message);
 
-export const getTokenSuccess = createAction<GetTokenSuccessPayload, TokenResponse>('GET_TOKEN_FAIL', (res) => ({
-    accessToken: res.access_token,
+export const getTokenSuccess = createAction<GetTokenSuccessPayload, TokenResponse>('GET_TOKEN_SUCCESS', (res) => ({
+    accessToken: res.accessToken,
     username: res.username
 }));
 
 export interface GetTokenSuccessPayload { accessToken: string, username: string }
 
 interface TokenResponse {
-    access_token: string,
+    accessToken: string,
     username: string
 }
 

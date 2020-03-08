@@ -1,6 +1,11 @@
 import React from 'react';
-export default class RegistrationForm extends React.Component<any, any, any> {
-    constructor(props:any) {
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { registration } from '../../actions/regitstration'
+import { Link } from 'react-router-dom';
+
+class RegistrationForm extends React.Component<any, any, any> {
+    constructor(props: any) {
         super(props);
         this.state = {
             login: "",
@@ -10,43 +15,77 @@ export default class RegistrationForm extends React.Component<any, any, any> {
     }
 
     render() {
-        return (
-        <div>
-            <form onSubmit={this.handleSubmit.bind(this)}>
-                <input type="text" 
-                placeholder="login" 
-                onChange={this.handleLoginChange.bind(this)}
-                />
-                <br />
-                <input type="email" 
-                placeholder="email" 
-                onChange={this.handleEmailChange.bind(this)}
-                />
-                <br />
-                <input type="password" 
-                placeholder="password" 
-                onChange={this.handlePasswordChange.bind(this)}
-                />
-                <br />
-                <button>Регестрация</button>
-            </form>
+        const { error, isLoading } = this.props.registration;
+        if (error != null) {
+            return (
+            <div>
+                <p>{error}</p>
+                <Link to="/signIn"></Link>
+            </div>
+            );
+        }
+        else {
+            return (
+                <div>
+                    <form onSubmit={this.handleSubmit.bind(this)}>
+                        <input type="text"
+                            placeholder="login"
+                            onChange={this.handleLoginChange.bind(this)}
+                        />
+                        <br />
+                        <input type="email"
+                            placeholder="email"
+                            onChange={this.handleEmailChange.bind(this)}
+                        />
+                        <br />
+                        <input type="password"
+                            placeholder="password"
+                            onChange={this.handlePasswordChange.bind(this)}
+                        />
+                        <br />
+                        <button>Регестрация</button>
+                    </form>
 
-        </div>
-        );
+                </div>
+            );
+        }
     }
 
     handleLoginChange(event: any) {
-        this.setState({login: event.target.value, password: this.state.password, email: this.state.email});
+        this.setState({
+            ...this.state,
+            login: event.target.value
+        });
     }
 
-    handlePasswordChange(event:any) {
-        this.setState({login: this.state.login, password: event.target.value, email: this.state.email});
+    handlePasswordChange(event: any) {
+        this.setState({
+            ...this.state,
+            password: event.target.value,
+        });
     }
 
-    handleEmailChange(event:any) {
-        this.setState({login: event.target.value, password: this.state.password, email: this.state.email})
+    handleEmailChange(event: any) {
+        this.setState({
+            ...this.state,
+            email: event.target.value
+        });
     }
-    handleSubmit(){
 
+    handleSubmit(event: any) {
+        event.preventDefault();
+        const { username, email, password } = this.state;
+        registration({
+            username,
+            email,
+            password
+        })
     }
 }
+
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({ registration }, dispatch)
+const mapStateToProps = (state: any) => ({ ...state });
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);
+
+

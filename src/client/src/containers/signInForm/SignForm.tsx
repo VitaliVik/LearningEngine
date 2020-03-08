@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, FormEvent } from 'react';
 import "./SignInForm.css";
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { dispatch } from 'rxjs/internal/observable/pairs';
 import { bindActionCreators } from 'redux';
@@ -22,6 +22,7 @@ class SignInForm extends React.Component<any, SignInState> {
     }
 
     render() {
+
         return (
             <div className="container">
                 <form onSubmit={this.onSubmitHandle.bind(this)}>
@@ -32,6 +33,7 @@ class SignInForm extends React.Component<any, SignInState> {
                     <button>Войти</button>
                     <NavLink to="/registration">Регистрация
                     </NavLink>
+                    {this.props.accounts.accessToken != "" && <Redirect to="/account"></Redirect>}
                 </form>
             </div>
         );
@@ -47,13 +49,12 @@ class SignInForm extends React.Component<any, SignInState> {
 
     onSubmitHandle(event: SyntheticEvent) {
         event.preventDefault();
-        console.log(this.props);
         this.props.getToken(this.state.login, this.state.password);
     }
 }
 
 const mapDispatchToProps = (dispatch:any) => bindActionCreators({getToken}, dispatch)
-let mapStateToProps = (state: any) => ({ ...state });
+const mapStateToProps = (state: any) => ({ ...state });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignInForm);
 

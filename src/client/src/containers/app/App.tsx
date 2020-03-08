@@ -1,6 +1,6 @@
 import { getToken } from '../../actions/getToken';
 import { fetchTheme } from '../../actions/fetchTheme';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, NavLink, Redirect } from 'react-router-dom';
 import SignInForm from '../signInForm/SignForm';
 import Header from './Header';
 import React from 'react';
@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 
 class App extends React.Component<any, any>{
   render() {
-    const { getToken, fetchTheme } = this.props;
+    const { accessToken } = this.props;
     return (
       <div>
         <Header></Header>
