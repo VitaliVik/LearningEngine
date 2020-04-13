@@ -1,18 +1,18 @@
 import React, { SyntheticEvent, FormEvent } from 'react';
 import "./SignInForm.css";
-import { NavLink } from 'react-router-dom';
-
-interface SignInProps {
-   onLogin(login:string, password:string): any;
-}
+import { NavLink, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { dispatch } from 'rxjs/internal/observable/pairs';
+import { bindActionCreators } from 'redux';
+import { getToken } from '../../actions/getToken';
 
 interface SignInState {
     login: string,
     password: string
 }
 
-export default class SignInForm extends React.Component<SignInProps, SignInState> {
-    constructor(props: SignInProps) {
+class SignInForm extends React.Component<any, SignInState> {
+    constructor(props: any) {
         super(props);
         this.state = {
             login: "",
@@ -22,6 +22,7 @@ export default class SignInForm extends React.Component<SignInProps, SignInState
     }
 
     render() {
+
         return (
             <div className="container">
                 <form onSubmit={this.onSubmitHandle.bind(this)}>
@@ -32,6 +33,7 @@ export default class SignInForm extends React.Component<SignInProps, SignInState
                     <button>Войти</button>
                     <NavLink to="/registration">Регистрация
                     </NavLink>
+                    {this.props.accounts.accessToken != "" && <Redirect to="/account"></Redirect>}
                 </form>
             </div>
         );
@@ -47,9 +49,14 @@ export default class SignInForm extends React.Component<SignInProps, SignInState
 
     onSubmitHandle(event: SyntheticEvent) {
         event.preventDefault();
-        this.props.onLogin(this.state.login, this.state.password);
+        this.props.getToken(this.state.login, this.state.password);
     }
 }
+
+const mapDispatchToProps = (dispatch:any) => bindActionCreators({getToken}, dispatch)
+const mapStateToProps = (state: any) => ({ ...state });
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInForm);
 
 
 
