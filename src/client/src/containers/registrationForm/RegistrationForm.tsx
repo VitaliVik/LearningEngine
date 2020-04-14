@@ -2,13 +2,13 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { registration } from '../../actions/regitstration'
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 class RegistrationForm extends React.Component<any, any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            login: "",
+            username: "",
             password: "",
             email: ""
         }
@@ -54,7 +54,7 @@ class RegistrationForm extends React.Component<any, any, any> {
     handleLoginChange(event: any) {
         this.setState({
             ...this.state,
-            login: event.target.value
+            username: event.target.value
         });
     }
 
@@ -75,7 +75,7 @@ class RegistrationForm extends React.Component<any, any, any> {
     handleSubmit(event: any) {
         event.preventDefault();
         const { username, email, password } = this.state;
-        registration({
+        this.props.registration({
             username,
             email,
             password
@@ -87,5 +87,3 @@ const mapDispatchToProps = (dispatch: any) => bindActionCreators({ registration 
 const mapStateToProps = (state: any) => ({ ...state });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);
-
-

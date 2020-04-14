@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using LearningEngine.Api.ViewModels;
 using LearningEngine.Domain.Command;
+using Microsoft.AspNetCore.Cors;
 
 namespace LearningEngine.Api.Controllers
 {
@@ -57,15 +58,29 @@ namespace LearningEngine.Api.Controllers
             return new JsonResult(response);
         }
 
-        [HttpPost("register")]
         [AllowAnonymous]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromForm]RegisterViewModel vm)
         {
             var command = new RegisterUserCommand(vm.UserName, vm.Email, vm.Password);
 
             await _mediator.Send(command);
 
+            var response = new
+            {
+                username = command.UserName
+            };
+
+            return new JsonResult(response);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> GoogleRegister()
+        {
+            var user = User.Identity.Name;
+
             return Ok();
         }
+
     }
 }

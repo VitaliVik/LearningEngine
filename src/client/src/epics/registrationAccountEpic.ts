@@ -10,7 +10,7 @@ import {
     registrationSuccess,
 } from '../actions/regitstration';
 
-const url = 'https://localhost:5000/api/account/register';
+const url = 'https://localhost:44336/api/account/register';
 
 export default function registrationAccountEpic(action$: any) {
     return action$
@@ -20,10 +20,8 @@ export default function registrationAccountEpic(action$: any) {
             formData.set('password', action.payload.password);
             formData.set('username', action.payload.username);
             formData.set('email', action.payload.email)
-            await axios.post(url, formData);
+            return await axios.post(url, formData);
         })
-        .map(() => { 
-            return registrationSuccess();
-        })
+        .map((res : any) => Observable.of(registrationSuccess(res.data)))
         .catch((error:any) => Observable.of(registrationFail(error ?? "Ошибка регистрации")));
 }
