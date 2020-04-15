@@ -22,6 +22,8 @@ export default function registrationAccountEpic(action$: any) {
             formData.set('email', action.payload.email)
             return await axios.post(url, formData);
         })
-        .map((res : any) => Observable.of(registrationSuccess(res.data)))
+        .map((res : any) => {
+            return (registrationSuccess(res.data));
+        })
         .catch((error:any) => Observable.of(registrationFail(error ?? "Ошибка регистрации")));
 }
