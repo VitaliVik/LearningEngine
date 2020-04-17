@@ -10,6 +10,9 @@ using LearningEngine.Api.ViewModels;
 using LearningEngine.Domain.Command;
 using LearningEngine.Domain.Query;
 using LearningEngine.Application.UseCase.Command;
+using System.Net.WebSockets;
+using LearningEngine.Api.Authorization;
+using LearningEngine.Api.Extensions;
 
 namespace LearningEngine.Api.Controllers
 {
@@ -19,9 +22,14 @@ namespace LearningEngine.Api.Controllers
     public class ThemeController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public ThemeController(IMediator mediator)
+        private readonly IWorkWithJwtToken _workWithJwtToken;
+        private const int _jwtTokenPosition = 1;
+        private const int _userIdPosition = 1;
+
+        public ThemeController(IMediator mediator, IWorkWithJwtToken workWithJwtToken)
         {
             _mediator = mediator;
+            _workWithJwtToken = workWithJwtToken;
         }
 
         
@@ -62,6 +70,24 @@ namespace LearningEngine.Api.Controllers
             var result = await _mediator.Send(query);
 
             return Ok(result);
+        }
+
+
+        [HttpGet("getUserThemes")]
+        [Authorize]
+        public async Task<IActionResult> GetUserThemes()
+        {
+            //need to split because got something like this "bearer iodhvioewrpvhboeiwrbhver" 
+            //where I need only the second part which is jwt token
+            var jwtToken = Request.Headers["Authorization"].ToString().Split(' ')[_jwtTokenPosition];
+
+            var decodedJwtToken = _workWithJwtToken.Decode(jwtToken);
+
+            var query = new GetRootThemesByUserIdQuery(decodedJwtToken.GetUserId());
+
+            var result = await _mediator.Send(query);
+            
+            return Ok();
         }
     }
 }

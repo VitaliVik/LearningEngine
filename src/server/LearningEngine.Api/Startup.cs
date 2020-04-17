@@ -19,6 +19,7 @@ using Microsoft.EntityFrameworkCore;
 using LearningEngine.Domain.Interfaces;
 using LearningEngine.Persistence.Transaction;
 using LearningEngine.Persistence.Utils;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace LearningEngine.Api
 {
@@ -51,6 +52,8 @@ namespace LearningEngine.Api
                 });
             services.AddSingleton<IPasswordHasher>(sp => new PasswordHasher());
             services.AddTransient<IEnviromentService, EnviromentService>();
+            services.AddScoped<IWorkWithJwtToken, WorkWithJwtToken>();
+            services.AddTransient<JwtSecurityTokenHandler>();
             services.AddTransient<IConfigurationService, ConfigurationService>(provider =>
             new ConfigurationService(provider.GetService<IEnviromentService>()));
             services.AddCors(options => options.AddPolicy("defaultPolicy",
