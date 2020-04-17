@@ -87,7 +87,7 @@ namespace LearningEngine.Api.Controllers
 
             var result = await _mediator.Send(query);
             
-            return Ok();
+            return Ok(result);
         }
     }
 }
