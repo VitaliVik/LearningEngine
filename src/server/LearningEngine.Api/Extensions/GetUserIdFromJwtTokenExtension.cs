@@ -11,6 +11,7 @@ namespace LearningEngine.Api.Extensions
     public static class GetUserIdFromJwtTokenExtension
     {
         private const int _userIdPosition = 1;
+        private const int _userNamePosition = 0;
         public static int GetUserId(this HttpContext httpContext)
         {
             int result;
@@ -20,6 +21,10 @@ namespace LearningEngine.Api.Extensions
             }
 
             return result;
+        }
+        public static string GetUserName(this HttpContext httpContext)
+        {
+            return httpContext.User.Claims.ElementAt(_userNamePosition).Value;
         }
     }
 }

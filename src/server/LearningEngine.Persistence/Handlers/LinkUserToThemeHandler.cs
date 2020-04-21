@@ -39,6 +39,7 @@ namespace LearningEngine.Persistence.Handlers
             };
             await _context.Permissions.AddAsync(permission);
             await _context.SaveChangesAsync();
+
             return default;
         }
     }
