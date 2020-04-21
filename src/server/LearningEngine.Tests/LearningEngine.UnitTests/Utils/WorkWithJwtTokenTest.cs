@@ -13,7 +13,7 @@ namespace LearningEngine.UnitTests.Utils
     {
         [Theory]
         [InlineData("vasyan", "23", "krytoi chel")]
-        [InlineData("mashenko", "60", "syka prepod")]
+        [InlineData("mashenko", "60", "prepod")]
         [InlineData("bodyanka", "20", "starsta")]
         public void WorkWithJwtToken_WithValidUserName_ShouldReturnUserClaims(string userName, string id, string role)
         {
