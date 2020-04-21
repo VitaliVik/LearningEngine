@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LearningEngine.Api.Authorization
 {
-    public interface IWorkWithJwtToken
+    public interface IJwtTokenCryptographer
     {
         string Encode(ClaimsIdentity claimsIdentity);
     }

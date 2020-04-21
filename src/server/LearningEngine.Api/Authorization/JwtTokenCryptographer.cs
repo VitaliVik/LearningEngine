@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace LearningEngine.Api.Authorization
 {
-    public class WorkWithJwtToken : IWorkWithJwtToken
+    public class JwtTokenCoder : IJwtTokenCryptographer
     {
         private readonly JwtSecurityTokenHandler _JwtSecurityTokenHandler;
 
-        public WorkWithJwtToken(JwtSecurityTokenHandler JwtSecurityTokenHandler)
+        public JwtTokenCoder(JwtSecurityTokenHandler JwtSecurityTokenHandler)
         {
             _JwtSecurityTokenHandler = JwtSecurityTokenHandler;
         }

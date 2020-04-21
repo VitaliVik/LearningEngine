@@ -20,8 +20,8 @@ namespace LearningEngine.Api.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IWorkWithJwtToken _workWithJwtToken;
-        public AccountController(IMediator mediator, IWorkWithJwtToken workWithJwtToken)
+        private readonly IJwtTokenCryptographer _workWithJwtToken;
+        public AccountController(IMediator mediator, IJwtTokenCryptographer workWithJwtToken)
         {
             _mediator = mediator;
             _workWithJwtToken = workWithJwtToken;

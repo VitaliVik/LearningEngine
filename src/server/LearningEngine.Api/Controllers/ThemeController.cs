@@ -22,11 +22,11 @@ namespace LearningEngine.Api.Controllers
     public class ThemeController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IWorkWithJwtToken _workWithJwtToken;
+        private readonly IJwtTokenCryptographer _workWithJwtToken;
         private const int _jwtTokenPosition = 1;
         private const int _userIdPosition = 1;
 
-        public ThemeController(IMediator mediator, IWorkWithJwtToken workWithJwtToken)
+        public ThemeController(IMediator mediator, IJwtTokenCryptographer workWithJwtToken)
         {
             _mediator = mediator;
             _workWithJwtToken = workWithJwtToken;
