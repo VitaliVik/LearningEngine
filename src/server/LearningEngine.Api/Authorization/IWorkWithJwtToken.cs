@@ -10,6 +10,5 @@ namespace LearningEngine.Api.Authorization
     public interface IWorkWithJwtToken
     {
         string Encode(ClaimsIdentity claimsIdentity);
-        JwtSecurityToken Decode(string JwtToken);
     }
 }

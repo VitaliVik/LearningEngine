@@ -77,15 +77,9 @@ namespace LearningEngine.Api.Controllers
         [Authorize]
         public async Task<IActionResult> GetUserThemes()
         {
-            //need to split because got something like this "bearer iodhvioewrpvhboeiwrbhver" 
-            //where I need only the second part which is jwt token
-            var jwtToken = Request.Headers["Authorization"].ToString().Split(' ')[_jwtTokenPosition];
+            var userId = new GetRootThemesByUserIdQuery(HttpContext.GetUserId());
 
-            var decodedJwtToken = _workWithJwtToken.Decode(jwtToken);
-
-            var query = new GetRootThemesByUserIdQuery(decodedJwtToken.GetUserId());
-
-            var result = await _mediator.Send(query);
+            var result = await _mediator.Send(userId);
             
             return Ok(result);
         }

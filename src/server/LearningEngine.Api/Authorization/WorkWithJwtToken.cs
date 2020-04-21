@@ -17,11 +17,6 @@ namespace LearningEngine.Api.Authorization
             _JwtSecurityTokenHandler = JwtSecurityTokenHandler;
         }
 
-        public JwtSecurityToken Decode(string JWTToken)
-        {
-            return _JwtSecurityTokenHandler.ReadJwtToken(JWTToken);
-        }
-
         public string Encode(ClaimsIdentity claimsIdentity)
         {
             var now = DateTime.UtcNow;

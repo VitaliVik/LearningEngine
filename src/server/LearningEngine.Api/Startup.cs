@@ -20,6 +20,7 @@ using LearningEngine.Domain.Interfaces;
 using LearningEngine.Persistence.Transaction;
 using LearningEngine.Persistence.Utils;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Http;
 
 namespace LearningEngine.Api
 {
