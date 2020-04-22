@@ -7,6 +7,7 @@ import React from 'react';
 import RegistrationForm from '../registrationForm/RegistrationForm';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import AccountForm from '../accountForm/AccountForm';
 
 
 class App extends React.Component<any, any>{
@@ -24,7 +25,7 @@ class App extends React.Component<any, any>{
             <br />
           </Route>
           <Route path="/account">
-            <p>вошел подлец</p>
+            <AccountForm/>
           </Route>
           <Route path="/">
           </Route>
