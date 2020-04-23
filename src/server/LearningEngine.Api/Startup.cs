@@ -58,7 +58,7 @@ namespace LearningEngine.Api
             services.AddTransient<IConfigurationService, ConfigurationService>(provider =>
             new ConfigurationService(provider.GetService<IEnviromentService>()));
             services.AddCors(options => options.AddPolicy("defaultPolicy",
-                builder => builder.WithOrigins("http://localhost:3000")
+                builder => builder.WithOrigins("http://localhost:3000").WithHeaders("Authorization")
                 ));
 
             //services.AddScoped(provider =>

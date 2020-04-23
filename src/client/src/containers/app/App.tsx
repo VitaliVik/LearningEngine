@@ -1,5 +1,5 @@
 import { getToken } from '../../actions/getToken';
-import { fetchTheme } from '../../actions/fetchTheme';
+import { fetchThemes } from '../../actions/fetchTheme';
 import { Switch, Route, NavLink, Redirect } from 'react-router-dom';
 import SignInForm from '../signInForm/SignForm';
 import Header from './Header';
@@ -56,7 +56,7 @@ let mapStateToProps = (state: any) => ({ ...state });
 let mapToDispatchProps = (dispatch: any) =>
   bindActionCreators({
     getToken,
-    fetchTheme
+    fetchThemes
   }, dispatch);
 
 

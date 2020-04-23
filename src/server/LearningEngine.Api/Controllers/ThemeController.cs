@@ -24,8 +24,6 @@ namespace LearningEngine.Api.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IJwtTokenCryptographer _workWithJwtToken;
-        private const int _jwtTokenPosition = 1;
-        private const int _userIdPosition = 1;
 
         public ThemeController(IMediator mediator, IJwtTokenCryptographer workWithJwtToken)
         {
@@ -47,7 +45,6 @@ namespace LearningEngine.Api.Controllers
         
 
         [HttpDelete("{themeId}")]
-        [Authorize]
         public async Task<IActionResult> DeleteTheme([FromRoute] int themeId)
         {
             var command = new DeleteThemeCommand(themeId, HttpContext.GetUserId());
@@ -86,7 +83,6 @@ namespace LearningEngine.Api.Controllers
 
 
         [HttpGet("getUserThemes")]
-        [Authorize]
         public async Task<IActionResult> GetUserThemes()
         {
             var userId = new GetRootThemesByUserIdQuery(HttpContext.GetUserId());
@@ -97,7 +93,6 @@ namespace LearningEngine.Api.Controllers
         }
 
         [HttpPost("linkUserToTheme")]
-        [Authorize]
         public async Task<IActionResult> LinkUserToTheme([FromForm]string themeName, TypeAccess typeAccess)
         {
             var command = new LinkUserToThemeCommand(HttpContext.GetUserName(), themeName, TypeAccess.Write);
