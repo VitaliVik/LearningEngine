@@ -26,7 +26,7 @@ namespace LearningEngine.Persistence.Handlers
                 .Where(permission => permission.UserId == request.UserId 
                 && permission.Theme.ParentThemeId == null)
                 .Select(permission => permission.Theme);
-            if (themes.Count() == 0)
+            if (!themes.Any())
             {
                 throw new Exception("User has no root themes connected with him");
             }

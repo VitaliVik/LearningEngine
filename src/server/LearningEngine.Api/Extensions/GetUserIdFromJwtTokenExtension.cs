@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System;
 using System.Collections.Generic;
@@ -12,17 +13,16 @@ namespace LearningEngine.Api.Extensions
     {
         private const int _userIdPosition = 1;
         private const int _userNamePosition = 0;
-        public static int GetUserId(this HttpContext httpContext)
+        public static int GetUserId(this ControllerBase httpContext)
         {
-            int result;
-            if(!int.TryParse(httpContext.User.Claims.ElementAt(_userIdPosition).Value, out result))
+            if(int.TryParse(httpContext.User.Claims.ElementAt(_userIdPosition).Value, out int result))
             {
-                throw new Exception("Invalid id in user claims");
+                return result;
             }
 
-            return result;
+            throw new Exception("Invalid id in user claims");
         }
-        public static string GetUserName(this HttpContext httpContext)
+        public static string GetUserName(this ControllerBase httpContext)
         {
             return httpContext.User.Claims.ElementAt(_userNamePosition).Value;
         }

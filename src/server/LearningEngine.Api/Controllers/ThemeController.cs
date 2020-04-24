@@ -47,7 +47,7 @@ namespace LearningEngine.Api.Controllers
         [HttpDelete("{themeId}")]
         public async Task<IActionResult> DeleteTheme([FromRoute] int themeId)
         {
-            var command = new DeleteThemeCommand(themeId, HttpContext.GetUserId());
+            var command = new DeleteThemeCommand(themeId, this.GetUserId());
 
             await _mediator.Send(command);
 
@@ -85,7 +85,7 @@ namespace LearningEngine.Api.Controllers
         [HttpGet("getUserThemes")]
         public async Task<IActionResult> GetUserThemes()
         {
-            var userId = new GetRootThemesByUserIdQuery(HttpContext.GetUserId());
+            var userId = new GetRootThemesByUserIdQuery(this.GetUserId());
 
             var result = await _mediator.Send(userId);
             
@@ -95,7 +95,7 @@ namespace LearningEngine.Api.Controllers
         [HttpPost("linkUserToTheme")]
         public async Task<IActionResult> LinkUserToTheme([FromForm]string themeName, [FromForm]TypeAccess typeAccess)
         {
-            var command = new LinkUserToThemeCommand(HttpContext.GetUserName(), themeName, typeAccess);
+            var command = new LinkUserToThemeCommand(this.GetUserName(), themeName, typeAccess);
 
             await _mediator.Send(command);
 

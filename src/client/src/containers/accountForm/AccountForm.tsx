@@ -15,7 +15,8 @@ class AccountForm extends React.Component<any> {
         this.props.fetchThemes();
     }
     render() {
-        const listThemes = this.props.themes.themes.map((theme: { id: React.SyntheticEvent<Element, Event>; name: React.ReactNode; desription: React.ReactNode; }) =>
+        const listThemes = this.props.themes.themes.map((theme: { id: React.SyntheticEvent<Element, Event>; 
+            name: React.ReactNode; desription: React.ReactNode; }) =>
             <body>
                 <tr>
                     <td>{theme.name}</td>

@@ -7,7 +7,7 @@ import axios from 'axios';
 import {fetchThemes, getThemesFail, getThemeSuccess} from '../actions/fetchTheme';
 import { store } from '..';
 
-const url = "https://localhost:44336/api/theme/getUserThemes";
+const url = process.env.REACT_APP_SERVER_URL + "api/theme/getUserThemes";
 
 export default function getUserTokenEpic(action$: any) {
     return action$
