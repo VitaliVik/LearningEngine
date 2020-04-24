@@ -6,6 +6,7 @@ namespace LearningEngine.Domain.DTO
 {
     public class ThemeHeaderDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Desription { get; set; }
         public bool IsPublic { get; set; }

@@ -93,9 +93,9 @@ namespace LearningEngine.Api.Controllers
         }
 
         [HttpPost("linkUserToTheme")]
-        public async Task<IActionResult> LinkUserToTheme([FromForm]string themeName, TypeAccess typeAccess)
+        public async Task<IActionResult> LinkUserToTheme([FromForm]string themeName, [FromForm]TypeAccess typeAccess)
         {
-            var command = new LinkUserToThemeCommand(HttpContext.GetUserName(), themeName, TypeAccess.Write);
+            var command = new LinkUserToThemeCommand(HttpContext.GetUserName(), themeName, typeAccess);
 
             await _mediator.Send(command);
 

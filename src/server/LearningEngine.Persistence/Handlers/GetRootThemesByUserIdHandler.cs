@@ -33,6 +33,7 @@ namespace LearningEngine.Persistence.Handlers
 
             var result = themes.Select(theme => new ThemeHeaderDto
             {
+                Id = theme.Id,
                 Desription = theme.Description,
                 IsPublic = theme.IsPublic,
                 Name = theme.Name,

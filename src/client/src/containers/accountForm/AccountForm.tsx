@@ -11,23 +11,32 @@ class AccountForm extends React.Component<any> {
                 themes : []
             }
     }
+    componentWillMount(){
+        this.props.fetchThemes();
+    }
     render() {
+        const listThemes = this.props.themes.themes.map((theme: { id: React.SyntheticEvent<Element, Event>; name: React.ReactNode; desription: React.ReactNode; }) =>
+            <body>
+                <tr>
+                    <td>{theme.name}</td>
+                    <td>{theme.desription}</td>
+                </tr>
+            </body>
+        )
         return (
             <div>
                 Hello {store.getState().accounts.userName}
-                <button onClick={this.getThemes.bind(this)}>Get themes</button>
-                <button onClick={this.checkHyita.bind(this)}>Get hyita</button>
+                <table>
+                     <header>
+                        <tr>
+                            <td>Тема</td>
+                            <td>Описание</td>
+                        </tr>
+                     </header>
+                    {listThemes}
+                 </table>
             </div>
         );
-    }
-
-    getThemes(event: SyntheticEvent){
-        event.preventDefault();
-        this.props.fetchThemes();
-    }
-    checkHyita(event: SyntheticEvent){
-        const a = this.props.themes;
-        const b = store.getState().themes;
     }
 }
 

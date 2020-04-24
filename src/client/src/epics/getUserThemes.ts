@@ -17,7 +17,7 @@ export default function getUserTokenEpic(action$: any) {
             return await axios.get(url, { headers: { Authorization } });
         })
         .map((res:any) => { 
-            return getThemeSuccess(res.data)
+            return getThemeSuccess({themes : res.data} )
         })
         .catch((error:any) => Observable.of(getThemesFail(error)));
 }
