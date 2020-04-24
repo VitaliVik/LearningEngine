@@ -10,6 +10,10 @@ using LearningEngine.Api.ViewModels;
 using LearningEngine.Domain.Command;
 using LearningEngine.Domain.Query;
 using LearningEngine.Application.UseCase.Command;
+using System.Net.WebSockets;
+using LearningEngine.Api.Authorization;
+using LearningEngine.Api.Extensions;
+using LearningEngine.Domain.Enum;
 
 namespace LearningEngine.Api.Controllers
 {
@@ -19,9 +23,12 @@ namespace LearningEngine.Api.Controllers
     public class ThemeController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public ThemeController(IMediator mediator)
+        private readonly IJwtTokenCryptographer _workWithJwtToken;
+
+        public ThemeController(IMediator mediator, IJwtTokenCryptographer workWithJwtToken)
         {
             _mediator = mediator;
+            _workWithJwtToken = workWithJwtToken;
         }
 
         
@@ -35,7 +42,17 @@ namespace LearningEngine.Api.Controllers
 
             return Ok();
         }
+        
 
+        [HttpDelete("{themeId}")]
+        public async Task<IActionResult> DeleteTheme([FromRoute] int themeId)
+        {
+            var command = new DeleteThemeCommand(themeId, this.GetUserId());
+
+            await _mediator.Send(command);
+
+            return Ok();
+        }
 
 
         [HttpGet("{themeId}")]
@@ -62,6 +79,27 @@ namespace LearningEngine.Api.Controllers
             var result = await _mediator.Send(query);
 
             return Ok(result);
+        }
+
+
+        [HttpGet("getUserThemes")]
+        public async Task<IActionResult> GetUserThemes()
+        {
+            var userId = new GetRootThemesByUserIdQuery(this.GetUserId());
+
+            var result = await _mediator.Send(userId);
+            
+            return Ok(result);
+        }
+
+        [HttpPost("linkUserToTheme")]
+        public async Task<IActionResult> LinkUserToTheme([FromForm]string themeName, [FromForm]TypeAccess typeAccess)
+        {
+            var command = new LinkUserToThemeCommand(this.GetUserName(), themeName, typeAccess);
+
+            await _mediator.Send(command);
+
+            return Ok();
         }
     }
 }

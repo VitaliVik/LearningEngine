@@ -11,7 +11,7 @@ import {
     getTokenFail
 } from "../actions/getToken";
 
-const url = "https://localhost:5000/api/account/token";
+const url = process.env.REACT_APP_SERVER_URL + "api/account/token";
 
 export default function getTokenEpic(action$: any) {
     action$.subscribe((act:any)=>console.log(act));

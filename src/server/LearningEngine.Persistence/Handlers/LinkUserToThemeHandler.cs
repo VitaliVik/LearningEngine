@@ -22,7 +22,7 @@ namespace LearningEngine.Persistence.Handlers
             var user = await _context.Users
                 .FirstOrDefaultAsync(usr => usr.UserName == request.UserName);
             var theme = await _context.Themes
-                .FirstOrDefaultAsync(thm => thm.Name + thm.Id == request.ThemeName);
+                .FirstOrDefaultAsync(thm => thm.Name == request.ThemeName);
             if (user == null)
             {
                 throw new Exception("Пользователь не найден");
@@ -39,6 +39,7 @@ namespace LearningEngine.Persistence.Handlers
             };
             await _context.Permissions.AddAsync(permission);
             await _context.SaveChangesAsync();
+
             return default;
         }
     }

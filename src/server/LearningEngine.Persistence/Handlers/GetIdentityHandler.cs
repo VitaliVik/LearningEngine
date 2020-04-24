@@ -36,6 +36,7 @@ namespace LearningEngine.Persistence.Handlers
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
+                    new Claim("UserId", user.Id.ToString()),
                     new Claim(ClaimsIdentity.DefaultRoleClaimType, "user")
                 };
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

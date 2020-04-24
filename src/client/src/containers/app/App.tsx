@@ -1,5 +1,5 @@
 import { getToken } from '../../actions/getToken';
-import { fetchTheme } from '../../actions/fetchTheme';
+import { fetchThemes } from '../../actions/fetchTheme';
 import { Switch, Route, NavLink, Redirect } from 'react-router-dom';
 import SignInForm from '../signInForm/SignForm';
 import Header from './Header';
@@ -7,6 +7,7 @@ import React from 'react';
 import RegistrationForm from '../registrationForm/RegistrationForm';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import AccountForm from '../accountForm/AccountForm';
 
 
 class App extends React.Component<any, any>{
@@ -24,7 +25,7 @@ class App extends React.Component<any, any>{
             <br />
           </Route>
           <Route path="/account">
-            <p>вошел подлец</p>
+            <AccountForm/>
           </Route>
           <Route path="/">
           </Route>
@@ -55,7 +56,7 @@ let mapStateToProps = (state: any) => ({ ...state });
 let mapToDispatchProps = (dispatch: any) =>
   bindActionCreators({
     getToken,
-    fetchTheme
+    fetchThemes
   }, dispatch);
 
 

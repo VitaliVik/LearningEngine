@@ -10,7 +10,7 @@ import {
     registrationSuccess,
 } from '../actions/regitstration';
 
-const url = 'https://localhost:5000/api/account/register';
+const url = process.env.REACT_APP_SERVER_URL + 'api/account/register';
 
 export default function registrationAccountEpic(action$: any) {
     return action$

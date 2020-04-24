@@ -20,9 +20,11 @@ namespace LearningEngine.Api.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public AccountController(IMediator mediator)
+        private readonly IJwtTokenCryptographer _workWithJwtToken;
+        public AccountController(IMediator mediator, IJwtTokenCryptographer workWithJwtToken)
         {
             _mediator = mediator;
+            _workWithJwtToken = workWithJwtToken;
         }
         [HttpGet("token")]
         public IActionResult Token()
@@ -38,16 +40,8 @@ namespace LearningEngine.Api.Controllers
             {
                 return BadRequest();
             }
-            var now = DateTime.UtcNow;
-            var jwt = new JwtSecurityToken(
-                issuer: AuthOptions.ISSUER,
-                audience: AuthOptions.AUDIENCE,
-                claims: identity.Claims,
-                expires: now.Add(TimeSpan.FromDays(AuthOptions.LIFETIME)),
-                signingCredentials: new Microsoft.IdentityModel.Tokens
-                    .SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256Signature)
-                );
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            var encodedJwt = _workWithJwtToken.Encode(identity);
 
             var response = new
             {
