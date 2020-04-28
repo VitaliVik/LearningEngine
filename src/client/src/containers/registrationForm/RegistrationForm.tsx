@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { registration } from '../../actions/regitstration'
 import { Link, Redirect } from 'react-router-dom';
 import { store } from '../..';
+import { accounts } from '../../reducers/accounts';
 
 class RegistrationForm extends React.Component<any, any, any> {
     constructor(props: any) {
@@ -16,7 +17,14 @@ class RegistrationForm extends React.Component<any, any, any> {
     }
 
     render() {
-        const { error, isLoading } = this.props.registration;
+        const { error, isLoading, accessToken } = this.props.accounts;
+        if (accessToken != '') {
+            return (
+            <>
+                <Redirect to="account"/>
+            </>
+            )
+        }
         if (error != null) {
             return (
             <div>

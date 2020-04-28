@@ -26,7 +26,7 @@ class AccountForm extends React.Component<any> {
         )
         return (
             <div>
-                Hello {store.getState().accounts.userName}
+                Hello {store.getState().accounts.username}
                 <table>
                      <header>
                         <tr>

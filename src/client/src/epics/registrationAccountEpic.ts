@@ -1,9 +1,10 @@
+import { RegistrationResponse } from './../actions/regitstration';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import {
     registration,
     registrationFail,
@@ -20,10 +21,12 @@ export default function registrationAccountEpic(action$: any) {
             formData.set('password', action.payload.password);
             formData.set('username', action.payload.username);
             formData.set('email', action.payload.email)
-            await axios.post(url, formData);
+            return await axios.post(url, formData);
         })
-        .map(() => { 
-            return registrationSuccess();
+        .map((res: AxiosResponse<RegistrationResponse>) => { 
+            return registrationSuccess(res.data);
         })
-        .catch((error:any) => Observable.of(registrationFail(error ?? "Ошибка регистрации")));
+        .catch((error:any) => {
+            Observable.of(registrationFail(error ?? "Ошибка регистрации"))
+        });
 }

@@ -23,7 +23,7 @@ export default function getTokenEpic(action$: any) {
             formData.set('username', action.payload.username);
             let res = await axios.post(url, formData);
             return { 
-                accessToken: res.data.access_token, 
+                accessToken: res.data.accessToken, 
                 username: res.data.username
             };
         })

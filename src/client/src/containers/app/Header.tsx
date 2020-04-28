@@ -5,11 +5,17 @@ import { NavLink } from 'react-router-dom';
 
 class Header extends React.Component<any> {
     render() {
-        const {access_token, username} = this.props
+        const {accessToken, username} = this.props
+        const signInBar = accessToken != ''
+        ?  (<></>)
+        :   <>
+                <NavLink to='/registration'>Регистрация</NavLink>
+                <NavLink to='/signIn'>Войти</NavLink>
+            </>
         return (
             <div className="header">
                 <h1>Learning Engine</h1>
-                {/* <div>{this.props.accounts.accessToken === undefined && <NavLink to="signIn">Войти</NavLink>} </div> */}
+                {signInBar}
             </div>
         );
     }
