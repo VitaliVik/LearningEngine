@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.DTO;
+﻿using LearningEngine.Domain.Constants;
+using LearningEngine.Domain.DTO;
 using LearningEngine.Domain.Enum;
 using LearningEngine.Domain.Query;
 using LearningEngine.Persistence.Models;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace LearningEngine.Persistence.Handlers
 {
-    class GetRootThemesByUserIdHandler : IRequestHandler<GetRootThemesByUserIdQuery, List<ThemeHeaderDto>>
+    public class GetRootThemesByUserIdHandler : IRequestHandler<GetRootThemesByUserIdQuery, List<ThemeHeaderDto>>
     {
         private readonly LearnEngineContext _context;
         public GetRootThemesByUserIdHandler(LearnEngineContext _context)
@@ -28,7 +29,7 @@ namespace LearningEngine.Persistence.Handlers
                 .Select(permission => permission.Theme);
             if (!themes.Any())
             {
-                throw new Exception("User has no root themes connected with him");
+                throw new Exception(CustomConstants.RootThemesNotFount);
             }
 
             var result = themes.Select(theme => new ThemeHeaderDto

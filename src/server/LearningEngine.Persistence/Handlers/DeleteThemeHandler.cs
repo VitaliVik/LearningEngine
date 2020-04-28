@@ -1,4 +1,5 @@
 ﻿using LearningEngine.Domain.Command;
+using LearningEngine.Domain.Constants;
 using LearningEngine.Domain.Enum;
 using LearningEngine.Persistence.Models;
 using MediatR;
@@ -25,12 +26,12 @@ namespace LearningEngine.Persistence.Handlers
 
             if(permission == null)
             {
-                throw new Exception("Theme, connected to this user not found");
+                throw new Exception(CustomConstants.ThemeNotFound);
             }
 
             if(permission.Access != TypeAccess.Write)
             {
-                throw new Exception("User has no rights to delete this theme");
+                throw new Exception(CustomConstants.NoRightsForDeleting);
             }
 
             var theme = await _context.Themes.FirstOrDefaultAsync(theme => theme.Id == permission.ThemeId);
