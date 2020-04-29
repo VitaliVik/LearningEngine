@@ -26,12 +26,12 @@ namespace LearningEngine.Persistence.Handlers
 
             if(permission == null)
             {
-                throw new Exception(CustomConstants.ThemeNotFound);
+                throw new Exception(ExceptionDescriptionConstants.ThemeNotFound);
             }
 
             if(permission.Access != TypeAccess.Write)
             {
-                throw new Exception(CustomConstants.NoRightsForDeleting);
+                throw new Exception(ExceptionDescriptionConstants.NoRightsForDeleting);
             }
 
             var theme = await _context.Themes.FirstOrDefaultAsync(theme => theme.Id == permission.ThemeId);

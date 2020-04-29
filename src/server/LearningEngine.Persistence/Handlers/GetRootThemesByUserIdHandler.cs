@@ -29,20 +29,14 @@ namespace LearningEngine.Persistence.Handlers
                 .Select(permission => permission.Theme);
             if (!themes.Any())
             {
-                throw new Exception(CustomConstants.RootThemesNotFount);
+                throw new Exception(ExceptionDescriptionConstants.RootThemesNotFount);
             }
 
             var result = themes.Select(theme => new ThemeHeaderDto
             {
                 Id = theme.Id,
-                Desription = theme.Description,
-                IsPublic = theme.IsPublic,
                 Name = theme.Name,
-                Notes = theme.Notes.Select(note => new NoteDto
-                {
-                    Content = note.Content,
-                    Title = note.Title
-                }).ToList(),
+                Description = theme.Description
             }).ToListAsync();
 
             return result;

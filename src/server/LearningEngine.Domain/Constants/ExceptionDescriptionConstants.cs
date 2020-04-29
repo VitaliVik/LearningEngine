@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LearningEngine.Domain.Constants
 {
-    public static class CustomConstants
+    public static class ExceptionDescriptionConstants
     {
         public static string RootThemesNotFount = "User has no root themes connected with him";
         public static string ThemeNotFound = "Theme, connected to this user not found";

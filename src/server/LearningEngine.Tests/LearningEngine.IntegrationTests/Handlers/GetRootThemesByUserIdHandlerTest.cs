@@ -19,19 +19,8 @@ namespace LearningEngine.IntegrationTests.Handlers
     [Collection("DatabaseCollection")]
     public class GetRootThemesByUserIdHandlerTest : BaseContextTests<LearnEngineContext>
     {
-        #region fields
-        private string userName;
-        private string email;
-        private string password;
-        private List<Theme> themes;
-        #endregion
         public GetRootThemesByUserIdHandlerTest(LearningEngineFixture fixture) : base(fixture)
         {
-            userName = "Vasyan";
-            email = "sobaka@gmail.com";
-            password = "krytoiparol";
-            themes = new List<Theme> { new Theme { Name = "hoho theme", Description = "nice hoho theme", IsPublic = true},
-                                       new Theme { Name = "haha theme", Description = "nice haha theme", IsPublic = true}};
         }
 
         [Fact]
@@ -40,21 +29,26 @@ namespace LearningEngine.IntegrationTests.Handlers
             await UseContext(async (context) =>
             {
                 //Arrange
-                var dataCreator = new DataCreator();
-                await dataCreator.PushDataIntoDatabase(context, themes, userName, password, email);
+                var dataContainer = new TestData();
+                dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
+                dataContainer.CreateThemes(new List<Theme>
+                                        { new Theme { Name = "hoho", Description = "hoho desc" },
+                                          new Theme { Name = "hoho", Description = "hoho desc" }});
+
+                new DatabaseFiller(context, dataContainer.Themes, dataContainer.User);
 
                 var getRootThemeByUserIdQuery = new GetRootThemesByUserIdQuery(context.Users
-                                                                               .FirstOrDefault(user => user.UserName == userName).Id);
+                                       .FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id);
                 var getRootThemeByUserIdHandler = new GetRootThemesByUserIdHandler(context);
 
                 //Act
                 var result = await getRootThemeByUserIdHandler.Handle(getRootThemeByUserIdQuery, CancellationToken.None);
 
                 //Assert
-                Assert.Equal(2, result.Count());
-                foreach(var theme in themes)
+                Assert.Equal(dataContainer.Themes.Count(), result.Count());
+                foreach(var theme in dataContainer.Themes)
                 {
-                    Assert.NotNull(result.FirstOrDefault(thm => thm.Name == theme.Name && thm.Desription == theme.Description));
+                    Assert.NotNull(result.FirstOrDefault(thm => thm.Name == theme.Name));
                 }
             });
         }
@@ -65,44 +59,64 @@ namespace LearningEngine.IntegrationTests.Handlers
             await UseContext(async (context) =>
             {
                 //Arrange
-                var dataCreator = new DataCreator();
-                await dataCreator.PushDataIntoDatabase(context, new List<Theme>(), userName, password, email);
+                var dataContainer = new TestData();
+                dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
+                dataContainer.CreateThemes(new List<Theme> { });
+
+                new DatabaseFiller(context, dataContainer.Themes, dataContainer.User);
 
                 var getRootThemeByUserIdQuery = new GetRootThemesByUserIdQuery(context.Users
-                                                                               .FirstOrDefault(user => user.UserName == userName).Id);
+                                       .FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id);
                 var getRootThemeByUserIdHandler = new GetRootThemesByUserIdHandler(context);
 
+                Func<Task> getRootTheme = () => getRootThemeByUserIdHandler.Handle(getRootThemeByUserIdQuery, CancellationToken.None);
+
                 //Act
-                var exception = await Assert.ThrowsAsync <Exception>(() => getRootThemeByUserIdHandler.Handle(getRootThemeByUserIdQuery, 
-                                                                                                              CancellationToken.None));
+                var exception = await Assert.ThrowsAsync <Exception>(getRootTheme);
 
                 //Assert
-                Assert.Equal(CustomConstants.RootThemesNotFount, exception.Message);
+                Assert.Equal(ExceptionDescriptionConstants.RootThemesNotFount, exception.Message);
             });
         }
 
-        public class DataCreator
+        public class DatabaseFiller
         {
-            public async Task PushDataIntoDatabase(LearnEngineContext context, List<Theme> themes, 
-                                                   string userName, string password, string email)
+            public DatabaseFiller(LearnEngineContext context, List<Theme> themes, User user)
             {
                 var mock = new HasherMocks().HasherMock.Object;
-                var user = new User { Email = email, Password = mock.GetHash(password, userName), UserName = userName };
                 context.Users.Add(user);
 
-                foreach(var theme in themes)
+                foreach (var theme in themes)
                 {
                     context.Themes.Add(theme);
                 }
 
-                await context.SaveChangesAsync();
+                context.SaveChanges();
 
-                foreach(var theme in themes)
+                foreach (var theme in themes)
                 {
                     context.Permissions.Add(new Permission { Access = TypeAccess.Write, ThemeId = theme.Id, UserId = user.Id });
                 }
 
-                await context.SaveChangesAsync();
+                context.SaveChanges();
+            }
+        }
+
+        public class TestData
+        {
+            public User User { get; set; }
+            public List<Theme> Themes { get; set; }
+            public void CreateUser(string userName, string email, byte[] password)
+            {
+                User = new User { Email = email, Password = password, UserName = userName };
+            }
+            public void CreateThemes(List<Theme> themes)
+            {
+                Themes = new List<Theme>();
+                foreach (var theme in themes)
+                {
+                    Themes.Add(theme);
+                }
             }
         }
     }

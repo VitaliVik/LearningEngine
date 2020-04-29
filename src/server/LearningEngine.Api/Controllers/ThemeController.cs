@@ -36,7 +36,7 @@ namespace LearningEngine.Api.Controllers
         public async Task<IActionResult> CreateUserTheme([FromForm]CreateThemeViewModel vm)
         {
 
-            var command = new CreateUserThemeCommand(vm.UserName, vm.ThemeName, vm.Description, vm.IsPublic, vm.ParentThemeId);
+            var command = new CreateUserThemeCommand(this.GetUserName(), vm.ThemeName, vm.Description, vm.IsPublic, vm.ParentThemeId);
 
             await _mediator.Send(command);
 

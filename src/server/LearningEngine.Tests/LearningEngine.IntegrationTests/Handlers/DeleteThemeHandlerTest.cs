@@ -5,6 +5,7 @@ using LearningEngine.IntegrationTests.Fixtures;
 using LearningEngine.IntegrationTests.Fixtures.Mocks;
 using LearningEngine.Persistence.Handlers;
 using LearningEngine.Persistence.Models;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -17,111 +18,118 @@ namespace LearningEngine.IntegrationTests.Handlers
     [Collection("DatabaseCollection")]
     public class DeleteThemeHandlerTest : BaseContextTests<LearnEngineContext>
     {
-        #region fields
-        private string userName;
-        private string email;
-        private string password;
-        private string themeName;
-        private string themeDescription;
-        #endregion
-
         public DeleteThemeHandlerTest(LearningEngineFixture fixture)
             : base(fixture)
         {
-            userName = "Vasyan";
-            email = "sobaka@gmail.com";
-            password = "krytoiparol";
-            themeName = "test theme";
-            themeDescription = "for testing";
         }
 
         [Fact]
         public async Task DeleteThemeHandler_WithValidArguments_ShouldReturnNull()
         {
-            //Arrange
             await UseContext(async (context) =>
             {
                 //Arrange
-                var dataCreator = new DataCreator();
-                await dataCreator.PushDataIntoDatabase(context, userName, email, password, themeName, 
-                                                       themeDescription, TypeAccess.Write);
+                var dataContainer = new TestData();
+                dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
+                dataContainer.CreateTheme("test theme", "for testing");
 
-                var deleteThemeCommand = new DeleteThemeCommand(context.Themes.FirstOrDefault(theme => theme.Name == themeName).Id,
-                                                                context.Users.FirstOrDefault(user => user.UserName == userName).Id);
+                new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Write);
+
+                var deleteThemeCommand = new DeleteThemeCommand
+                                                (context.Themes.FirstOrDefault(theme => theme.Name == dataContainer.Theme.Name).Id,                                             
+                                                context.Users.FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id);
                 var deleteThemeHandler = new DeleteThemeHandler(context);
 
                 //Act
                 await deleteThemeHandler.Handle(deleteThemeCommand, CancellationToken.None);
 
                 //Assert
-                Assert.Null(await context.Themes.FirstOrDefaultAsync(theme => theme.Name == themeName));
+                Assert.Null(await context.Themes.FirstOrDefaultAsync(theme => theme.Name == dataContainer.Theme.Name));
             });
         }
 
         [Fact]
         public async Task DeleteThemeHandler_WithInvalidPermission_ShouldReturnException()
         {
-            //Arrange
             await UseContext(async (context) =>
             {
                 //Arrange
-                var dataCreator = new DataCreator();
-                await dataCreator.PushDataIntoDatabase(context, userName, email, password, themeName,
-                                                       themeDescription, TypeAccess.Read);
+                var dataContainer = new TestData();
+                dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
+                dataContainer.CreateTheme("test theme", "for testing");
 
-                var deleteThemeCommand = new DeleteThemeCommand(context.Themes.FirstOrDefault(theme => theme.Name == themeName).Id,
-                                                                context.Users.FirstOrDefault(user => user.UserName == userName).Id);
+                new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Read);
+
+                var deleteThemeCommand = new DeleteThemeCommand
+                                                (context.Themes.FirstOrDefault(theme => theme.Name == dataContainer.Theme.Name).Id,
+                                                context.Users.FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id);
                 var deleteThemeHandler = new DeleteThemeHandler(context);
 
+                Func<Task> deleteTheme = () => deleteThemeHandler.Handle(deleteThemeCommand, CancellationToken.None);
+
                 //Act
-                Exception exception = await Assert.ThrowsAsync<Exception>(() => deleteThemeHandler.Handle(deleteThemeCommand, 
-                                                                                                    CancellationToken.None));
+                Exception exception = await Assert.ThrowsAsync<Exception>(deleteTheme);
 
                 //Assert
-                Assert.Equal(CustomConstants.NoRightsForDeleting, exception.Message);
+                Assert.Equal(ExceptionDescriptionConstants.NoRightsForDeleting, exception.Message);
             });
         }
 
         [Fact]
         public async Task DeleteThemeHandler_WithInvalidTheme_ShouldReturnException()
         {
-            //Arrange
             await UseContext(async (context) =>
             {
                 //Arrange
-                var dataCreator = new DataCreator();
-                await dataCreator.PushDataIntoDatabase(context, userName, email, password, themeName,
-                                                       themeDescription, TypeAccess.Read);
+                var dataContainer = new TestData();
+                dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
+                dataContainer.CreateTheme("test theme", "for testing");
 
-                var deleteThemeCommand = new DeleteThemeCommand(context.Themes.FirstOrDefault(theme => theme.Name == "dotNet").Id,
-                                                                context.Users.FirstOrDefault(user => user.UserName == userName).Id);
+                new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Read);
+
+                var deleteThemeCommand = new DeleteThemeCommand
+                                                (context.Themes.FirstOrDefault(theme => theme.Name == "dotNet").Id,
+                                                context.Users.FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id);
                 var deleteThemeHandler = new DeleteThemeHandler(context);
 
+                Func<Task> deleteTheme = () => deleteThemeHandler.Handle(deleteThemeCommand, CancellationToken.None);
+
                 //Act
-                Exception exception = await Assert.ThrowsAsync<Exception>(() => deleteThemeHandler.Handle(deleteThemeCommand,
-                                                                                                    CancellationToken.None));
+                Exception exception = await Assert.ThrowsAsync<Exception>(deleteTheme);
                 
                 //Assert
-                Assert.Equal(CustomConstants.ThemeNotFound, exception.Message);
+                Assert.Equal(ExceptionDescriptionConstants.ThemeNotFound, exception.Message);
             });
         }
 
-        public class DataCreator
+        public class DatabaseFiller
         {
-            public async Task PushDataIntoDatabase(LearnEngineContext context, string userName, string email, string password,
-                                       string themeName, string themeDescription, TypeAccess userPermission)
+            public DatabaseFiller(LearnEngineContext context, User user, Theme theme, TypeAccess userPermission)
             {
                 var mock = new HasherMocks().HasherMock.Object;
-                var user = new User { Email = email, Password = mock.GetHash(password, userName), UserName = userName };
-                var theme = new Theme { Name = themeName, Description = themeDescription, IsPublic = true };
                 context.Users.Add(user);
                 context.Themes.Add(theme);
 
-                await context.SaveChangesAsync();
+                context.SaveChanges();
 
                 context.Permissions.Add(new Permission { Access = userPermission, ThemeId = theme.Id, UserId = user.Id });
 
-                await context.SaveChangesAsync();
+                context.SaveChanges();
+            }
+
+        }
+
+        public class TestData
+        {
+            public User User { get; set; }
+            public Theme Theme { get; set; }
+            public void CreateUser(string userName, string email, byte[] password)
+            {
+                User = new User { Email = email, Password = password, UserName = userName };
+            }
+            public void CreateTheme(string name, string description)
+            {
+                Theme = new Theme { Name = name, Description = description };
             }
         }
     }
