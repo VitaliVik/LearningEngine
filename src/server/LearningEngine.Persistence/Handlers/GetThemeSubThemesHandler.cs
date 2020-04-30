@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace LearningEngine.Persistence.Handlers
 {
-    public class GetThemeSubThemesHandler : IRequestHandler<GetThemeSubThemesQuery, List<ThemeDto>>
+    public class GetThemeSubThemesHandler : IRequestHandler<GetThemeSubThemesQuery, List<ThemeHeaderDto>>
     {
         readonly LearnEngineContext _context;
 
@@ -21,7 +21,7 @@ namespace LearningEngine.Persistence.Handlers
             _context = context;
         }
 
-        public async Task<List<ThemeDto>> Handle(GetThemeSubThemesQuery request, CancellationToken cancellationToken)
+        public async Task<List<ThemeHeaderDto>> Handle(GetThemeSubThemesQuery request, CancellationToken cancellationToken)
         {
             var theme = await _context.Themes
                 .Include(thm => thm.SubThemes)
@@ -30,7 +30,13 @@ namespace LearningEngine.Persistence.Handlers
             if (theme != null)
             {
                 var themes = theme.SubThemes
-                    .Select(thm => new ThemeDto {Name = thm.Name, Desription = thm.Description, IsPublic = thm.IsPublic})
+                    .Select(thm => new ThemeHeaderDto 
+                    {
+                        Id = thm.Id, 
+                        Name = thm.Name, 
+                        Description = thm.Description, 
+                        IsPublic = thm.IsPublic 
+                    })
                     .ToList();
 
                 return themes;

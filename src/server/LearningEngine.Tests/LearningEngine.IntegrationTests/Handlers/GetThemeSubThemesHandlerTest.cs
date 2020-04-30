@@ -52,10 +52,10 @@ namespace LearningEngine.IntegrationTests.Handlers
                 Assert.NotNull(result);
                 Assert.Equal(2, result.Count);
                 Assert.NotNull(result.FirstOrDefault(thm => thm.Name == theme1.Name));
-                Assert.Equal(theme1.Description, result.FirstOrDefault(thm => thm.Name == theme1.Name).Desription);
+                Assert.Equal(theme1.Description, result.FirstOrDefault(thm => thm.Name == theme1.Name).Description);
                 Assert.Equal(theme1.IsPublic, result.FirstOrDefault(thm => thm.Name == theme1.Name).IsPublic);
                 Assert.NotNull(result.FirstOrDefault(thm => thm.Name == theme2.Name));
-                Assert.Equal(theme2.Description, result.FirstOrDefault(thm => thm.Name == theme2.Name).Desription);
+                Assert.Equal(theme2.Description, result.FirstOrDefault(thm => thm.Name == theme2.Name).Description);
                 Assert.Equal(theme2.IsPublic, result.FirstOrDefault(thm => thm.Name == theme2.Name).IsPublic);
             });
         }

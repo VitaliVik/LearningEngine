@@ -38,10 +38,11 @@ namespace LearningEngine.IntegrationTests.Handlers
                 var result = await handler.Handle(query, CancellationToken.None);
 
                 Assert.NotNull(result);
-                Assert.Equal(2, result.Claims.Count());
+                Assert.Equal(3, result.Claims.Count());
                 Assert.Equal("somename", result.Claims.FirstOrDefault(clm => clm.Type == ClaimsIdentity.DefaultNameClaimType).Value);
                 Assert.Equal("user", result.Claims.FirstOrDefault(clm => clm.Type == ClaimsIdentity.DefaultRoleClaimType).Value);
-
+                Assert.Equal(context.Users.FirstOrDefault(user => user.UserName == "somename").Id,
+                             int.Parse(result.Claims.FirstOrDefault(clm => clm.Type == "UserId").Value));
             });
         }
 
