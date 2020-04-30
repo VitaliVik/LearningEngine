@@ -65,9 +65,8 @@ namespace LearningEngine.IntegrationTests.Handlers
                                                 context.Users.FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id);
                 var deleteThemeHandler = new DeleteThemeHandler(context);
 
-                Func<Task> deleteTheme = () => deleteThemeHandler.Handle(deleteThemeCommand, CancellationToken.None);
-
                 //Act
+                Func<Task> deleteTheme = () => deleteThemeHandler.Handle(deleteThemeCommand, CancellationToken.None);
                 Exception exception = await Assert.ThrowsAsync<Exception>(deleteTheme);
 
                 //Assert
@@ -92,9 +91,8 @@ namespace LearningEngine.IntegrationTests.Handlers
                                                 context.Users.FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id);
                 var deleteThemeHandler = new DeleteThemeHandler(context);
 
-                Func<Task> deleteTheme = () => deleteThemeHandler.Handle(deleteThemeCommand, CancellationToken.None);
-
                 //Act
+                Func<Task> deleteTheme = () => deleteThemeHandler.Handle(deleteThemeCommand, CancellationToken.None);
                 Exception exception = await Assert.ThrowsAsync<Exception>(deleteTheme);
                 
                 //Assert

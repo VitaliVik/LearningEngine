@@ -69,9 +69,9 @@ namespace LearningEngine.IntegrationTests.Handlers
                                        .FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id);
                 var getRootThemeByUserIdHandler = new GetRootThemesByUserIdHandler(context);
 
-                Func<Task> getRootTheme = () => getRootThemeByUserIdHandler.Handle(getRootThemeByUserIdQuery, CancellationToken.None);
-
                 //Act
+
+                Func<Task> getRootTheme = () => getRootThemeByUserIdHandler.Handle(getRootThemeByUserIdQuery, CancellationToken.None);
                 var exception = await Assert.ThrowsAsync <Exception>(getRootTheme);
 
                 //Assert
