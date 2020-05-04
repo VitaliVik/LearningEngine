@@ -25,14 +25,14 @@ namespace LearningEngine.Persistence.Handlers
                 .FirstOrDefaultAsync(thm => thm.Id == request.ThemeId);
             if (theme != null)
             {
-                var themeDto = new ThemeDto { Id = theme.Id, Name = theme.Name, Desription = theme.Description, IsPublic = theme.IsPublic };
+                var themeDto = new ThemeDto { Id = theme.Id, Name = theme.Name, Desсription = theme.Description, IsPublic = theme.IsPublic };
                 if (theme.ParentTheme != null)
                 {
                     themeDto.ParentTheme = new ThemeDto
                     {
                         Id = theme.ParentTheme.Id,
                         Name = theme.ParentTheme.Name,
-                        Desription = theme.ParentTheme.Description,
+                        Desсription = theme.ParentTheme.Description,
                         IsPublic = theme.ParentTheme.IsPublic
                     };
                 }

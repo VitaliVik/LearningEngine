@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Query;
+﻿using LearningEngine.Domain.Enum;
+using LearningEngine.Domain.Query;
 using LearningEngine.IntegrationTests.Fixtures;
 using LearningEngine.Persistence.Handlers;
 using LearningEngine.Persistence.Models;
@@ -42,9 +43,37 @@ namespace LearningEngine.IntegrationTests.Handlers
                     Description = "test theme2",
                     ParentTheme = parentTheme
                 };
+                var user = new User
+                {
+                    UserName = "fakeName",
+                    Password = new byte[0],
+                    Email = "fakeemail.gmail.com"
+                };
                 context.Themes.AddRange(parentTheme, theme1, theme2);
+                context.Users.Add(user);
                 context.SaveChanges();
-                var query = new GetThemeSubThemesQuery(parentTheme.Id);
+                var permission1 = new Permission
+                {
+                    Access = TypeAccess.Write,
+                    UserId = user.Id,
+                    ThemeId = parentTheme.Id
+                };
+                var permission2 = new Permission
+                {
+                    Access = TypeAccess.Write,
+                    UserId = user.Id,
+                    ThemeId = theme1.Id
+                };
+                var permission3 = new Permission
+                {
+                    Access = TypeAccess.Write,
+                    UserId = user.Id,
+                    ThemeId = theme2.Id
+                };
+                context.Permissions.AddRange(permission1, permission2, permission3);
+                context.SaveChanges();
+
+                var query = new GetThemeSubThemesQuery(parentTheme.Id, user.Id);
                 var handler = new GetThemeSubThemesHandler(context);
 
                 var result = await handler.Handle(query, CancellationToken.None);
@@ -52,10 +81,10 @@ namespace LearningEngine.IntegrationTests.Handlers
                 Assert.NotNull(result);
                 Assert.Equal(2, result.Count);
                 Assert.NotNull(result.FirstOrDefault(thm => thm.Name == theme1.Name));
-                Assert.Equal(theme1.Description, result.FirstOrDefault(thm => thm.Name == theme1.Name).Description);
+                Assert.Equal(theme1.Description, result.FirstOrDefault(thm => thm.Name == theme1.Name).Desсription);
                 Assert.Equal(theme1.IsPublic, result.FirstOrDefault(thm => thm.Name == theme1.Name).IsPublic);
                 Assert.NotNull(result.FirstOrDefault(thm => thm.Name == theme2.Name));
-                Assert.Equal(theme2.Description, result.FirstOrDefault(thm => thm.Name == theme2.Name).Description);
+                Assert.Equal(theme2.Description, result.FirstOrDefault(thm => thm.Name == theme2.Name).Desсription);
                 Assert.Equal(theme2.IsPublic, result.FirstOrDefault(thm => thm.Name == theme2.Name).IsPublic);
             });
         }

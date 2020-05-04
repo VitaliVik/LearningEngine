@@ -9,10 +9,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
+using LearningEngine.Domain.Constants;
 
 namespace LearningEngine.Persistence.Handlers
 {
-    public class GetThemeSubThemesHandler : IRequestHandler<GetThemeSubThemesQuery, List<ThemeHeaderDto>>
+    public class GetThemeSubThemesHandler : IRequestHandler<GetThemeSubThemesQuery, List<ThemeDto>>
     {
         readonly LearnEngineContext _context;
 
@@ -21,21 +22,30 @@ namespace LearningEngine.Persistence.Handlers
             _context = context;
         }
 
-        public async Task<List<ThemeHeaderDto>> Handle(GetThemeSubThemesQuery request, CancellationToken cancellationToken)
+        public async Task<List<ThemeDto>> Handle(GetThemeSubThemesQuery request, CancellationToken cancellationToken)
         {
             var theme = await _context.Themes
                 .Include(thm => thm.SubThemes)
                 .FirstOrDefaultAsync(thm => thm.Id == request.ThemeId);
 
+            var permissions = await _context.Permissions.FirstOrDefaultAsync(permission => permission.UserId == request.UserId &&
+                                                                                           permission.ThemeId == request.ThemeId);
+
+            if(permissions == null)
+            {
+                throw new Exception(ExceptionDescriptionConstants.NoPermissions);
+            }
+
             if (theme != null)
             {
                 var themes = theme.SubThemes
-                    .Select(thm => new ThemeHeaderDto 
+                    .Select(thm => new ThemeDto
                     {
                         Id = thm.Id, 
-                        Name = thm.Name, 
-                        Description = thm.Description, 
-                        IsPublic = thm.IsPublic 
+                        Name = thm.Name,
+                        Desсription = thm.Description, 
+                        IsPublic = thm.IsPublic,
+                        Notes = thm.Notes?.Select(note => new NoteDto { Content = note.Content, Title = note.Title }).ToList()
                     })
                     .ToList();
 

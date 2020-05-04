@@ -14,6 +14,7 @@ using System.Net.WebSockets;
 using LearningEngine.Api.Authorization;
 using LearningEngine.Api.Extensions;
 using LearningEngine.Domain.Enum;
+using LearningEngine.Domain.DTO;
 
 namespace LearningEngine.Api.Controllers
 {
@@ -71,14 +72,13 @@ namespace LearningEngine.Api.Controllers
 
 
         [HttpGet("{themeId}/subthemes")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetSubThemes(int themeId)
         {
-            var query = new GetThemeSubThemesQuery(themeId);
+            var query = new GetThemeSubThemesQuery(themeId, this.GetUserId());
 
             var result = await _mediator.Send(query);
 
-            return Ok(result);
+            return Ok(new { themes = result, isRoot = false });
         }
 
 
@@ -89,7 +89,7 @@ namespace LearningEngine.Api.Controllers
 
             var result = await _mediator.Send(userId);
             
-            return Ok(result);
+            return Ok(new { themes = result, isRoot = true });
         }
 
         [HttpPost("linkUserToTheme")]
@@ -98,6 +98,23 @@ namespace LearningEngine.Api.Controllers
             var command = new LinkUserToThemeCommand(this.GetUserName(), themeName, typeAccess);
 
             await _mediator.Send(command);
+
+            return Ok();
+        }
+
+        [HttpPut("editTheme")]
+        public async Task<IActionResult> EditTheme([FromForm]ThemeDto themeDto)
+        {
+            var command = new EditThemeCommand(themeDto, this.GetUserId());
+
+            try
+            {
+                await _mediator.Send(command);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
 
             return Ok();
         }

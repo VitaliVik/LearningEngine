@@ -8,7 +8,7 @@ namespace LearningEngine.Domain.DTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Desription { get; set; }
+        public string Desсription { get; set; }
         public bool IsPublic { get; set; }
         public ThemeDto ParentTheme { get; set; }
         public List<ThemeDto> SubThemes { get; set; }

@@ -35,8 +35,7 @@ namespace LearningEngine.Persistence.Handlers
             var result = themes.Select(theme => new ThemeHeaderDto
             {
                 Id = theme.Id,
-                Name = theme.Name,
-                Description = theme.Description
+                Name = theme.Name
             }).ToListAsync();
 
             return result;
