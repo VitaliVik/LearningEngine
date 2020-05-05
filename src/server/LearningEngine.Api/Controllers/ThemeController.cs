@@ -15,6 +15,7 @@ using LearningEngine.Api.Authorization;
 using LearningEngine.Api.Extensions;
 using LearningEngine.Domain.Enum;
 using LearningEngine.Domain.DTO;
+using LearningEngine.Application.UseCase.Query;
 
 namespace LearningEngine.Api.Controllers
 {
@@ -36,7 +37,6 @@ namespace LearningEngine.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUserTheme([FromForm]CreateThemeViewModel vm)
         {
-
             var command = new CreateUserThemeCommand(this.GetUserName(), vm.ThemeName, vm.Description, vm.IsPublic, vm.ParentThemeId);
 
             await _mediator.Send(command);
@@ -44,6 +44,22 @@ namespace LearningEngine.Api.Controllers
             return Ok();
         }
         
+        [HttpPost("createcard")]
+        public async Task<IActionResult> CreateCard([FromForm]CreateCardViewModel vm)
+        {
+            var createCardCommand = new CreateCardCommand(this.GetUserId(), vm.ThemeId, vm.Question, vm.Answer);
+
+            try
+            {
+                await _mediator.Send(createCardCommand);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return Ok();
+        }
 
         [HttpDelete("{themeId}")]
         public async Task<IActionResult> DeleteTheme([FromRoute] int themeId)
@@ -74,7 +90,7 @@ namespace LearningEngine.Api.Controllers
         [HttpGet("{themeId}/subthemes")]
         public async Task<IActionResult> GetSubThemes(int themeId)
         {
-            var query = new GetThemeSubThemesQuery(themeId, this.GetUserId());
+            var query = new GetUserThemesWithCardsQuery(this.GetUserId(), themeId);
 
             var result = await _mediator.Send(query);
 

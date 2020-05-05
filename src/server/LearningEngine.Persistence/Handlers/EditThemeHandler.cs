@@ -36,7 +36,7 @@ namespace LearningEngine.Persistence.Handlers
 
             if(permission == null || permission.Access != TypeAccess.Write)
             {
-                throw new Exception(ExceptionDescriptionConstants.NoRightsForEditing);
+                throw new Exception(ExceptionDescriptionConstants.NoPermissions);
             }
 
             theme.Name = request.ThemeDto.Name;

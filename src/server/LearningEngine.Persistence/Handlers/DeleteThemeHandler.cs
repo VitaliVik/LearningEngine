@@ -31,7 +31,7 @@ namespace LearningEngine.Persistence.Handlers
 
             if(permission.Access != TypeAccess.Write)
             {
-                throw new Exception(ExceptionDescriptionConstants.NoRightsForDeleting);
+                throw new Exception(ExceptionDescriptionConstants.NoPermissions);
             }
 
             var theme = await _context.Themes.FirstOrDefaultAsync(theme => theme.Id == permission.ThemeId);

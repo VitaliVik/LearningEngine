@@ -87,7 +87,7 @@ namespace LearningEngine.IntegrationTests.Handlers
                 Exception exception = await Assert.ThrowsAsync<Exception>(editTheme);
 
                 //Assert
-                Assert.Equal(ExceptionDescriptionConstants.NoRightsForEditing, exception.Message);
+                Assert.Equal(ExceptionDescriptionConstants.NoPermissions, exception.Message);
             });
         }
 

@@ -13,5 +13,6 @@ namespace LearningEngine.Domain.DTO
         public ThemeDto ParentTheme { get; set; }
         public List<ThemeDto> SubThemes { get; set; }
         public List<NoteDto> Notes { get; set; }
+        public List<CardDto> Cards { get; set; }
     }
 }
