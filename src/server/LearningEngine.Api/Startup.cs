@@ -108,7 +108,7 @@ namespace LearningEngine.Api
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("../swagger/v1/swagger.json", "MyAPI V1");
+                c.SwaggerEndpoint("../swagger/v1/swagger.json", "Learning Engine Api");
             });
 
             app.UseAuthentication();

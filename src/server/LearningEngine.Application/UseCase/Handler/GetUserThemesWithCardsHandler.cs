@@ -8,11 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace LearningEngine.Application.UseCase.Handler
 {
-    public class GetUserThemesWithCardsHandler : BaseUseCaseHandler<List<ThemeDto>, GetUserThemesWithCardsQuery>
+    public class GetUserThemesWithCardsHandler : BaseUseCaseHandler<ThemeDto, GetThemeFullInfoQuery>
     {
         private readonly IMediator _mediator;
 
@@ -21,22 +22,25 @@ namespace LearningEngine.Application.UseCase.Handler
             _mediator = mediator;
         }
 
-        protected override async Task<List<ThemeDto>> Action(GetUserThemesWithCardsQuery request)
+        protected override async Task<ThemeDto> Action(GetThemeFullInfoQuery request)
         {
+            var getThemeHeaderQuery = new GetThemeHeaderQuery(request.ThemeId);
+            var theme = await _mediator.Send(getThemeHeaderQuery);
+            if(theme == null)
+            {
+                throw new Exception(ExceptionDescriptionConstants.ThemeNotFound);
+            }
+
+            var getThemeCardsQuery = new GetThemeCardsQuery(request.ThemeId);
+            theme.Cards = await _mediator.Send(getThemeCardsQuery);
+
+            var getThemeNotesQuery = new GetThemeNotesQuery(request.ThemeId);
+            theme.Notes = await _mediator.Send(getThemeNotesQuery, CancellationToken.None);
+
             var getThemeSubThemesQuery = new GetThemeSubThemesQuery(request.ThemeId, request.UserId);
-            var themes = await _mediator.Send(getThemeSubThemesQuery);
-            if(!themes.Any())
-            {
-                throw new Exception(ExceptionDescriptionConstants.SubThemesNotFound);
-            }
+            theme.SubThemes = await _mediator.Send(getThemeSubThemesQuery);
 
-            foreach(var theme in themes)
-            {
-                var getThemeCardsQuery = new GetThemeCardsQuery(theme.Id);
-                theme.Cards = await _mediator.Send(getThemeCardsQuery);
-            }
-
-            return themes;
+            return theme;
         }
     }
 }

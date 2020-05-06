@@ -44,7 +44,8 @@ namespace LearningEngine.IntegrationTests.Handlers
                         Name = dataContainer.Theme.Name,
                         IsPublic = dataContainer.Theme.IsPublic
                     },
-                    dataContainer.User.Id);
+                    dataContainer.User.Id,
+                    dataContainer.Theme.Id);
                 var handler = new EditThemeHandler(context);
 
                 //Act
@@ -79,7 +80,8 @@ namespace LearningEngine.IntegrationTests.Handlers
                         Name = dataContainer.Theme.Name,
                         IsPublic = dataContainer.Theme.IsPublic
                     },
-                    dataContainer.User.Id);
+                    dataContainer.User.Id,
+                    dataContainer.Theme.Id);
                 var handler = new EditThemeHandler(context);
 
                 //Act
@@ -111,7 +113,8 @@ namespace LearningEngine.IntegrationTests.Handlers
                         Name = "wrong theme",
                         IsPublic = dataContainer.Theme.IsPublic
                     },
-                    dataContainer.User.Id);
+                    dataContainer.User.Id,
+                    -1);
                 var handler = new EditThemeHandler(context);
 
                 //Act

@@ -39,36 +39,33 @@ namespace LearningEngine.Api.Controllers
         {
             var command = new CreateUserThemeCommand(this.GetUserName(), vm.ThemeName, vm.Description, vm.IsPublic, vm.ParentThemeId);
 
-            await _mediator.Send(command);
-
-            return Ok();
-        }
-        
-        [HttpPost("createcard")]
-        public async Task<IActionResult> CreateCard([FromForm]CreateCardViewModel vm)
-        {
-            var createCardCommand = new CreateCardCommand(this.GetUserId(), vm.ThemeId, vm.Question, vm.Answer);
-
             try
             {
-                await _mediator.Send(createCardCommand);
+                await _mediator.Send(command);
+
+                return Ok();
             }
             catch(Exception e)
             {
                 return BadRequest(e.Message);
             }
-
-            return Ok();
         }
-
+        
         [HttpDelete("{themeId}")]
         public async Task<IActionResult> DeleteTheme([FromRoute] int themeId)
         {
             var command = new DeleteThemeCommand(themeId, this.GetUserId());
 
-            await _mediator.Send(command);
+            try
+            {
+                await _mediator.Send(command);
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
 
@@ -78,34 +75,55 @@ namespace LearningEngine.Api.Controllers
         {
             var query = new GetThemeHeaderQuery(themeId);
 
-            var result = await _mediator.Send(query);
+            try
+            {
+                var result = await _mediator.Send(query);
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
 
         
 
 
-        [HttpGet("{themeId}/subthemes")]
-        public async Task<IActionResult> GetSubThemes(int themeId)
+        [HttpGet("{themeId}/fullInfo")]
+        public async Task<IActionResult> GetFullInfo(int themeId)
         {
-            var query = new GetUserThemesWithCardsQuery(this.GetUserId(), themeId);
+            var query = new GetThemeFullInfoQuery(this.GetUserId(), themeId);
 
-            var result = await _mediator.Send(query);
+            try
+            {
+                var result = await _mediator.Send(query);
 
-            return Ok(new { themes = result, isRoot = false });
+                return Ok(new { theme = result, isRoot = false });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
 
-        [HttpGet("getUserThemes")]
-        public async Task<IActionResult> GetUserThemes()
+        [HttpGet("userRootThemes")]
+        public async Task<IActionResult> GetUserRootThemes()
         {
-            var userId = new GetRootThemesByUserIdQuery(this.GetUserId());
+            var query = new GetRootThemesByUserIdQuery(this.GetUserId());
 
-            var result = await _mediator.Send(userId);
-            
-            return Ok(new { themes = result, isRoot = true });
+            try
+            {
+                var result = await _mediator.Send(query);
+
+                return Ok(new { themes = result, isRoot = true });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost("linkUserToTheme")]
@@ -113,15 +131,22 @@ namespace LearningEngine.Api.Controllers
         {
             var command = new LinkUserToThemeCommand(this.GetUserName(), themeName, typeAccess);
 
-            await _mediator.Send(command);
+            try
+            {
+                var result = await _mediator.Send(command);
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
-        [HttpPut("editTheme")]
-        public async Task<IActionResult> EditTheme([FromForm]ThemeDto themeDto)
+        [HttpPut("{themeId}")]
+        public async Task<IActionResult> EditTheme([FromForm]ThemeDto themeDto, [FromRoute]int themeId)
         {
-            var command = new EditThemeCommand(themeDto, this.GetUserId());
+            var command = new EditThemeCommand(themeDto, this.GetUserId(), themeId);
 
             try
             {

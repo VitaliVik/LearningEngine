@@ -7,11 +7,12 @@ namespace LearningEngine.Domain.Command
     {
         public ThemeDto ThemeDto { get; private set; }
         public int UserId { get; private set; }
-
-        public EditThemeCommand(ThemeDto themeDto, int userId)
+        public int ThemeId { get; private set; }
+        public EditThemeCommand(ThemeDto themeDto, int userId, int themeId)
         {
             ThemeDto = themeDto;
             UserId = userId;
+            ThemeId = themeId;
         }
     }
 }

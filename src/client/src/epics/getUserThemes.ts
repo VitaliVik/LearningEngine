@@ -7,7 +7,7 @@ import axios from 'axios';
 import {fetchThemes, getThemesFail, getThemeSuccess} from '../actions/fetchTheme';
 import { store } from '..';
 
-const url = process.env.REACT_APP_SERVER_URL + "api/theme/getUserThemes";
+const url = process.env.REACT_APP_SERVER_URL + "api/theme/userRootThemes";
 
 export default function getUserThemesEpic(action$: any) {
     return action$
