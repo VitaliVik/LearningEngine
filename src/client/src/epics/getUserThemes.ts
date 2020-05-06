@@ -17,7 +17,7 @@ export default function getUserThemesEpic(action$: any) {
             return await axios.get(url, { headers: { Authorization } });
         })
         .map((res:any) => { 
-            return getThemeSuccess({themes: res.data.themes,isRoot: res.data.isRoot} )
+            return getThemeSuccess({themes: res.data})
         })
         .catch((error:any) => Observable.of(getThemesFail(error)));
 }

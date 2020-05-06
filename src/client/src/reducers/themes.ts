@@ -6,8 +6,7 @@ import { fetchThemes, getThemesFail, getThemeSuccess, fetchFullInfo, getFullInfo
 interface Theme{
     isLoading: boolean,
     error: any,
-    themes : [],
-    isRoot : boolean
+    themes : []
 }
 
 interface FullInfo{
@@ -26,7 +25,6 @@ interface FullInfo{
 const initialStateForRootThemes: Theme = {
     isLoading: false,
     error: undefined,
-    isRoot : false,
     themes: []
 }
 
@@ -50,8 +48,7 @@ const rootThemesReduser = new ReducerBuilder<Theme>()
     .handle(getThemeSuccess, (_, action) => ({
         isLoading: false,
         error: "",
-        themes: action.payload.themes,
-        isRoot : action.payload.isRoot
+        themes: action.payload.themes
     }))
     .build();
 

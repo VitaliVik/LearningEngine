@@ -7,8 +7,7 @@ export const fetchFullInfo = createAction('FETCH_FULL_INFO', (id : number) => id
 export const getThemesFail = createAction('GET_THEMES_FAIL', (message: string) => message);
 
 export const getThemeSuccess = createAction<GetThemeSuccessPayload, ThemeResponce>('GET_THEMES_SUCCESS', (res) => ({
-    themes : res.themes,
-    isRoot : res.isRoot
+    themes : res.themes
 }));
 
 export const getFullInfoAboutThemeSuccess = createAction<GetFullInfoAboutThemePayload, GetFullInfoAboutThemeResponce, boolean>
@@ -23,9 +22,9 @@ export const getFullInfoAboutThemeSuccess = createAction<GetFullInfoAboutThemePa
     isRoot : isRoot
 }));
 
-export interface GetThemeSuccessPayload{themes : [], isRoot: boolean}
+export interface GetThemeSuccessPayload{themes : []}
 
-interface ThemeResponce{themes : [], isRoot: boolean}
+interface ThemeResponce{themes : []}
 
 export interface GetFullInfoAboutThemePayload{
     id : Number, 

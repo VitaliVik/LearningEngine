@@ -118,7 +118,7 @@ namespace LearningEngine.Api.Controllers
             {
                 var result = await _mediator.Send(query);
 
-                return Ok(new { themes = result, isRoot = true });
+                return Ok(result);
             }
             catch (Exception e)
             {
