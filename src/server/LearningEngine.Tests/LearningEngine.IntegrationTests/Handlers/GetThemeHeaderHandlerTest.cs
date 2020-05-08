@@ -41,12 +41,12 @@ namespace LearningEngine.IntegrationTests.Handlers
 
                 Assert.NotNull(result);
                 Assert.Equal(theme.Name, result.Name);
-                Assert.Equal(theme.Description, result.Desription);
+                Assert.Equal(theme.Description, result.Desсription);
                 Assert.Equal(theme.Id, result.Id);
                 Assert.NotNull(result.ParentTheme);
                 Assert.Equal(parentTheme.Id, result.ParentTheme.Id);
                 Assert.Equal(parentTheme.Name, result.ParentTheme.Name);
-                Assert.Equal(parentTheme.Description, result.ParentTheme.Desription);
+                Assert.Equal(parentTheme.Description, result.ParentTheme.Desсription);
             });
         }
     }

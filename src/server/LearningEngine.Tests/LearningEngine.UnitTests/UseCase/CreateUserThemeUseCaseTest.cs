@@ -24,7 +24,7 @@ namespace LearningEngine.UnitTests.UseCase
         public async Task Success()
         {
             //arange
-            var td = new TestData("rolit", "test");
+            var td = new TestData("rolit", 1 ,"test");
             var mocks = new Mocks(td);
 
             //act
@@ -47,7 +47,7 @@ namespace LearningEngine.UnitTests.UseCase
         public async Task ThrowExceptionUserNotFound(string userName)
         {
             //arange
-            var td = new TestData(userName, "test");
+            var td = new TestData("rolit", 1, userName);
             var mocks = new Mocks(td);
 
             //act
@@ -66,7 +66,7 @@ namespace LearningEngine.UnitTests.UseCase
         public async Task ThrowExceptionIncorrectTheme(string themeName)
         {
             //arange
-            var td = new TestData("user", themeName);
+            var td = new TestData("user", 1, themeName);
             var mocks = new Mocks(td);
 
             //act
@@ -93,7 +93,7 @@ namespace LearningEngine.UnitTests.UseCase
                     .ReturnsAsync(new UserDto { UserName = td.User.UserName });
 
                 MockMediator.Setup(m => m.Send(It.IsAny<CreateThemeCommand>(), CancellationToken.None))
-                    .ReturnsAsync(new Unit());
+                    .ReturnsAsync(new int());
                 MockMediator.Setup(m => m.Send(It.Is<CreateThemeCommand>(c => c.ThemeName == null || c.ThemeName == ""), CancellationToken.None))
                     .Throws<Exception>();
 
@@ -112,22 +112,23 @@ namespace LearningEngine.UnitTests.UseCase
         }
         public class TestData
         {
-            public TestData(string userName, string themeName)
+            public TestData(string userName, int userId, string themeName)
             {
-                User = new User { UserName = userName };
+                User = new User { UserName = userName, Id = userId };
                 CreateUserThemeCommand = new CreateUserThemeCommand(
                     User.UserName,
                     themeName,
                     "TestDescription",
-                    true);
+                    true,
+                    User.Id);
                 GetUserByNameQuery = new GetUserByNameQuery(CreateUserThemeCommand.UserName);
                 CreateThemeCommand = new CreateThemeCommand(
                     CreateUserThemeCommand.ThemeName,
                     CreateUserThemeCommand.Description,
                     CreateUserThemeCommand.IsPublic);
                 LinkUserToTheme = new LinkUserToThemeCommand(
-                    User.UserName,
-                    CreateThemeCommand.ThemeName,
+                    User.Id,
+                    1,
                     TypeAccess.Read | TypeAccess.Write);
             }
             public User User { get; set; }

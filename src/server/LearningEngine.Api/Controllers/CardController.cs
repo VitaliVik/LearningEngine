@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LearningEngine.Api.Extensions;
+using LearningEngine.Api.ViewModels;
+using LearningEngine.Domain.Command;
 using LearningEngine.Domain.Query;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -18,6 +21,23 @@ namespace LearningEngine.Api.Controllers
         public CardController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpPost()]
+        public async Task<IActionResult> CreateCard([FromForm]CreateCardViewModel vm)
+        {
+            var createCardCommand = new CreateCardCommand(this.GetUserId(), vm.ThemeId, vm.Question, vm.Answer);
+
+            try
+            {
+                await _mediator.Send(createCardCommand);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return Ok();
         }
 
         [HttpGet("{themename}")]

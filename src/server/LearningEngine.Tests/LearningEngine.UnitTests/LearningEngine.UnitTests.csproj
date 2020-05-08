@@ -19,6 +19,7 @@
     <ProjectReference Include="..\..\LearningEngine.Application\LearningEngine.Application.csproj" />
     <ProjectReference Include="..\..\LearningEngine.Domain\LearningEngine.Domain.csproj" />
     <ProjectReference Include="..\..\LearningEngine.Persistence\LearningEngine.Persistence.csproj" />
+    <ProjectReference Include="..\LearningEngine.IntegrationTests\LearningEngine.IntegrationTests.csproj" />
   </ItemGroup>
 
 </Project>

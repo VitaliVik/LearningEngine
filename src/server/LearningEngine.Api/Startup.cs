@@ -21,6 +21,9 @@ using LearningEngine.Persistence.Transaction;
 using LearningEngine.Persistence.Utils;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Http;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
+using System.IO;
 
 namespace LearningEngine.Api
 {
@@ -36,6 +39,13 @@ namespace LearningEngine.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -90,10 +100,16 @@ namespace LearningEngine.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseSwagger();
             app.UseCors("defaultPolicy");
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseRouting();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("../swagger/v1/swagger.json", "Learning Engine Api");
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();
