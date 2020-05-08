@@ -5,13 +5,13 @@ namespace LearningEngine.Domain.Command
 {
     public class LinkUserToThemeCommand : IRequest
     {
-        public string UserName { get; private set; }
-        public string ThemeName { get; private set; }
+        public int UserId { get; private set; }
+        public int ThemeId { get; private set; }
         public TypeAccess Access { get; private set; }
-        public LinkUserToThemeCommand(string userName, string themeName, TypeAccess access)
+        public LinkUserToThemeCommand(int userId, int themeId, TypeAccess access)
         {
-            UserName = userName;
-            ThemeName = themeName;
+            UserId = userId;
+            ThemeId = themeId;
             Access = access;
         }
     }

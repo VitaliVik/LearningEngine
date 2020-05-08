@@ -20,9 +20,9 @@ namespace LearningEngine.Persistence.Handlers
         public async Task<Unit> Handle(LinkUserToThemeCommand request, CancellationToken cancellationToken)
         {
             var user = await _context.Users
-                .FirstOrDefaultAsync(usr => usr.UserName == request.UserName);
+                .FirstOrDefaultAsync(usr => usr.Id == request.UserId);
             var theme = await _context.Themes
-                .FirstOrDefaultAsync(thm => thm.Name == request.ThemeName);
+                .FirstOrDefaultAsync(thm => thm.Id == request.ThemeId);
             if (user == null)
             {
                 throw new Exception("Пользователь не найден");

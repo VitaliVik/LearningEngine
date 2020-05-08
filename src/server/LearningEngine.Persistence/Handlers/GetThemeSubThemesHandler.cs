@@ -28,14 +28,6 @@ namespace LearningEngine.Persistence.Handlers
                 .Include(thm => thm.SubThemes)
                 .FirstOrDefaultAsync(thm => thm.Id == request.ThemeId);
 
-            var permissions = await _context.Permissions.FirstOrDefaultAsync(permission => permission.UserId == request.UserId &&
-                                                                                           permission.ThemeId == request.ThemeId);
-
-            if(permissions == null)
-            {
-                throw new Exception(ExceptionDescriptionConstants.NoPermissions);
-            }
-
             if (theme != null)
             {
                 var themes = theme.SubThemes

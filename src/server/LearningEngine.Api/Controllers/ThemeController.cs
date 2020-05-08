@@ -37,7 +37,8 @@ namespace LearningEngine.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUserTheme([FromForm]CreateThemeViewModel vm)
         {
-            var command = new CreateUserThemeCommand(this.GetUserName(), vm.ThemeName, vm.Description, vm.IsPublic, vm.ParentThemeId);
+            var command = new CreateUserThemeCommand(this.GetUserName(), vm.ThemeName, vm.Description, 
+                                                     vm.IsPublic, this.GetUserId(), vm.ParentThemeId);
 
             try
             {
@@ -127,9 +128,9 @@ namespace LearningEngine.Api.Controllers
         }
 
         [HttpPost("linkUserToTheme")]
-        public async Task<IActionResult> LinkUserToTheme([FromForm]string themeName, [FromForm]TypeAccess typeAccess)
+        public async Task<IActionResult> LinkUserToTheme([FromForm]int themeId, [FromForm]TypeAccess typeAccess)
         {
-            var command = new LinkUserToThemeCommand(this.GetUserName(), themeName, typeAccess);
+            var command = new LinkThemeAndAllSubThemesToUserCommand(this.GetUserId(), themeId, typeAccess);
 
             try
             {

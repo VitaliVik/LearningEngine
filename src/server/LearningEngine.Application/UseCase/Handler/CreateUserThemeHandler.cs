@@ -30,8 +30,9 @@ namespace LearningEngine.Application.UseCase.Handler
             }
 
             var createThemeCommand = new CreateThemeCommand(request.ThemeName, request.Description, request.IsPublic, request.ParentThemeId);
-            await _mediator.Send(createThemeCommand);
-            var linkCommand = new LinkUserToThemeCommand(request.UserName, request.ThemeName, TypeAccess.Read | TypeAccess.Write);
+            var userId = await _mediator.Send(createThemeCommand);
+
+            var linkCommand = new LinkUserToThemeCommand(request.UserId, userId, TypeAccess.Read | TypeAccess.Write);
             await _mediator.Send(linkCommand);
 
             return default;
