@@ -90,10 +90,8 @@ namespace LearningEngine.Api.Controllers
 
 
         
-
-
         [HttpGet("{themeId}/fullInfo")]
-        public async Task<IActionResult> GetFullInfo(int themeId)
+        public async Task<IActionResult> GetFullInfo([FromRoute] int themeId)
         {
             var query = new GetThemeFullInfoQuery(this.GetUserId(), themeId);
 
