@@ -6,9 +6,10 @@ import { Link, Redirect } from 'react-router-dom';
 import { store } from '../..';
 import { accounts } from '../../reducers/accounts';
 import { reduxForm, Field, FormDecorator, Fields } from 'redux-form';
-import { required, maxLengthCreator, minLengthCreator, emailValidation } from '../../utils/validators/validators';
+import { maxLengthCreator, minLengthCreator, emailValidation } from '../../utils/validators/validators';
+import { required } from '../../utils/validators/validators';
+import { required as r, email, length, confirmation } from 'redux-form-validators';
 import './style.css';
-import { render } from '@testing-library/react';
 import { StateObservable } from 'redux-observable';
 
 interface RegistrationProps {
@@ -26,9 +27,6 @@ interface RegistrationData {
 
 const minLength6 = minLengthCreator(6);
 const maxLength16 = maxLengthCreator(16);
-const passwordConfirm = (value: string) => {
-    
-}
 
 class RegistrationForm extends React.Component<any, any, any> {
     render() {
@@ -83,21 +81,28 @@ const Form = (props: any) => {
                 component={renderField}
                 type='text'
                 placeholder='login'
-                validate={required}
+                validate={r()}
             />
             <Field
                 name='email'
                 component={renderField}
                 type='email'
                 placeholder='email'
-                validate={[required, emailValidation]}
+                validate={[r(), email()]}
             />
             <Field
                 name='password'
                 component={renderField}
                 type='password'
                 placeholder='password'
-                validate={[required, minLength6, maxLength16]}
+                validate={[r(), length({in: [6, 16], msg: 'Длина пароля должна быть от 6 до 16 символов!'}), maxLength16]}
+            />
+            <Field
+                name='passwordConfirmation'
+                component={renderField}
+                type='password'
+                placeholder='confirm your password'
+                validate={[r(), confirmation({field: 'password', msg: 'Пароли не совпадают!'}), maxLength16]}
             />
             <button>Регестрация</button>
         </form>
