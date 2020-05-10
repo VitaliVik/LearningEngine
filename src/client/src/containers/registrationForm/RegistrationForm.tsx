@@ -20,7 +20,7 @@ interface RegistrationProps {
 
 interface RegistrationData {
     email: string,
-    username: string,
+    userName: string,
     password: string
 }
 
@@ -33,15 +33,8 @@ const passwordConfirm = (value: string) => {
 class RegistrationForm extends React.Component<any, any, any> {
     render() {
         const { error, isLoading, accessToken } = this.props.accounts;
-        const onSubmit = (props: any) => {
-            console.log(props);
-        }
         if (accessToken != '') {
-            return (
-                <>
-                    <Redirect to="account" />
-                </>
-            )
+            return (<Redirect to="account" />)
         }
         if (error != null) {
             return (
@@ -59,9 +52,9 @@ class RegistrationForm extends React.Component<any, any, any> {
     }
 
     handleFormSubmit(formData: any) {
-        const { username, email, password } = formData;
+        const { userName, email, password } = formData;
         this.props.registration({
-            username,
+            userName,
             email,
             password
         })
@@ -86,7 +79,7 @@ const Form = (props: any) => {
     return (
         <form onSubmit={props.handleSubmit} method='POST'>
             <Field
-                name='username'
+                name='userName'
                 component={renderField}
                 type='text'
                 placeholder='login'

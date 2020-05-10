@@ -20,11 +20,11 @@ export default function getTokenEpic(action$: any) {
         .switchMap(async (action:any) => {
             let formData: FormData = new FormData();
             formData.set('password', action.payload.password);
-            formData.set('username', action.payload.username);
+            formData.set('userName', action.payload.userName);
             let res = await axios.post(url, formData);
             return { 
                 accessToken: res.data.accessToken, 
-                username: res.data.username
+                userName: res.data.userName
             };
         })
         .map((res:any) => { 

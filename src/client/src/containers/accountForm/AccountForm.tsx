@@ -101,7 +101,7 @@ class AccountForm extends React.Component<any> {
         }
         return (
             <div>
-                Hello {store.getState().accounts.username} Your themes:
+                Hello {store.getState().accounts.userName} Your themes:
                 <ul>{this.themes}</ul>
             </div>
         );

@@ -19,7 +19,7 @@ export default function registrationAccountEpic(action$: any) {
         .switchMap(async (action:any) => {
             let formData: FormData = new FormData();
             formData.set('password', action.payload.password);
-            formData.set('username', action.payload.username);
+            formData.set('userName', action.payload.userName);
             formData.set('email', action.payload.email)
             return await axios.post(url, formData);
         })
