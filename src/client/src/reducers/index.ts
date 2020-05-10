@@ -6,5 +6,6 @@ import { reducer as formReducer } from 'redux-form';
 export default combineReducers({
     accounts: accounts,
     themes: themes,
-    form: formReducer
+    form: formReducer,
+	fullInfoAboutTheme: fullInfoAboutTheme
 });

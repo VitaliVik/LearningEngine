@@ -28,7 +28,7 @@ namespace LearningEngine.Persistence.Handlers
             if (theme != null)
             {
                 var cards = theme.Cards
-                    .Select(card => new CardDto { Answer = card.Answer, Question = card.Question })
+                    .Select(card => new CardDto { Answer = card.Answer, Question = card.Question, Id = card.Id })
                     .ToList();
                     
                 return cards;

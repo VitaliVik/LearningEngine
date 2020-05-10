@@ -6,12 +6,14 @@ using System.Text;
 
 namespace LearningEngine.Domain.Query
 {
-    public class GetThemeSubThemesQuery : IRequest<List<ThemeHeaderDto>>
+    public class GetThemeSubThemesQuery : IRequest<List<ThemeDto>>
     {
         public int ThemeId { get; private set; }
-        public GetThemeSubThemesQuery(int themeId)
+        public int UserId { get; private set; }
+        public GetThemeSubThemesQuery(int themeId, int userId)
         {
             ThemeId = themeId;
+            UserId = userId;
         }
     }
 }

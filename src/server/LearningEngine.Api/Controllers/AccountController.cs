@@ -26,6 +26,9 @@ namespace LearningEngine.Api.Controllers
             _mediator = mediator;
             _workWithJwtToken = workWithJwtToken;
         }
+        /// <summary>
+        /// Deletes a specific TodoItem.
+        /// </summary>
         [HttpGet("token")]
         public IActionResult Token()
         {

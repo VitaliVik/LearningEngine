@@ -5,10 +5,12 @@ using LearningEngine.IntegrationTests.Fixtures;
 using LearningEngine.IntegrationTests.Fixtures.Mocks;
 using LearningEngine.Persistence.Handlers;
 using LearningEngine.Persistence.Models;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -16,15 +18,15 @@ using Xunit;
 namespace LearningEngine.IntegrationTests.Handlers
 {
     [Collection("DatabaseCollection")]
-    public class DeleteThemeHandlerTest : BaseContextTests<LearnEngineContext>
+    public class CreateCardHandlerTest : BaseContextTests<LearnEngineContext>
     {
-        public DeleteThemeHandlerTest(LearningEngineFixture fixture)
-            : base(fixture)
+        private const int TestCardPosition = 0;
+        public CreateCardHandlerTest(LearningEngineFixture fixture) : base(fixture)
         {
         }
 
         [Fact]
-        public async Task DeleteThemeHandler_WithValidArguments_ShouldReturnNull()
+        public async Task CreateCardHandler_WithValidArguments_ShouldReturnTrue()
         {
             await UseContext(async (context) =>
             {
@@ -32,24 +34,28 @@ namespace LearningEngine.IntegrationTests.Handlers
                 var dataContainer = new TestData();
                 dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
                 dataContainer.CreateTheme("test theme", "for testing");
+                dataContainer.CreateCard("testing card question", "testing card answer");
 
                 new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Write);
 
-                var deleteThemeCommand = new DeleteThemeCommand
-                                                (context.Themes.FirstOrDefault(theme => theme.Name == dataContainer.Theme.Name).Id,                                             
-                                                context.Users.FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id);
-                var deleteThemeHandler = new DeleteThemeHandler(context);
+                var createCardQuery = new CreateCardCommand(dataContainer.User.Id, dataContainer.Theme.Id,
+                                                            dataContainer.Card.Question, dataContainer.Card.Answer);
+                var createCardHandler = new CreateCardHandler(context);
 
                 //Act
-                await deleteThemeHandler.Handle(deleteThemeCommand, CancellationToken.None);
+                await createCardHandler.Handle(createCardQuery, CancellationToken.None);
 
                 //Assert
-                Assert.Null(await context.Themes.FirstOrDefaultAsync(theme => theme.Name == dataContainer.Theme.Name));
+                Assert.NotNull(await context.Cards.FirstOrDefaultAsync(card => card.Question == dataContainer.Card.Question));
+                Assert.Equal(dataContainer.Card.Answer, context.Cards.FirstOrDefault
+                                                                      (card => card.Question == dataContainer.Card.Question).Answer);
+                Assert.Equal(dataContainer.Card.Question, context.Cards.FirstOrDefault
+                                                                      (card => card.Question == dataContainer.Card.Question).Question);
             });
         }
 
         [Fact]
-        public async Task DeleteThemeHandler_WithInvalidPermission_ShouldReturnException()
+        public async Task CreateCardHandler_WithInvalidPermissions_ShouldReturnException()
         {
             await UseContext(async (context) =>
             {
@@ -57,17 +63,17 @@ namespace LearningEngine.IntegrationTests.Handlers
                 var dataContainer = new TestData();
                 dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
                 dataContainer.CreateTheme("test theme", "for testing");
+                dataContainer.CreateCard("testing card question", "testing card answer");
 
                 new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Read);
 
-                var deleteThemeCommand = new DeleteThemeCommand
-                                                (context.Themes.FirstOrDefault(theme => theme.Name == dataContainer.Theme.Name).Id,
-                                                context.Users.FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id);
-                var deleteThemeHandler = new DeleteThemeHandler(context);
+                var createCardQuery = new CreateCardCommand(dataContainer.User.Id, dataContainer.Theme.Id,
+                                                            dataContainer.Card.Question, dataContainer.Card.Answer);
+                var createCardHandler = new CreateCardHandler(context);
 
                 //Act
-                Func<Task> deleteTheme = () => deleteThemeHandler.Handle(deleteThemeCommand, CancellationToken.None);
-                Exception exception = await Assert.ThrowsAsync<Exception>(deleteTheme);
+                Func<Task> createCard = () => createCardHandler.Handle(createCardQuery, CancellationToken.None);
+                Exception exception = await Assert.ThrowsAsync<Exception>(createCard);
 
                 //Assert
                 Assert.Equal(ExceptionDescriptionConstants.NoPermissions, exception.Message);
@@ -75,7 +81,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         }
 
         [Fact]
-        public async Task DeleteThemeHandler_WithInvalidTheme_ShouldReturnException()
+        public async Task CreateCardHandler_WithNonexistentTheme_ShouldReturnException()
         {
             await UseContext(async (context) =>
             {
@@ -83,23 +89,22 @@ namespace LearningEngine.IntegrationTests.Handlers
                 var dataContainer = new TestData();
                 dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
                 dataContainer.CreateTheme("test theme", "for testing");
+                dataContainer.CreateCard("testing card question", "testing card answer");
 
-                new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Read);
+                new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Write);
 
-                var deleteThemeCommand = new DeleteThemeCommand
-                                                (context.Themes.FirstOrDefault(theme => theme.Name == "dotNet").Id,
-                                                context.Users.FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id);
-                var deleteThemeHandler = new DeleteThemeHandler(context);
+                var createCardQuery = new CreateCardCommand(dataContainer.User.Id, -1,
+                                                            dataContainer.Card.Question, dataContainer.Card.Answer);
+                var createCardHandler = new CreateCardHandler(context);
 
                 //Act
-                Func<Task> deleteTheme = () => deleteThemeHandler.Handle(deleteThemeCommand, CancellationToken.None);
-                Exception exception = await Assert.ThrowsAsync<Exception>(deleteTheme);
-                
+                Func<Task> createCard = () => createCardHandler.Handle(createCardQuery, CancellationToken.None);
+                Exception exception = await Assert.ThrowsAsync<Exception>(createCard);
+
                 //Assert
                 Assert.Equal(ExceptionDescriptionConstants.ThemeNotFound, exception.Message);
             });
         }
-
         public class DatabaseFiller
         {
             public DatabaseFiller(LearnEngineContext context, User user, Theme theme, TypeAccess userPermission)
@@ -121,6 +126,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             public User User { get; set; }
             public Theme Theme { get; set; }
+            public Card Card { get; set; }
             public void CreateUser(string userName, string email, byte[] password)
             {
                 User = new User { Email = email, Password = password, UserName = userName };
@@ -128,6 +134,10 @@ namespace LearningEngine.IntegrationTests.Handlers
             public void CreateTheme(string name, string description)
             {
                 Theme = new Theme { Name = name, Description = description };
+            }
+            public void CreateCard(string question, string answer)
+            {
+                Card = new Card { Question = question, Answer = answer };
             }
         }
     }
