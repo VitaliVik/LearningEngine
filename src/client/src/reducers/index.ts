@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import { accounts } from "./accounts";
-import { themes } from "./themes";
+import { themes, fullInfoAboutTheme } from "./themes";
 import { reducer as formReducer } from 'redux-form';
 
 export default combineReducers({
