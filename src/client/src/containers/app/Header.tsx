@@ -5,13 +5,30 @@ import { NavLink } from 'react-router-dom';
 
 class Header extends React.Component<any> {
     render() {
-        const {access_token, username} = this.props
         return (
             <div className="header">
                 <h1>Learning Engine</h1>
-                {/* <div>{this.props.accounts.accessToken === undefined && <NavLink to="signIn">Войти</NavLink>} </div> */}
+                {this.renderSignInBar()}
             </div>
         );
+    }
+    
+    renderSignInBar() {
+        const {accessToken, userName} = this.props
+        const signInBar = accessToken != ''
+        ?   <div>
+                <button onClick={ e => this.buttonHandle() }>Выйти</button>
+            </div>
+        :   (<div>
+                <NavLink to='/registration'>Регистрация</NavLink>
+                <NavLink to='/signIn'>Войти</NavLink>
+            </div>
+        );
+        return signInBar;
+    }
+
+    buttonHandle() : void {
+
     }
 }
 

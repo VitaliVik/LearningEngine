@@ -6,8 +6,13 @@ export const registrationFail = createAction<any>("ACCOUNT_REGISTRATION_FAIL");
 
 export const registrationSuccess = createAction("ACCOUNT_REGISTRATION_SUCCESS");
 
-export interface RegistrationPayload{
-    username: string,
+export interface RegistrationPayload {
+    userName: string,
     email: string,
     password: string
+}
+
+export interface RegistrationResponse {
+    accessToken: string,
+    userName: string
 }

@@ -48,7 +48,7 @@ namespace LearningEngine.Api.Controllers
 
             var response = new
             {
-                access_token = encodedJwt,
+                accessToken = encodedJwt,
                 username = identity.Name
             };
             return new JsonResult(response);
@@ -62,7 +62,7 @@ namespace LearningEngine.Api.Controllers
 
             await _mediator.Send(command);
 
-            return Ok();
+            return await Token(vm.UserName, vm.Password);
         }
     }
 }
