@@ -3,14 +3,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { registration } from '../../actions/regitstration'
 import { Link, Redirect } from 'react-router-dom';
-import { store } from '../..';
-import { accounts } from '../../reducers/accounts';
-import { reduxForm, Field, FormDecorator, Fields } from 'redux-form';
-import { maxLengthCreator, minLengthCreator, emailValidation } from '../../utils/validators/validators';
-import { required } from '../../utils/validators/validators';
+import { reduxForm, Field } from 'redux-form';
 import { required as r, email, length, confirmation } from 'redux-form-validators';
 import './style.css';
-import { StateObservable } from 'redux-observable';
+import { CommonField } from '../../components/CommonField';
 
 interface RegistrationProps {
     error: string,
@@ -25,13 +21,10 @@ interface RegistrationData {
     password: string
 }
 
-const minLength6 = minLengthCreator(6);
-const maxLength16 = maxLengthCreator(16);
-
 class RegistrationForm extends React.Component<any, any, any> {
     render() {
-        const { error, isLoading, accessToken } = this.props.accounts;
-        if (accessToken != '') {
+        const { error, accessToken } = this.props.accounts;
+        if (accessToken !== '') {
             return (<Redirect to="account" />)
         }
         if (error != null) {
@@ -59,50 +52,38 @@ class RegistrationForm extends React.Component<any, any, any> {
     }
 }
 
-const renderField = (props: any) => {
-    const { meta, label, type, input, placeholder } = props;
-    const errors = meta.touched && meta.error;
-    return (
-        <div>
-            <label>{label}</label>
-            <div className={errors ? 'errorField' : ''}>
-                <input {...input} type={type} placeholder={placeholder}></input>
-                {errors && <span className={'errorText'}>{meta.error}</span>}
-            </div>
-        </div>
-    )
-}
+
 
 const Form = (props: any) => {
     return (
         <form onSubmit={props.handleSubmit} method='POST'>
             <Field
                 name='userName'
-                component={renderField}
+                component={CommonField}
                 type='text'
                 placeholder='login'
                 validate={r()}
             />
             <Field
                 name='email'
-                component={renderField}
+                component={CommonField}
                 type='email'
                 placeholder='email'
                 validate={[r(), email()]}
             />
             <Field
                 name='password'
-                component={renderField}
+                component={CommonField}
                 type='password'
                 placeholder='password'
-                validate={[r(), length({in: [6, 16], msg: 'Длина пароля должна быть от 6 до 16 символов!'}), maxLength16]}
+                validate={[r(), length({in: [6, 16], msg: 'Длина пароля должна быть от 6 до 16 символов!'})]}
             />
             <Field
                 name='passwordConfirmation'
-                component={renderField}
+                component={CommonField}
                 type='password'
                 placeholder='confirm your password'
-                validate={[r(), confirmation({field: 'password', msg: 'Пароли не совпадают!'}), maxLength16]}
+                validate={[r(), confirmation({field: 'password', msg: 'Пароли не совпадают!'})]}
             />
             <button>Регестрация</button>
         </form>

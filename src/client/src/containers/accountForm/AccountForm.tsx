@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { store } from '../..';
 import { bindActionCreators } from 'redux';
@@ -28,7 +28,7 @@ class AccountForm extends React.Component<any> {
             </li>
         </ul>
         )
-        if(notesList.length != 0){
+        if(notesList.length !== 0){
             return notesList;
         }
         else{
@@ -44,7 +44,7 @@ class AccountForm extends React.Component<any> {
             </li>
         </ul>
         )
-        if(cardsList.length != 0){
+        if(cardsList.length !== 0){
             return cardsList;
         }
         else{
@@ -65,7 +65,7 @@ class AccountForm extends React.Component<any> {
             <button onClick={() => this.getFullInfoAboutTheme(subTheme.id)}>Full info</button>
         </ul>
         )
-        if(subThemeList.length != 0){
+        if(subThemeList.length !== 0){
             return subThemeList;
         }
         else{
@@ -93,7 +93,7 @@ class AccountForm extends React.Component<any> {
       }
       
     render() {
-        if(this.props.fullInfoAboutTheme.isRoot == false){
+        if(this.props.fullInfoAboutTheme.isRoot === false){
             this.themes = this.FormListForNotRootTheme();
         }
         else{

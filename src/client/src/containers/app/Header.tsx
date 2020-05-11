@@ -14,8 +14,8 @@ class Header extends React.Component<any> {
     }
     
     renderSignInBar() {
-        const {accessToken, userName} = this.props
-        const signInBar = accessToken != ''
+        const {accessToken} = this.props
+        const signInBar = accessToken !== ''
         ?   <div>
                 <button onClick={ e => this.buttonHandle() }>Выйти</button>
             </div>
