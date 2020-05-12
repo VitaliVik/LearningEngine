@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Query;
+﻿using LearningEngine.Domain.Constants;
+using LearningEngine.Domain.Query;
 using LearningEngine.Persistence.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace LearningEngine.Persistence.Handlers
 {
-    public class CheckUserPermissionsHandler : IRequestHandler<CheckUserPermissionsQuery, bool>
+    public class CheckUserPermissionsHandler : IRequestHandler<CheckUserPermissionsQuery>
     {
         private readonly LearnEngineContext _context;
 
@@ -19,17 +20,17 @@ namespace LearningEngine.Persistence.Handlers
             _context = context;
         }
 
-        public async Task<bool> Handle(CheckUserPermissionsQuery request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CheckUserPermissionsQuery request, CancellationToken cancellationToken)
         {
             var permissions = await _context.Permissions.FirstOrDefaultAsync(permissions => permissions.ThemeId == request.ThemeId &&
                                                                                       permissions.UserId == request.UserId);
             
             if(permissions == null || permissions.Access == request.Access)
             {
-                return false;
+                throw new Exception(ExceptionDescriptionConstants.NoPermissions);
             }
 
-            return true;
+            return default;
         }
     }
 }

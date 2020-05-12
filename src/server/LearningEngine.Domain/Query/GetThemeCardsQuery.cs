@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace LearningEngine.Domain.Query
 {
-    public class GetThemeCardsQuery : IRequest<List<CardDto>>, IPipelinePermission
+    public class GetThemeCardsQuery : IRequest<List<CardDto>>, IPipelinePermissionModel
     {
         public int ThemeId { get; private set; }
 

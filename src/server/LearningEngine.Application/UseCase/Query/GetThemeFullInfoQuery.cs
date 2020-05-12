@@ -8,7 +8,7 @@ using System.Text;
 
 namespace LearningEngine.Application.UseCase.Query
 {
-    public class GetThemeFullInfoQuery : IRequest<ThemeDto>, IPipelinePermission
+    public class GetThemeFullInfoQuery : IRequest<ThemeDto>, IPipelinePermissionModel
     {
         public int UserId { get; private set; }
         public int ThemeId { get; private set; }

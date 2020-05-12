@@ -5,7 +5,7 @@ using MediatR;
 
 namespace LearningEngine.Domain.Query
 {
-    public class GetThemeHeaderQuery : IRequest<ThemeDto>, IPipelinePermission
+    public class GetThemeHeaderQuery : IRequest<ThemeDto>, IPipelinePermissionModel
     {
         public GetThemeHeaderQuery(int themeId, int userId, TypeAccess access)
         {

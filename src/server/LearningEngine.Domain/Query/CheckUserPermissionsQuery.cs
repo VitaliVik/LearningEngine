@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LearningEngine.Domain.Query
 {
-    public class CheckUserPermissionsQuery : IRequest<bool>
+    public class CheckUserPermissionsQuery : IRequest
     {
         public int UserId { get; private set; }
         public int ThemeId { get; private set; }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace LearningEngine.Domain.Command
 {
-    public class CreateNoteCommand: IRequest, IPipelinePermission
+    public class CreateNoteCommand: IRequest, IPipelinePermissionModel
     {
         public CreateNoteCommand(int themeId, int userId, string title, string content, TypeAccess access)
         {

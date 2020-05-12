@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LearningEngine.Domain.Interfaces
 {
-    public interface IPipelinePermission
+    public interface IPipelinePermissionModel
     {
         public int UserId { get; }
         public int ThemeId { get; }

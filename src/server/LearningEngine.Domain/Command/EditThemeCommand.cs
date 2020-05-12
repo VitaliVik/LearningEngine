@@ -5,7 +5,7 @@ using MediatR;
 
 namespace LearningEngine.Domain.Command
 {
-    public class EditThemeCommand : IRequest, IPipelinePermission
+    public class EditThemeCommand : IRequest, IPipelinePermissionModel
     {
         public ThemeDto ThemeDto { get; private set; }
         public int UserId { get; private set; }

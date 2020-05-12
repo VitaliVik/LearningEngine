@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace LearningEngine.Domain.Query
 {
-    public class GetThemeNotesQuery : IRequest<List<NoteDto>>, IPipelinePermission
+    public class GetThemeNotesQuery : IRequest<List<NoteDto>>, IPipelinePermissionModel
     {
         public int ThemeId { get; private set; }
 

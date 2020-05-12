@@ -4,7 +4,7 @@ using MediatR;
 
 namespace LearningEngine.Domain.Command
 {
-    public class CreateCardCommand : IRequest, IPipelinePermission
+    public class CreateCardCommand : IRequest, IPipelinePermissionModel
     {
         public int UserId { get; private set; }
         public int ThemeId { get; private set; }

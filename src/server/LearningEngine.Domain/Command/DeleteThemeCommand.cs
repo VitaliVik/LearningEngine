@@ -7,7 +7,7 @@ using System.Text;
 
 namespace LearningEngine.Domain.Command
 {
-    public class DeleteThemeCommand : IRequest, IPipelinePermission
+    public class DeleteThemeCommand : IRequest, IPipelinePermissionModel
     {
         public DeleteThemeCommand(int themeId, int userId, TypeAccess access)
         {
