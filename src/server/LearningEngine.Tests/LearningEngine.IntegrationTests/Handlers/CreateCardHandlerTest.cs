@@ -39,7 +39,8 @@ namespace LearningEngine.IntegrationTests.Handlers
                 new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Write);
 
                 var createCardQuery = new CreateCardCommand(dataContainer.User.Id, dataContainer.Theme.Id,
-                                                            dataContainer.Card.Question, dataContainer.Card.Answer);
+                                                            dataContainer.Card.Question, dataContainer.Card.Answer,
+                                                            TypeAccess.Write);
                 var createCardHandler = new CreateCardHandler(context);
 
                 //Act
@@ -68,7 +69,8 @@ namespace LearningEngine.IntegrationTests.Handlers
                 new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Read);
 
                 var createCardQuery = new CreateCardCommand(dataContainer.User.Id, dataContainer.Theme.Id,
-                                                            dataContainer.Card.Question, dataContainer.Card.Answer);
+                                                            dataContainer.Card.Question, dataContainer.Card.Answer,
+                                                            TypeAccess.Write);
                 var createCardHandler = new CreateCardHandler(context);
 
                 //Act
@@ -94,7 +96,8 @@ namespace LearningEngine.IntegrationTests.Handlers
                 new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Write);
 
                 var createCardQuery = new CreateCardCommand(dataContainer.User.Id, -1,
-                                                            dataContainer.Card.Question, dataContainer.Card.Answer);
+                                                            dataContainer.Card.Question, dataContainer.Card.Answer,
+                                                            TypeAccess.Write);
                 var createCardHandler = new CreateCardHandler(context);
 
                 //Act

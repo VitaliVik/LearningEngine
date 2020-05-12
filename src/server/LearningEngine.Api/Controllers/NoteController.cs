@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LearningEngine.Api.Extensions;
 using LearningEngine.Domain.Command;
+using LearningEngine.Domain.Enum;
 using LearningEngine.Domain.Query;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -26,7 +28,7 @@ namespace LearningEngine.Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetNotes(int themeId)
         {
-            var query = new GetThemeNotesQuery(themeId);
+            var query = new GetThemeNotesQuery(themeId, this.GetUserId(), TypeAccess.Read);
 
             var result = await _mediator.Send(query);
 
@@ -36,7 +38,7 @@ namespace LearningEngine.Api.Controllers
         [HttpPost("{themeId}/note")]
         public async Task<IActionResult> AddNote([FromForm]int themeId, [FromForm]string title, [FromForm]string content)
         {
-            var command = new CreateNoteCommand(themeId, title, content);
+            var command = new CreateNoteCommand(themeId, this.GetUserId(), title, content, TypeAccess.Write);
 
             var result = await _mediator.Send(command);
 

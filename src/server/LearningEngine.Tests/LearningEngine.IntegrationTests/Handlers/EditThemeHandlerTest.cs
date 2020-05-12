@@ -45,7 +45,8 @@ namespace LearningEngine.IntegrationTests.Handlers
                         IsPublic = dataContainer.Theme.IsPublic
                     },
                     dataContainer.User.Id,
-                    dataContainer.Theme.Id);
+                    dataContainer.Theme.Id,
+                    TypeAccess.Write);
                 var handler = new EditThemeHandler(context);
 
                 //Act
@@ -81,7 +82,8 @@ namespace LearningEngine.IntegrationTests.Handlers
                         IsPublic = dataContainer.Theme.IsPublic
                     },
                     dataContainer.User.Id,
-                    dataContainer.Theme.Id);
+                    dataContainer.Theme.Id,
+                    TypeAccess.Write);
                 var handler = new EditThemeHandler(context);
 
                 //Act
@@ -114,7 +116,8 @@ namespace LearningEngine.IntegrationTests.Handlers
                         IsPublic = dataContainer.Theme.IsPublic
                     },
                     dataContainer.User.Id,
-                    -1);
+                    -1,
+                    TypeAccess.Write);
                 var handler = new EditThemeHandler(context);
 
                 //Act

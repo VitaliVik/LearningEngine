@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Query;
+﻿using LearningEngine.Domain.Enum;
+using LearningEngine.Domain.Query;
 using LearningEngine.IntegrationTests.Fixtures;
 using LearningEngine.Persistence.Handlers;
 using LearningEngine.Persistence.Models;
@@ -35,10 +36,25 @@ namespace LearningEngine.IntegrationTests.Handlers
                     new Card { Theme = theme, Question = "1", Answer = "first"},
                     new Card { Theme = theme, Question = "2", Answer = "second"},
                 };
+                var user = new User
+                {
+                    UserName = "testUser",
+                    Email = "test@gmail.com",
+                    Password = new byte[0]
+                };
                 context.Themes.Add(theme);
                 context.Cards.AddRange(cards);
+                context.Users.Add(user);
                 context.SaveChanges();
-                var query = new GetThemeCardsQuery(theme.Id);
+                var permissions = new Permission
+                {
+                    UserId = user.Id,
+                    ThemeId = theme.Id,
+                    Access = TypeAccess.Read
+                };
+                context.Permissions.Add(permissions);
+                context.SaveChanges();
+                var query = new GetThemeCardsQuery(theme.Id, user.Id, TypeAccess.Read);
                 var handler = new GetThemeCardsHandler(context);
 
                 var result = await handler.Handle(query, CancellationToken.None);

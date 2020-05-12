@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using LearningEngine.Api.Extensions;
 using LearningEngine.Api.ViewModels;
 using LearningEngine.Domain.Command;
+using LearningEngine.Domain.Enum;
 using LearningEngine.Domain.Query;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -26,7 +27,8 @@ namespace LearningEngine.Api.Controllers
         [HttpPost()]
         public async Task<IActionResult> CreateCard([FromForm]CreateCardViewModel vm)
         {
-            var createCardCommand = new CreateCardCommand(this.GetUserId(), vm.ThemeId, vm.Question, vm.Answer);
+            var createCardCommand = new CreateCardCommand(this.GetUserId(), vm.ThemeId, vm.Question, 
+                                                                            vm.Answer, TypeAccess.Write);
 
             try
             {
@@ -44,7 +46,7 @@ namespace LearningEngine.Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetCards(int themeId)
         {
-            var query = new GetThemeCardsQuery(themeId);
+            var query = new GetThemeCardsQuery(themeId, this.GetUserId(), TypeAccess.Read);
 
             var result = await _mediator.Send(query);
 

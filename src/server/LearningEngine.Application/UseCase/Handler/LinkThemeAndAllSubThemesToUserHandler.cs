@@ -22,12 +22,12 @@ namespace LearningEngine.Application.UseCase.Handler
         protected async override Task<Unit> Action(LinkThemeAndAllSubThemesToUserCommand request)
         {
             List<ThemeDto> themes = new List<ThemeDto>();
-            var getThemeHeaderQuery = new GetThemeHeaderQuery(request.ThemeId);
+            var getThemeHeaderQuery = new GetThemeHeaderQuery(request.ThemeId, request.UserId, request.Access);
             themes.Add(await _mediator.Send(getThemeHeaderQuery));
 
             for(int i = 0; i < themes.Count; i++)
             {
-                var getThemeSubThemes = new GetThemeSubThemesQuery(themes[i].Id, request.UserId);
+                var getThemeSubThemes = new GetThemeSubThemesQuery(themes[i].Id, request.UserId, request.Access);
                 themes.AddRange(await _mediator.Send(getThemeSubThemes));
             }
 

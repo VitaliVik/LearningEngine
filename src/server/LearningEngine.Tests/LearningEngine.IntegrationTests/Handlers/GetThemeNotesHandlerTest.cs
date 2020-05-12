@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Query;
+﻿using LearningEngine.Domain.Enum;
+using LearningEngine.Domain.Query;
 using LearningEngine.IntegrationTests.Fixtures;
 using LearningEngine.Persistence.Handlers;
 using LearningEngine.Persistence.Models;
@@ -33,10 +34,25 @@ namespace LearningEngine.IntegrationTests.Handlers
                     new Note { Theme = theme, Title = "1", Content = "first"},
                     new Note { Theme = theme, Title = "2", Content = "second"},
                 };
+                var user = new User
+                {
+                    UserName = "testUser",
+                    Email = "test@gmail.com",
+                    Password = new byte[0]
+                };
                 context.Themes.Add(theme);
                 context.Notes.AddRange(notes);
+                context.Users.Add(user);
                 context.SaveChanges();
-                var query = new GetThemeNotesQuery(theme.Id);
+                var permissions = new Permission
+                {
+                    UserId = user.Id,
+                    ThemeId = theme.Id,
+                    Access = TypeAccess.Read
+                };
+                context.Permissions.Add(permissions);
+                context.SaveChanges();
+                var query = new GetThemeNotesQuery(theme.Id, user.Id, TypeAccess.Read);
                 var handler = new GetThemeNotesHandler(context);
 
                 var result = await handler.Handle(query, CancellationToken.None);
