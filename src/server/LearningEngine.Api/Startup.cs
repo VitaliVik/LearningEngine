@@ -19,6 +19,7 @@ using System.Reflection;
 using System.IO;
 using LearningEngine.Application.PipelineValidators;
 using MediatR.Pipeline;
+using LearningEngine.Domain.Query;
 
 namespace LearningEngine.Api
 {
@@ -58,7 +59,8 @@ namespace LearningEngine.Api
                 });
             services.AddSingleton<IPasswordHasher>(sp => new PasswordHasher());
             services.AddTransient<IEnviromentService, EnviromentService>();
-            services.AddScoped(typeof(IRequestPreProcessor<>),typeof(PipelinePermissionValidator<>));
+            services.AddTransient<IRequestPreProcessor<GetThemeCardsQuery>,
+                                    PipelinePermissionValidator<GetThemeCardsQuery>>();
             services.AddScoped<IJwtTokenCryptographer, JwtTokenCoder>();
             services.AddTransient<JwtSecurityTokenHandler>();
             services.AddTransient<IConfigurationService, ConfigurationService>(provider =>

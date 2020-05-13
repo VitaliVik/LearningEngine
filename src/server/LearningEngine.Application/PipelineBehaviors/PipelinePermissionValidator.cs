@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 using LearningEngine.Domain.Interfaces;
 using LearningEngine.Domain.Query;
 using MediatR.Pipeline;
+using System.Linq;
 
 namespace LearningEngine.Application.PipelineValidators
 {
-    public class PipelinePermissionValidator<TRequest> : IRequestPreProcessor<TRequest> where TRequest : IPipelinePermissionModel
+    public class PipelinePermissionValidator<TRequest> : IRequestPreProcessor<TRequest>
     {
         private readonly IMediator _mediator;
 
@@ -18,7 +19,8 @@ namespace LearningEngine.Application.PipelineValidators
 
         public async Task Process(TRequest request, CancellationToken cancellationToken)
         {
-            var checkUserPermissionQuery = new CheckUserPermissionsQuery(request.UserId, request.ThemeId, request.Access);
+            IPipelinePermissionModel model = (IPipelinePermissionModel)request;
+            var checkUserPermissionQuery = new CheckUserPermissionsQuery(model.UserId, model.ThemeId, model.Access);
             await _mediator.Send(checkUserPermissionQuery, cancellationToken);
         }
     }

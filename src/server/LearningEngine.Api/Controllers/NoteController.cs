@@ -29,10 +29,16 @@ namespace LearningEngine.Api.Controllers
         public async Task<IActionResult> GetNotes(int themeId)
         {
             var query = new GetThemeNotesQuery(themeId, this.GetUserId(), TypeAccess.Read);
+            try
+            {
+                var result = await _mediator.Send(query);
 
-            var result = await _mediator.Send(query);
-
-            return Ok(result);
+                return Ok(result);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost("{themeId}/note")]
@@ -40,9 +46,16 @@ namespace LearningEngine.Api.Controllers
         {
             var command = new CreateNoteCommand(themeId, this.GetUserId(), title, content, TypeAccess.Write);
 
-            var result = await _mediator.Send(command);
+            try
+            {
+                var result = await _mediator.Send(command);
 
-            return Ok();
+                return Ok();
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

@@ -48,9 +48,17 @@ namespace LearningEngine.Api.Controllers
         {
             var query = new GetThemeCardsQuery(themeId, this.GetUserId(), TypeAccess.Read);
 
-            var result = await _mediator.Send(query);
+            try
+            {
+                var result = await _mediator.Send(query);
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
         }
     }
 }
