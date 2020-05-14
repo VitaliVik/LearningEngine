@@ -30,13 +30,6 @@ namespace LearningEngine.Persistence.Handlers
                 throw new Exception(ExceptionDescriptionConstants.ThemeNotFound);
             }
 
-            var permissions = await _context.Permissions.FirstOrDefaultAsync(permission => permission.UserId == request.UserId &&
-                                                                                           permission.ThemeId == request.ThemeId);
-            if(permissions == null || permissions.Access != TypeAccess.Write)
-            {
-                throw new Exception(ExceptionDescriptionConstants.NoPermissions);
-            }
-
             await _context.Cards.AddAsync(new Card { Answer = request.Answer, Question = request.Question, ThemeId = request.ThemeId });
             await _context.SaveChangesAsync();
 

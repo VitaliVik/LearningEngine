@@ -32,8 +32,6 @@ namespace LearningEngine.UnitTests.UseCase
 
             //assert
             mocks.MockUow.Verify(_ => _.StartTransaction(), Times.Once);
-            mocks.MockMediator.Verify(_ => _.Send(It.Is<GetUserByNameQuery>(
-                c => c.UserName == td.GetUserByNameQuery.UserName), CancellationToken.None), Times.Once);
             mocks.MockMediator.Verify(_ => _.Send(It.Is<CreateThemeCommand>(
                 c => c.ThemeName == td.CreateThemeCommand.ThemeName), CancellationToken.None), Times.Once);
             mocks.MockMediator.Verify(_ => _.Send(It.IsAny<LinkUserToThemeCommand>(), CancellationToken.None), Times.Once);

@@ -56,33 +56,6 @@ namespace LearningEngine.IntegrationTests.Handlers
         }
 
         [Fact]
-        public async Task CreateCardHandler_WithInvalidPermissions_ShouldReturnException()
-        {
-            await UseContext(async (context) =>
-            {
-                //Arrange
-                var dataContainer = new TestData();
-                dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
-                dataContainer.CreateTheme("test theme", "for testing");
-                dataContainer.CreateCard("testing card question", "testing card answer");
-
-                new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Read);
-
-                var createCardQuery = new CreateCardCommand(dataContainer.User.Id, dataContainer.Theme.Id,
-                                                            dataContainer.Card.Question, dataContainer.Card.Answer,
-                                                            TypeAccess.Write);
-                var createCardHandler = new CreateCardHandler(context);
-
-                //Act
-                Func<Task> createCard = () => createCardHandler.Handle(createCardQuery, CancellationToken.None);
-                Exception exception = await Assert.ThrowsAsync<Exception>(createCard);
-
-                //Assert
-                Assert.Equal(ExceptionDescriptionConstants.NoPermissions, exception.Message);
-            });
-        }
-
-        [Fact]
         public async Task CreateCardHandler_WithNonexistentTheme_ShouldReturnException()
         {
             await UseContext(async (context) =>

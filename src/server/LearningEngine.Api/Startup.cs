@@ -20,9 +20,9 @@ using System.IO;
 using LearningEngine.Application.PipelineValidators;
 using MediatR.Pipeline;
 using LearningEngine.Domain.Query;
-using System.Collections.Generic;
-using LearningEngine.Domain.DTO;
 using LearningEngine.Application.UseCase.Query;
+using LearningEngine.Domain.DTO;
+using LearningEngine.Api.Extensions;
 
 namespace LearningEngine.Api
 {
@@ -62,11 +62,10 @@ namespace LearningEngine.Api
                 });
             services.AddSingleton<IPasswordHasher>(sp => new PasswordHasher());
             services.AddTransient<IEnviromentService, EnviromentService>();
-
-            services.AddTransient<IPipelineBehavior<GetThemeFullInfoQuery, ThemeDto>, PipelinePermissionValidator<ThemeDto>>();
-
-            
-
+            //var queryType = typeof(IPipelinePermissionModel);
+            //var dataAccess = typeof(GetThemeNotesQuery).GetTypeInfo().Assembly;
+            //services.AddTransient<IPipelineBehavior<GetThemeFullInfoQuery, ThemeDto>, PipelinePermissionValidator<ThemeDto>>();
+            services.RegisterAllAssignableType<IPipelinePermissionModel>(typeof(GetThemeNotesQuery).GetTypeInfo().Assembly.FullName);
             services.AddScoped<IJwtTokenCryptographer, JwtTokenCoder>();
             services.AddTransient<JwtSecurityTokenHandler>();
             services.AddTransient<IConfigurationService, ConfigurationService>(provider =>

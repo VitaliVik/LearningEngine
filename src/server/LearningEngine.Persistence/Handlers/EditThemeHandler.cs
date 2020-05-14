@@ -31,14 +31,6 @@ namespace LearningEngine.Persistence.Handlers
                 throw new Exception(ExceptionDescriptionConstants.ThemeNotFound);
             }
 
-            var permission = await _context.Permissions.FirstOrDefaultAsync(permission => permission.UserId == request.UserId &&
-                                                                                          permission.ThemeId == request.ThemeDto.Id);
-
-            if(permission == null || permission.Access != TypeAccess.Write)
-            {
-                throw new Exception(ExceptionDescriptionConstants.NoPermissions);
-            }
-
             theme.Name = request.ThemeDto.Name;
             theme.Description = request.ThemeDto.Desсription;
             theme.IsPublic = request.ThemeDto.IsPublic;

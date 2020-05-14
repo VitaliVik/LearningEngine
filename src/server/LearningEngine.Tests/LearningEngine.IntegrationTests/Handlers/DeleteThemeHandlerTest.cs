@@ -50,33 +50,6 @@ namespace LearningEngine.IntegrationTests.Handlers
         }
 
         [Fact]
-        public async Task DeleteThemeHandler_WithInvalidPermission_ShouldReturnException()
-        {
-            await UseContext(async (context) =>
-            {
-                //Arrange
-                var dataContainer = new TestData();
-                dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
-                dataContainer.CreateTheme("test theme", "for testing");
-
-                new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Read);
-
-                var deleteThemeCommand = new DeleteThemeCommand
-                                                (context.Themes.FirstOrDefault(theme => theme.Name == dataContainer.Theme.Name).Id,
-                                                context.Users.FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id,
-                                                TypeAccess.Write);
-                var deleteThemeHandler = new DeleteThemeHandler(context);
-
-                //Act
-                Func<Task> deleteTheme = () => deleteThemeHandler.Handle(deleteThemeCommand, CancellationToken.None);
-                Exception exception = await Assert.ThrowsAsync<Exception>(deleteTheme);
-
-                //Assert
-                Assert.Equal(ExceptionDescriptionConstants.NoPermissions, exception.Message);
-            });
-        }
-
-        [Fact]
         public async Task DeleteThemeHandler_WithInvalidTheme_ShouldReturnException()
         {
             await UseContext(async (context) =>
@@ -89,11 +62,11 @@ namespace LearningEngine.IntegrationTests.Handlers
                 new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Read);
 
                 var deleteThemeCommand = new DeleteThemeCommand
-                                             (context.Themes.FirstOrDefault(theme => theme.Name == "dotNet").Id,
+                                              (-1,
                                               context.Users.FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id,
                                               TypeAccess.Write);
                 var deleteThemeHandler = new DeleteThemeHandler(context);
-
+                
                 //Act
                 Func<Task> deleteTheme = () => deleteThemeHandler.Handle(deleteThemeCommand, CancellationToken.None);
                 Exception exception = await Assert.ThrowsAsync<Exception>(deleteTheme);

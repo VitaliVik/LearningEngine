@@ -1,8 +1,10 @@
-﻿using LearningEngine.Domain.Interfaces;
-using LearningEngine.Domain.Query;
-using MediatR;
+﻿using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using LearningEngine.Domain.Interfaces;
+using LearningEngine.Domain.Query;
+using MediatR.Pipeline;
+using System.Linq;
 
 namespace LearningEngine.Application.PipelineValidators
 {
