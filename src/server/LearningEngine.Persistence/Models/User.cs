@@ -12,5 +12,6 @@ namespace LearningEngine.Persistence.Models
         public byte[] Password { get; set; }
 
         public List<Permission> Permissions { get; set; }
+        public List<Statistic> Statistic { get; set; }
     }
 }
