@@ -29,7 +29,6 @@ namespace LearningEngine.Application.UseCase.Handler
             await _mediator.Send(linkCommand);
 
             return default;
-
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LearningEngine.Api.Extensions;
 using LearningEngine.Api.ViewModels;
+using LearningEngine.Application.UseCase.Command;
 using LearningEngine.Domain.Command;
 using LearningEngine.Domain.Enum;
 using LearningEngine.Domain.Query;
@@ -24,11 +25,11 @@ namespace LearningEngine.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost()]
-        public async Task<IActionResult> CreateCard([FromForm]CreateCardViewModel vm)
+        [HttpPost("{themeId}")]
+        public async Task<IActionResult> CreateCard([FromRoute]int themeId, [FromForm]CreateCardViewModel vm)
         {
-            var createCardCommand = new CreateCardCommand(this.GetUserId(), vm.ThemeId, vm.Question, 
-                                                                            vm.Answer, TypeAccess.Write);
+            var createCardCommand = new CreateCardAndStatisticCommand(this.GetUserId(), themeId, vm.Question, 
+                                                                                 vm.Answer, TypeAccess.Write);
 
             try
             {
@@ -42,9 +43,9 @@ namespace LearningEngine.Api.Controllers
             return Ok();
         }
 
-        [HttpGet("{themename}")]
+        [HttpGet("{themeId}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetCards(int themeId)
+        public async Task<IActionResult> GetCards([FromRoute]int themeId)
         {
             var query = new GetThemeCardsQuery(themeId, this.GetUserId(), TypeAccess.Read);
 

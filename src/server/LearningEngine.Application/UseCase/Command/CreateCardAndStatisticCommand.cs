@@ -1,18 +1,21 @@
 ﻿using LearningEngine.Domain.Enum;
 using LearningEngine.Domain.Interfaces;
 using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace LearningEngine.Domain.Command
+namespace LearningEngine.Application.UseCase.Command
 {
-    public class CreateCardCommand : IRequest<int>, IPipelinePermissionModel
+    public class CreateCardAndStatisticCommand : IRequest, IPipelinePermissionModel
     {
         public int UserId { get; private set; }
         public int ThemeId { get; private set; }
         public string Question { get; private set; }
         public string Answer { get; private set; }
-        public TypeAccess Access { get ; private set ; }
+        public TypeAccess Access { get; private set; }
 
-        public CreateCardCommand(int userId, int themeId, string question, string answer, TypeAccess access)
+        public CreateCardAndStatisticCommand(int userId, int themeId, string question, string answer, TypeAccess access)
         {
             UserId = userId;
             ThemeId = themeId;

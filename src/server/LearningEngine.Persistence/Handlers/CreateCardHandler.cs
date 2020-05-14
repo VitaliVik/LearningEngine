@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace LearningEngine.Persistence.Handlers
 {
-    public class CreateCardHandler : IRequestHandler<CreateCardCommand>
+    public class CreateCardHandler : IRequestHandler<CreateCardCommand, int>
     {
         private readonly LearnEngineContext _context;
 
@@ -21,7 +21,7 @@ namespace LearningEngine.Persistence.Handlers
             _context = context;
         }
 
-        public async Task<Unit> Handle(CreateCardCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateCardCommand request, CancellationToken cancellationToken)
         {
             var theme = await _context.Themes.FirstOrDefaultAsync(theme => theme.Id == request.ThemeId);
 
@@ -30,10 +30,12 @@ namespace LearningEngine.Persistence.Handlers
                 throw new Exception(ExceptionDescriptionConstants.ThemeNotFound);
             }
 
-            await _context.Cards.AddAsync(new Card { Answer = request.Answer, Question = request.Question, ThemeId = request.ThemeId });
+            var card = new Card { Answer = request.Answer, Question = request.Question, ThemeId = request.ThemeId };
+
+            await _context.Cards.AddAsync(card);
             await _context.SaveChangesAsync();
 
-            return default;
+            return card.Id;
         }
     }
 }

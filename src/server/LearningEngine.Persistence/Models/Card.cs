@@ -13,7 +13,5 @@ namespace LearningEngine.Persistence.Models
 
         public int ThemeId { get; set; }
         public Theme Theme { get; set; }
-
-        public List<Statistic> Statistic { get; set; }
     }
 }

@@ -69,11 +69,9 @@ namespace LearningEngine.Persistence.Models
                 .IsRequired();
 
             modelBuilder.Entity<Statistic>()
-                .HasOne(statistic => statistic.User)
-                .WithMany(user => user.Statistic);
+                .HasOne(statistic => statistic.User);
             modelBuilder.Entity<Statistic>()
-                .HasOne(statistic => statistic.Card)
-                .WithMany(card => card.Statistic);
+                .HasOne(statistic => statistic.Card);
             modelBuilder.Entity<Statistic>()
                 .Property(statistic => statistic.CardKnowledge)
                 .IsRequired();

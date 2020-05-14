@@ -62,9 +62,6 @@ namespace LearningEngine.Api
                 });
             services.AddSingleton<IPasswordHasher>(sp => new PasswordHasher());
             services.AddTransient<IEnviromentService, EnviromentService>();
-            //var queryType = typeof(IPipelinePermissionModel);
-            //var dataAccess = typeof(GetThemeNotesQuery).GetTypeInfo().Assembly;
-            //services.AddTransient<IPipelineBehavior<GetThemeFullInfoQuery, ThemeDto>, PipelinePermissionValidator<ThemeDto>>();
             services.RegisterAllAssignableType<IPipelinePermissionModel>(typeof(GetThemeNotesQuery).GetTypeInfo().Assembly.FullName);
             services.AddScoped<IJwtTokenCryptographer, JwtTokenCoder>();
             services.AddTransient<JwtSecurityTokenHandler>();
