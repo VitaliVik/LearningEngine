@@ -1,4 +1,4 @@
-import { handleAction, handleActions } from 'redux-actions';
+import { handleActions } from 'redux-actions';
 import { ReducerBuilder } from './reducerBuilder';
 import { fetchThemes, getThemesFail, getThemeSuccess, fetchFullInfo, getFullInfoAboutThemeSuccess } from '../actions/fetchTheme';
 

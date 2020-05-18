@@ -1,10 +1,12 @@
-import React, { SyntheticEvent, FormEvent } from 'react';
+import React from 'react';
 import "./SignInForm.css";
 import { NavLink, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { dispatch } from 'rxjs/internal/observable/pairs';
 import { bindActionCreators } from 'redux';
 import { getToken } from '../../actions/getToken';
+import { Field, reduxForm } from 'redux-form';
+import { CommonField } from '../../components/CommonField'
+import { required as r} from 'redux-form-validators';
 
 interface SignInState {
     login: string,
@@ -22,36 +24,45 @@ class SignInForm extends React.Component<any, SignInState> {
     }
 
     render() {
-
         return (
             <div className="container">
-                <form onSubmit={this.onSubmitHandle.bind(this)}>
-                    <input type="text" id="login"  placeholder="Логин" onChange={this.loginChangeHandle.bind(this)}/>
-                    <br />
-                    <input type="password" id="password" placeholder="Пароль" onChange={this.passwordChangeHandle.bind(this)}/>
-                    <br />
-                    <button>Войти</button>
-                    <NavLink to="/registration">Регистрация
-                    </NavLink>
-                    {this.props.accounts.accessToken != "" && <Redirect to="/account"></Redirect>}
-                </form>
+                <LoginReduxForm onSubmit={this.onSubmitHandle.bind(this)} />
+                <NavLink to="/registration">Регистрация
+                </NavLink>
+                {this.props.accounts.accessToken !== "" && <Redirect to="/account"></Redirect>}
             </div>
         );
     }
 
-    passwordChangeHandle(event: FormEvent<HTMLInputElement>) {
-        this.setState({login: this.state.login, password: event.currentTarget.value});
-    }
-
-    loginChangeHandle(event: FormEvent<HTMLInputElement>) {
-        this.setState({login: event.currentTarget.value, password: this.state.password});
-    }
-
-    onSubmitHandle(event: SyntheticEvent) {
-        event.preventDefault();
-        this.props.getToken(this.state.login, this.state.password);
+    onSubmitHandle(formData: any) {
+        const {login, password} = formData;
+        this.props.getToken(login, password);
     }
 }
+
+const LoginForm = (props: any) => {
+    return (
+        <form onSubmit={props.handleSubmit} method='POST'>
+            <Field
+                name='login'
+                component={CommonField}
+                type='text'
+                placeholder='login'
+                validate={r({msg: 'Введите логин'})}
+            />
+            <Field
+                name='password'
+                component={CommonField}
+                type='password'
+                placeholder='password'
+                validate={r({msg: 'Введите пароль'})}
+            />
+            <button>Войти</button>
+        </form>
+    );
+}
+
+const LoginReduxForm = reduxForm<{}, {}>({ form: 'signInForm' })(LoginForm);
 
 const mapDispatchToProps = (dispatch:any) => bindActionCreators({getToken}, dispatch)
 const mapStateToProps = (state: any) => ({ ...state });

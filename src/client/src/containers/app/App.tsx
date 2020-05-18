@@ -1,18 +1,14 @@
-import { getToken } from '../../actions/getToken';
-import { fetchThemes } from '../../actions/fetchTheme';
-import { Switch, Route, NavLink, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import SignInForm from '../signInForm/SignForm';
 import Header from './Header';
 import React from 'react';
 import RegistrationForm from '../registrationForm/RegistrationForm';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AccountForm from '../accountForm/AccountForm';
 
 
 class App extends React.Component<any, any>{
   render() {
-    const { accessToken } = this.props;
     return (
       <div>
         <Header></Header>
@@ -22,7 +18,6 @@ class App extends React.Component<any, any>{
           </Route>
           <Route path="/signIn">
             <SignInForm />
-            <br />
           </Route>
           <Route path="/account">
             <AccountForm/>
@@ -50,16 +45,7 @@ interface Note {
   content: string;
 }
 
-let mapStateToProps = (state: any) => ({ ...state });
-
-
-let mapToDispatchProps = (dispatch: any) =>
-  bindActionCreators({
-    getToken,
-    fetchThemes
-  }, dispatch);
-
-
+const mapStateToProps = (state: any) => ({ ...state });
 
 export default connect(mapStateToProps)(App);
 
