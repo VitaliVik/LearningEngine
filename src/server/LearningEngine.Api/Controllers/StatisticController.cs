@@ -23,7 +23,7 @@ namespace LearningEngine.Api.Controllers
         [HttpPost("{cardId}")]
         public async Task<IActionResult> Create([FromRoute]int cardId)
         {
-            var createStatisticCommand = new CreateStatisicCommand(this.GetUserId(), TypeAccess.Write, cardId);
+            var createStatisticCommand = new CreateStatisicCommand(this.GetUserId(), cardId);
             try
             {
                 await _mediator.Send(createStatisticCommand);

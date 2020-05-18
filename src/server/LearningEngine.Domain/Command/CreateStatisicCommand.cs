@@ -11,14 +11,12 @@ namespace LearningEngine.Domain.Command
     {
         public int UserId { get; private set; }
 
-        public TypeAccess Access { get; private set; }
 
         public int CardId { get; private set; }
 
-        public CreateStatisicCommand(int userId, TypeAccess access, int cardId)
+        public CreateStatisicCommand(int userId, int cardId)
         {
             UserId = userId;
-            Access = access;
             CardId = cardId;
         }
     }

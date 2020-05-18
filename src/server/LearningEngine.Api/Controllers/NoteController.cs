@@ -28,7 +28,7 @@ namespace LearningEngine.Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetNotes(int themeId)
         {
-            var query = new GetThemeNotesQuery(themeId, this.GetUserId(), TypeAccess.Read);
+            var query = new GetThemeNotesQuery(themeId, this.GetUserId());
             try
             {
                 var result = await _mediator.Send(query);
@@ -42,9 +42,9 @@ namespace LearningEngine.Api.Controllers
         }
 
         [HttpPost("{themeId}/note")]
-        public async Task<IActionResult> AddNote([FromForm]int themeId, [FromForm]string title, [FromForm]string content)
+        public async Task<IActionResult> AddNote([FromRoute]int themeId, [FromForm]string title, [FromForm]string content)
         {
-            var command = new CreateNoteCommand(themeId, this.GetUserId(), title, content, TypeAccess.Write);
+            var command = new CreateNoteCommand(themeId, this.GetUserId(), title, content);
 
             try
             {

@@ -54,7 +54,7 @@ namespace LearningEngine.IntegrationTests.Handlers
                 };
                 context.Permissions.Add(permissions);
                 context.SaveChanges();
-                var query = new GetThemeCardsQuery(theme.Id, user.Id, TypeAccess.Read);
+                var query = new GetThemeCardsQuery(theme.Id, user.Id);
                 var handler = new GetThemeCardsHandler(context);
 
                 var result = await handler.Handle(query, CancellationToken.None);

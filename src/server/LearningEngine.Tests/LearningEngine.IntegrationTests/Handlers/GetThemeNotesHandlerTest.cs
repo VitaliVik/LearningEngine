@@ -52,7 +52,7 @@ namespace LearningEngine.IntegrationTests.Handlers
                 };
                 context.Permissions.Add(permissions);
                 context.SaveChanges();
-                var query = new GetThemeNotesQuery(theme.Id, user.Id, TypeAccess.Read);
+                var query = new GetThemeNotesQuery(theme.Id, user.Id);
                 var handler = new GetThemeNotesHandler(context);
 
                 var result = await handler.Handle(query, CancellationToken.None);

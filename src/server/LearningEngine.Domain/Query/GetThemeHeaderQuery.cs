@@ -1,23 +1,20 @@
 ﻿using LearningEngine.Domain.DTO;
-using LearningEngine.Domain.Enum;
-using LearningEngine.Domain.Interfaces;
+using LearningEngine.Domain.Interfaces.PipelinePermissions;
 using MediatR;
 
 namespace LearningEngine.Domain.Query
 {
-    public class GetThemeHeaderQuery : IRequest<ThemeDto>, IPipelinePermissionModel
+    public class GetThemeHeaderQuery : IRequest<ThemeDto>, IPipelinePermissionQuery
     {
-        public GetThemeHeaderQuery(int themeId, int userId, TypeAccess access)
+        public GetThemeHeaderQuery(int themeId, int userId)
         {
             ThemeId = themeId;
             UserId = userId;
-            Access = access;
         }
 
         public int ThemeId { get; private set; }
 
         public int UserId { get; private set; }
 
-        public TypeAccess Access { get; private set; }
     }
 }

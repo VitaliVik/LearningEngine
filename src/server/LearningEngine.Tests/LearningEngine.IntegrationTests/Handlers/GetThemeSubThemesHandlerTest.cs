@@ -73,7 +73,7 @@ namespace LearningEngine.IntegrationTests.Handlers
                 context.Permissions.AddRange(permission1, permission2, permission3);
                 context.SaveChanges();
 
-                var query = new GetThemeSubThemesQuery(parentTheme.Id, user.Id, TypeAccess.Read);
+                var query = new GetThemeSubThemesQuery(parentTheme.Id, user.Id);
                 var handler = new GetThemeSubThemesHandler(context);
 
                 var result = await handler.Handle(query, CancellationToken.None);

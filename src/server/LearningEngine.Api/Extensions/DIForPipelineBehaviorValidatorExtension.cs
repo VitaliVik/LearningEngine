@@ -1,31 +1,53 @@
-﻿using LearningEngine.Application.PipelineValidators;
+﻿using LearningEngine.Application.PipelineBehaviors;
+using LearningEngine.Application.PipelineValidators;
+using LearningEngine.Domain.Interfaces;
+using LearningEngine.Domain.Interfaces.PipelinePermissions;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace LearningEngine.Api.Extensions
 {
     public static class DIForPipelineBehaviorValidatorExtension
     {
-        public static void RegisterAllAssignableType<T>(this IServiceCollection services, string assemblyName)
+        private static string PipelineBehaviorInterfaceName = "IPipelineBehavior`2";
+        private static string MediatorIRequestName = "IRequest`1";
+
+        public static void RegisterAllAssignableType(this IServiceCollection services, Assembly commandQueryAssembly)
         {
-            var assembly = AppDomain.CurrentDomain.Load(assemblyName);
-            var types = assembly.GetTypes().Where(p => typeof(T).IsAssignableFrom(p)).ToArray();
+            var interfacesAssembly = typeof(IPipelinePermissionCommand).Assembly;
+            var interfacesTypes = interfacesAssembly.GetTypes().Where(p => p.IsInterface == true)
+                                    .Where(p => p.FullName.Contains(typeof(IPipelinePermissionCommand).Namespace));
 
-            foreach (var type in types)
+            foreach (var interfaceType in interfacesTypes)
             {
-                if (type.IsInterface)
+                var commandQueryTypes = commandQueryAssembly.GetTypes()
+                                                            .Where(p => interfaceType.IsAssignableFrom(p)).ToArray();
+
+                var pipelineBehaviorAssembly = typeof(PipelinePermissionCommandValidator<>).GetTypeInfo().Assembly;
+                var pipelineBehaviorClassType = pipelineBehaviorAssembly.GetTypes()
+                                      .FirstOrDefault(p => p.GetTypeInfo().ImplementedInterfaces
+                                      .Where(inter => inter.Name == PipelineBehaviorInterfaceName 
+                                       && inter.GetGenericArguments()
+                                      .Contains(interfaceType)).Any());
+
+                foreach (var type in commandQueryTypes)
                 {
-                    continue;
+                    if (type.IsInterface)
+                    {
+                        continue;
+                    }
+
+                    var genericArg = type.GetInterfaces().FirstOrDefault(inter => inter.Name == MediatorIRequestName)
+                                                                                     .GenericTypeArguments[0];
+
+                    services.AddTransient(typeof(IPipelineBehavior<,>).MakeGenericType(type, genericArg),
+                                          pipelineBehaviorClassType.MakeGenericType(genericArg));
                 }
-
-                var genericArg = type.GetInterfaces().FirstOrDefault(inter => inter.Name == "IRequest`1").GenericTypeArguments[0];
-
-                services.AddTransient(typeof(IPipelineBehavior<,>).MakeGenericType(type, genericArg),
-                                      typeof(PipelinePermissionValidator<>).MakeGenericType(genericArg));
             }
         }
     }

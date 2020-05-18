@@ -55,7 +55,7 @@ namespace LearningEngine.Api.Controllers
         [HttpDelete("{themeId}")]
         public async Task<IActionResult> DeleteTheme([FromRoute] int themeId)
         {
-            var command = new DeleteThemeCommand(themeId, this.GetUserId(), TypeAccess.Write);
+            var command = new DeleteThemeCommand(themeId, this.GetUserId());
 
             try
             {
@@ -74,7 +74,7 @@ namespace LearningEngine.Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetTheme([FromRoute] int themeId)
         {
-            var query = new GetThemeHeaderQuery(themeId, this.GetUserId(), TypeAccess.Read);
+            var query = new GetThemeHeaderQuery(themeId, this.GetUserId());
 
             try
             {
@@ -93,7 +93,7 @@ namespace LearningEngine.Api.Controllers
         [HttpGet("{themeId}/fullInfo")]
         public async Task<IActionResult> GetFullInfo([FromRoute] int themeId)
         {
-            var query = new GetThemeFullInfoQuery(this.GetUserId(), themeId, TypeAccess.Read);
+            var query = new GetThemeFullInfoQuery(this.GetUserId(), themeId);
 
             try
             {
@@ -145,7 +145,7 @@ namespace LearningEngine.Api.Controllers
         [HttpPut("{themeId}")]
         public async Task<IActionResult> EditTheme([FromForm]ThemeDto themeDto, [FromRoute]int themeId)
         {
-            var command = new EditThemeCommand(themeDto, this.GetUserId(), themeId, TypeAccess.Write);
+            var command = new EditThemeCommand(themeDto, this.GetUserId(), themeId);
 
             try
             {

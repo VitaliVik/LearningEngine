@@ -127,7 +127,7 @@ namespace LearningEngine.UnitTests.UseCase
                 LinkUserToTheme = new LinkUserToThemeCommand(
                     User.Id,
                     1,
-                    TypeAccess.Read | TypeAccess.Write);
+                    TypeAccess.Write | TypeAccess.Read);
             }
             public User User { get; set; }
             public CreateUserThemeCommand CreateUserThemeCommand { get; set; }

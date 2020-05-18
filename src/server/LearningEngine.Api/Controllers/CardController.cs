@@ -28,8 +28,8 @@ namespace LearningEngine.Api.Controllers
         [HttpPost("{themeId}")]
         public async Task<IActionResult> CreateCard([FromRoute]int themeId, [FromForm]CreateCardViewModel vm)
         {
-            var createCardCommand = new CreateCardAndStatisticCommand(this.GetUserId(), themeId, vm.Question, 
-                                                                                 vm.Answer, TypeAccess.Write);
+            var createCardCommand = new CreateCardAndStatisticCommand(this.GetUserId(), themeId, 
+                                                                      vm.Question, vm.Answer);
 
             try
             {
@@ -47,7 +47,7 @@ namespace LearningEngine.Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetCards([FromRoute]int themeId)
         {
-            var query = new GetThemeCardsQuery(themeId, this.GetUserId(), TypeAccess.Read);
+            var query = new GetThemeCardsQuery(themeId, this.GetUserId());
 
             try
             {

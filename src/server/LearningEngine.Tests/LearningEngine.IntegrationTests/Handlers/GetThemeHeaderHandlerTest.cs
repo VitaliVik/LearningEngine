@@ -50,7 +50,7 @@ namespace LearningEngine.IntegrationTests.Handlers
                 };
                 context.Permissions.Add(permissions);
                 context.SaveChanges();
-                var query = new GetThemeHeaderQuery(theme.Id, user.Id, TypeAccess.Read);
+                var query = new GetThemeHeaderQuery(theme.Id, user.Id);
                 var handler = new GetThemeHeaderHandler(context);
 
                 var result = await handler.Handle(query, CancellationToken.None);

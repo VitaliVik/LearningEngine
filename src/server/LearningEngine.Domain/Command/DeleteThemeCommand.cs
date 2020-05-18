@@ -1,22 +1,16 @@
-﻿using LearningEngine.Domain.Enum;
-using LearningEngine.Domain.Interfaces;
+﻿using LearningEngine.Domain.Interfaces.PipelinePermissions;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LearningEngine.Domain.Command
 {
-    public class DeleteThemeCommand : IRequest, IPipelinePermissionModel
+    public class DeleteThemeCommand : IRequest, IPipelinePermissionCommand
     {
-        public DeleteThemeCommand(int themeId, int userId, TypeAccess access)
+        public DeleteThemeCommand(int themeId, int userId)
         {
             ThemeId = themeId;
             UserId = userId;
-            Access = access;
         }
         public int ThemeId { get; private set; }
         public int UserId { get; private set; }
-        public TypeAccess Access { get; private set; }
     }
 }

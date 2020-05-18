@@ -23,6 +23,8 @@ using LearningEngine.Domain.Query;
 using LearningEngine.Application.UseCase.Query;
 using LearningEngine.Domain.DTO;
 using LearningEngine.Api.Extensions;
+using LearningEngine.Domain.Command;
+using LearningEngine.Domain.Interfaces.PipelinePermissions;
 
 namespace LearningEngine.Api
 {
@@ -62,7 +64,7 @@ namespace LearningEngine.Api
                 });
             services.AddSingleton<IPasswordHasher>(sp => new PasswordHasher());
             services.AddTransient<IEnviromentService, EnviromentService>();
-            services.RegisterAllAssignableType<IPipelinePermissionModel>(typeof(GetThemeNotesQuery).GetTypeInfo().Assembly.FullName);
+            services.RegisterAllAssignableType(typeof(GetThemeNotesQuery).GetTypeInfo().Assembly);
             services.AddScoped<IJwtTokenCryptographer, JwtTokenCoder>();
             services.AddTransient<JwtSecurityTokenHandler>();
             services.AddTransient<IConfigurationService, ConfigurationService>(provider =>

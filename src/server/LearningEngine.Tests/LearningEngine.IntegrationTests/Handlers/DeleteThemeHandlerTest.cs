@@ -36,9 +36,8 @@ namespace LearningEngine.IntegrationTests.Handlers
                 new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Write);
 
                 var deleteThemeCommand = new DeleteThemeCommand
-                                         (context.Themes.FirstOrDefault(theme => theme.Name == dataContainer.Theme.Name).Id,                                             
-                                          context.Users.FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id,
-                                          TypeAccess.Write);
+                                (context.Themes.FirstOrDefault(theme => theme.Name == dataContainer.Theme.Name).Id,                                             
+                                context.Users.FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id);
                 var deleteThemeHandler = new DeleteThemeHandler(context);
 
                 //Act
@@ -63,8 +62,8 @@ namespace LearningEngine.IntegrationTests.Handlers
 
                 var deleteThemeCommand = new DeleteThemeCommand
                                               (-1,
-                                              context.Users.FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id,
-                                              TypeAccess.Write);
+                                              context.Users.FirstOrDefault
+                                              (user => user.UserName == dataContainer.User.UserName).Id);
                 var deleteThemeHandler = new DeleteThemeHandler(context);
                 
                 //Act
