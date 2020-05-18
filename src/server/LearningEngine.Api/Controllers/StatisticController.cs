@@ -35,5 +35,39 @@ namespace LearningEngine.Api.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpPut("increaceKnowledge/{cardId}")]
+        public async Task<IActionResult> IncreaceKnowledge([FromRoute]int cardId, [FromForm] int themeId)
+        {
+            var editStatisticCommand = new EditUserKnowledgeCommand(this.GetUserId(), themeId, cardId, 10);
+
+            try
+            {
+                await _mediator.Send(editStatisticCommand);
+
+                return Ok();
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }            
+        }
+
+        [HttpPut("reduceKnowledge/{cardId}")]
+        public async Task<IActionResult> ReduceKnowledge([FromRoute]int cardId, [FromForm] int themeId)
+        {
+            var editStatisticCommand = new EditUserKnowledgeCommand(this.GetUserId(), themeId, cardId, -10);
+
+            try
+            {
+                await _mediator.Send(editStatisticCommand);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }
