@@ -4,20 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LearningEngine.Application.UseCase.Command
+namespace LearningEngine.Domain.Query
 {
-    public class CheckPermissionAndHandleCommand : IRequest
+    public class CheckUserPermissionsQuery : IRequest
     {
         public int UserId { get; private set; }
         public int ThemeId { get; private set; }
         public TypeAccess Access { get; private set; }
-        public IRequest Request { get; private set; }
-        public CheckPermissionAndHandleCommand(int userId, int themeId, TypeAccess access, IRequest request)
+        public CheckUserPermissionsQuery(int userId, int themeId, TypeAccess access)
         {
             UserId = userId;
             ThemeId = themeId;
             Access = access;
-            Request = request; 
         }
     }
 }

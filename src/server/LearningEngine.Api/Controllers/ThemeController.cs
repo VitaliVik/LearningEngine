@@ -74,7 +74,7 @@ namespace LearningEngine.Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetTheme([FromRoute] int themeId)
         {
-            var query = new GetThemeHeaderQuery(themeId);
+            var query = new GetThemeHeaderQuery(themeId, this.GetUserId());
 
             try
             {

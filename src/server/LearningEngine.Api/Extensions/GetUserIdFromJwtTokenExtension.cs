@@ -1,11 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using LearningEngine.Application.PipelineValidators;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using LearningEngine.Domain.Interfaces;
+using System.Reflection;
+using LearningEngine.Application.UseCase.Query;
 
 namespace LearningEngine.Api.Extensions
 {

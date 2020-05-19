@@ -1,11 +1,9 @@
-﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using LearningEngine.Domain.Interfaces.PipelinePermissions;
+using MediatR;
 
 namespace LearningEngine.Domain.Command
 {
-    public class DeleteThemeCommand : IRequest
+    public class DeleteThemeCommand : IRequest, IPipelinePermissionCommand
     {
         public DeleteThemeCommand(int themeId, int userId)
         {

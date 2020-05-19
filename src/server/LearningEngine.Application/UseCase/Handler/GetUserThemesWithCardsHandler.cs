@@ -24,17 +24,13 @@ namespace LearningEngine.Application.UseCase.Handler
 
         protected override async Task<ThemeDto> Action(GetThemeFullInfoQuery request)
         {
-            var getThemeHeaderQuery = new GetThemeHeaderQuery(request.ThemeId);
+            var getThemeHeaderQuery = new GetThemeHeaderQuery(request.ThemeId, request.UserId);
             var theme = await _mediator.Send(getThemeHeaderQuery);
-            if(theme == null)
-            {
-                throw new Exception(ExceptionDescriptionConstants.ThemeNotFound);
-            }
 
-            var getThemeCardsQuery = new GetThemeCardsQuery(request.ThemeId);
+            var getThemeCardsQuery = new GetThemeCardsQuery(request.ThemeId, request.UserId);
             theme.Cards = await _mediator.Send(getThemeCardsQuery);
 
-            var getThemeNotesQuery = new GetThemeNotesQuery(request.ThemeId);
+            var getThemeNotesQuery = new GetThemeNotesQuery(request.ThemeId, request.UserId);
             theme.Notes = await _mediator.Send(getThemeNotesQuery, CancellationToken.None);
 
             var getThemeSubThemesQuery = new GetThemeSubThemesQuery(request.ThemeId, request.UserId);

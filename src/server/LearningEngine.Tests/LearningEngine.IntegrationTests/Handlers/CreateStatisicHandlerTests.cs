@@ -2,14 +2,11 @@
 using LearningEngine.Domain.Constants;
 using LearningEngine.Domain.Enum;
 using LearningEngine.IntegrationTests.Fixtures;
-using LearningEngine.IntegrationTests.Fixtures.Mocks;
 using LearningEngine.Persistence.Handlers;
 using LearningEngine.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,15 +15,15 @@ using Xunit;
 namespace LearningEngine.IntegrationTests.Handlers
 {
     [Collection("DatabaseCollection")]
-    public class CreateCardHandlerTest : BaseContextTests<LearnEngineContext>
+    public class CreateStatisicHandlerTests : BaseContextTests<LearnEngineContext>
     {
-        private const int TestCardPosition = 0;
-        public CreateCardHandlerTest(LearningEngineFixture fixture) : base(fixture)
+        public CreateStatisicHandlerTests(LearningEngineFixture fixture) : base(fixture)
         {
+
         }
 
         [Fact]
-        public async Task CreateCardHandler_WithValidArguments_ShouldReturnTrue()
+        public async Task CreateStatisicHandler_WithValidArguments_ShouldReturnTrue()
         {
             await UseContext(async (context) =>
             {
@@ -36,26 +33,25 @@ namespace LearningEngine.IntegrationTests.Handlers
                 dataContainer.CreateTheme("test theme", "for testing");
                 dataContainer.CreateCard("testing card question", "testing card answer");
 
-                new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Write);
+                new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, 
+                                    TypeAccess.Write, dataContainer.Card);
 
-                var createCardQuery = new CreateCardCommand(dataContainer.User.Id, dataContainer.Theme.Id,
-                                                            dataContainer.Card.Question, dataContainer.Card.Answer);
-                var createCardHandler = new CreateCardHandler(context);
+                var createStatisticCommand = new CreateStatisicCommand(dataContainer.User.Id,
+                                                                       dataContainer.Card.Id);
+                var createStatisticHandler = new CreateStatisicHandler(context);
 
                 //Act
-                await createCardHandler.Handle(createCardQuery, CancellationToken.None);
+                await createStatisticHandler.Handle(createStatisticCommand, CancellationToken.None);
 
                 //Assert
-                Assert.NotNull(await context.Cards.FirstOrDefaultAsync(card => card.Question == dataContainer.Card.Question));
-                Assert.Equal(dataContainer.Card.Answer, context.Cards.FirstOrDefault
-                                                                      (card => card.Question == dataContainer.Card.Question).Answer);
-                Assert.Equal(dataContainer.Card.Question, context.Cards.FirstOrDefault
-                                                                      (card => card.Question == dataContainer.Card.Question).Question);
+                Assert.NotNull(await context.Statistic.FirstOrDefaultAsync
+                                                       (statistic => statistic.CardId == dataContainer.Card.Id &&
+                                                                     statistic.UserId == dataContainer.User.Id));
             });
         }
 
         [Fact]
-        public async Task CreateCardHandler_WithNonexistentTheme_ShouldReturnException()
+        public async Task CreateStatisicHandler_WithInUnexistentCard_ShouldReturnException()
         {
             await UseContext(async (context) =>
             {
@@ -65,31 +61,38 @@ namespace LearningEngine.IntegrationTests.Handlers
                 dataContainer.CreateTheme("test theme", "for testing");
                 dataContainer.CreateCard("testing card question", "testing card answer");
 
-                new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Write);
+                new DatabaseFiller(context, dataContainer.User, dataContainer.Theme,
+                                    TypeAccess.Write, dataContainer.Card);
 
-                var createCardQuery = new CreateCardCommand(dataContainer.User.Id, -1,
-                                                            dataContainer.Card.Question, dataContainer.Card.Answer);
-                var createCardHandler = new CreateCardHandler(context);
+                var createStatisticCommand = new CreateStatisicCommand(dataContainer.User.Id,
+                                                                       -1);
+                var createStatisticHandler = new CreateStatisicHandler(context);
 
                 //Act
-                Func<Task> createCard = () => createCardHandler.Handle(createCardQuery, CancellationToken.None);
-                Exception exception = await Assert.ThrowsAsync<Exception>(createCard);
+                Func<Task> createStatistic = () => createStatisticHandler.Handle
+                                                    (createStatisticCommand, CancellationToken.None);
+                var exception = await Assert.ThrowsAsync<Exception>(createStatistic);
 
                 //Assert
-                Assert.Equal(ExceptionDescriptionConstants.ThemeNotFound, exception.Message);
+                Assert.Equal(ExceptionDescriptionConstants.CardNotFound, exception.Message);
             });
         }
+
         public class DatabaseFiller
         {
-            public DatabaseFiller(LearnEngineContext context, User user, Theme theme, TypeAccess userPermission)
+            public DatabaseFiller(LearnEngineContext context, User user, Theme theme, 
+                                 TypeAccess userPermission, Card card)
             {
-                var mock = new HasherMocks().HasherMock.Object;
                 context.Users.Add(user);
                 context.Themes.Add(theme);
 
                 context.SaveChanges();
 
                 context.Permissions.Add(new Permission { Access = userPermission, ThemeId = theme.Id, UserId = user.Id });
+
+                card.ThemeId = theme.Id;
+
+                context.Cards.Add(card);
 
                 context.SaveChanges();
             }

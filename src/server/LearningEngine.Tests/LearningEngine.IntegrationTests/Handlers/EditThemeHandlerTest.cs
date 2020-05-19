@@ -61,39 +61,6 @@ namespace LearningEngine.IntegrationTests.Handlers
         }
 
         [Fact]
-        public async Task EditThemeHandler_WithInvalidPermissions_ShouldReturnException()
-        {
-            await UseContext(async (context) =>
-            {
-                //Arrange
-                var dataContainer = new TestData();
-                dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
-                dataContainer.CreateTheme("test theme", "for testing", true);
-
-                new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Read);
-
-                var editThemeCommand = new EditThemeCommand(
-                    new ThemeDto
-                    {
-                        Id = dataContainer.Theme.Id,
-                        Desсription = dataContainer.Theme.Description,
-                        Name = dataContainer.Theme.Name,
-                        IsPublic = dataContainer.Theme.IsPublic
-                    },
-                    dataContainer.User.Id,
-                    dataContainer.Theme.Id);
-                var handler = new EditThemeHandler(context);
-
-                //Act
-                Func<Task> editTheme = () => handler.Handle(editThemeCommand, CancellationToken.None);
-                Exception exception = await Assert.ThrowsAsync<Exception>(editTheme);
-
-                //Assert
-                Assert.Equal(ExceptionDescriptionConstants.NoPermissions, exception.Message);
-            });
-        }
-
-        [Fact]
         public async Task EditThemeHandler_WithNonexistentTheme_ShouldReturnException()
         {
             await UseContext(async (context) =>

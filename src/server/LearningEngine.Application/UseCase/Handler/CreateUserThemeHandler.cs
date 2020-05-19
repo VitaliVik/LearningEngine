@@ -22,13 +22,6 @@ namespace LearningEngine.Application.UseCase.Handler
 
         protected override async Task<Unit> Action(CreateUserThemeCommand request)
         {
-            var getUserByNameQuery = new GetUserByNameQuery(request.UserName);
-            var user = await _mediator.Send(getUserByNameQuery);
-            if (user == null)
-            {
-                throw new Exception("Пользователь не найден");
-            }
-
             var createThemeCommand = new CreateThemeCommand(request.ThemeName, request.Description, request.IsPublic, request.ParentThemeId);
             var userId = await _mediator.Send(createThemeCommand);
 
@@ -36,7 +29,6 @@ namespace LearningEngine.Application.UseCase.Handler
             await _mediator.Send(linkCommand);
 
             return default;
-
         }
     }
 }

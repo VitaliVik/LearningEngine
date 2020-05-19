@@ -20,21 +20,13 @@ namespace LearningEngine.Persistence.Handlers
         //deleting theme without deleting the subthemes
         public async Task<Unit> Handle(DeleteThemeCommand request, CancellationToken cancellationToken)
         {
-            var permission = await _context.Permissions.
-                FirstOrDefaultAsync(permission => permission.ThemeId == request.ThemeId 
-                                    && permission.UserId == request.UserId);
+            var theme = await _context.Themes.FirstOrDefaultAsync(theme => theme.Id == request.ThemeId);
 
-            if(permission == null)
+            if(theme == null)
             {
                 throw new Exception(ExceptionDescriptionConstants.ThemeNotFound);
             }
 
-            if(permission.Access != TypeAccess.Write)
-            {
-                throw new Exception(ExceptionDescriptionConstants.NoPermissions);
-            }
-
-            var theme = await _context.Themes.FirstOrDefaultAsync(theme => theme.Id == permission.ThemeId);
             _context.Themes.Remove(theme);
             await _context.SaveChangesAsync();
 

@@ -1,12 +1,10 @@
 ﻿using LearningEngine.Domain.DTO;
+using LearningEngine.Domain.Interfaces.PipelinePermissions;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LearningEngine.Application.UseCase.Query
 {
-    public class GetThemeFullInfoQuery : IRequest<ThemeDto>
+    public class GetThemeFullInfoQuery : IRequest<ThemeDto>, IPipelinePermissionQuery
     {
         public int UserId { get; private set; }
         public int ThemeId { get; private set; }

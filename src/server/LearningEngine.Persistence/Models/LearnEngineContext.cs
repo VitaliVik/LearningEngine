@@ -11,6 +11,7 @@ namespace LearningEngine.Persistence.Models
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Theme> Themes { get; set; }
+        public DbSet<Statistic> Statistic { get; set; }
 
         public LearnEngineContext(DbContextOptions<LearnEngineContext> options) : base(options)
         {
@@ -65,6 +66,14 @@ namespace LearningEngine.Persistence.Models
                 .IsRequired();
             modelBuilder.Entity<Theme>()
                 .Property(thm => thm.Description)
+                .IsRequired();
+
+            modelBuilder.Entity<Statistic>()
+                .HasOne(statistic => statistic.User);
+            modelBuilder.Entity<Statistic>()
+                .HasOne(statistic => statistic.Card);
+            modelBuilder.Entity<Statistic>()
+                .Property(statistic => statistic.CardKnowledge)
                 .IsRequired();
 
             modelBuilder.Entity<Theme>()

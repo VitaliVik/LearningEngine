@@ -1,16 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using LearningEngine.Api.Authorization;
 using MediatR;
 using LearningEngine.Persistence.Models;
@@ -20,10 +14,17 @@ using LearningEngine.Domain.Interfaces;
 using LearningEngine.Persistence.Transaction;
 using LearningEngine.Persistence.Utils;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Http;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.IO;
+using LearningEngine.Application.PipelineValidators;
+using MediatR.Pipeline;
+using LearningEngine.Domain.Query;
+using LearningEngine.Application.UseCase.Query;
+using LearningEngine.Domain.DTO;
+using LearningEngine.Api.Extensions;
+using LearningEngine.Domain.Command;
+using LearningEngine.Domain.Interfaces.PipelinePermissions;
 
 namespace LearningEngine.Api
 {
@@ -63,6 +64,7 @@ namespace LearningEngine.Api
                 });
             services.AddSingleton<IPasswordHasher>(sp => new PasswordHasher());
             services.AddTransient<IEnviromentService, EnviromentService>();
+            services.RegisterAllAssignableType(typeof(GetThemeNotesQuery).GetTypeInfo().Assembly);
             services.AddScoped<IJwtTokenCryptographer, JwtTokenCoder>();
             services.AddTransient<JwtSecurityTokenHandler>();
             services.AddTransient<IConfigurationService, ConfigurationService>(provider =>
