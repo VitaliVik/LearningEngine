@@ -26,10 +26,6 @@ namespace LearningEngine.Application.UseCase.Handler
         {
             var getThemeHeaderQuery = new GetThemeHeaderQuery(request.ThemeId, request.UserId);
             var theme = await _mediator.Send(getThemeHeaderQuery);
-            if(theme == null)
-            {
-                throw new Exception(ExceptionDescriptionConstants.ThemeNotFound);
-            }
 
             var getThemeCardsQuery = new GetThemeCardsQuery(request.ThemeId, request.UserId);
             theme.Cards = await _mediator.Send(getThemeCardsQuery);

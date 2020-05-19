@@ -25,15 +25,13 @@ namespace LearningEngine.UnitTests.UseCase
             var mocks = new Mocks();
 
             //act
-            var result = await mocks.TestingHandler.Handle(td.CreateCardAndStatisticCommand, 
+            var result = await mocks.TestingHandler.Handle(td.CreateCardAndStatisticCommand,
                                                                     CancellationToken.None);
 
             //Assert
             mocks.MockUow.Verify(_ => _.StartTransaction(), Times.Once);
-            mocks.MockMediator.Verify(_ => _.Send(It.IsAny<CreateCardCommand>(), 
-                                                CancellationToken.None), Times.Once);
-            mocks.MockMediator.Verify(_ => _.Send(It.IsAny<CreateStatisicCommand>(), 
-                                                CancellationToken.None), Times.Once);
+            mocks.CheckCreateCardCommand(td.CreateCardCommand.ThemeId, td.CreateCardCommand.UserId);
+            mocks.CheckCreateStatisicCommand(td.CreateStatisicCommand.UserId);
             mocks.MockUow.Verify(_ => _.CommitTransaction(), Times.Once);
         }
 
@@ -58,6 +56,17 @@ namespace LearningEngine.UnitTests.UseCase
             public Mock<ITransactionUnitOfWork> MockUow { get; set; }
             public CreateCardAndStatisticHandler TestingHandler { get; set; }
 
+            public void CheckCreateCardCommand(int themeId, int userId)
+            {
+                MockMediator.Verify(_ => _.Send(It.Is<CreateCardCommand>
+                       (c => c.ThemeId == themeId && c.UserId == userId), CancellationToken.None), Times.Once);
+            }
+
+            public void CheckCreateStatisicCommand(int userId)
+            {
+                MockMediator.Verify(_ => _.Send(It.Is<CreateStatisicCommand>
+                                               (c => c.UserId == userId), CancellationToken.None), Times.Once);
+            }
         }
 
         public class TestData
@@ -73,6 +82,6 @@ namespace LearningEngine.UnitTests.UseCase
                 CreateStatisicCommand = new CreateStatisicCommand(userId, 1);
             }
         }
-            
+
     }
 }
