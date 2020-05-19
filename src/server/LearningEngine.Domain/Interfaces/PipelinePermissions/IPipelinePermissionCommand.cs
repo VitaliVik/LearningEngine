@@ -6,7 +6,7 @@ namespace LearningEngine.Domain.Interfaces.PipelinePermissions
 {
     public interface IPipelinePermissionCommand
     {
-        public int UserId { get; }
-        public int ThemeId { get; }
+        int UserId { get; }
+        int ThemeId { get; }
     }
 }

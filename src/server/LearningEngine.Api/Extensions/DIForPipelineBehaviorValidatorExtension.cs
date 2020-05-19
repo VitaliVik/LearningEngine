@@ -14,8 +14,8 @@ namespace LearningEngine.Api.Extensions
 {
     public static class DIForPipelineBehaviorValidatorExtension
     {
-        private static string PipelineBehaviorInterfaceName = "IPipelineBehavior`2";
-        private static string MediatorIRequestName = "IRequest`1";
+        private static string PipelineBehaviorInterfaceName = typeof(IPipelineBehavior<,>).Name;
+        private static string MediatorIRequestName = typeof(IRequest<>).Name;
 
         public static void RegisterAllAssignableType(this IServiceCollection services, Assembly commandQueryAssembly)
         {
