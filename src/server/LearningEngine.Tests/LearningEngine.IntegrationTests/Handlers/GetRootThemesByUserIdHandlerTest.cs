@@ -13,6 +13,7 @@ using Xunit;
 using System.Threading;
 using LearningEngine.Domain.DTO;
 using LearningEngine.Domain.Constants;
+using LearningEngine.Application.Exceptions;
 
 namespace LearningEngine.IntegrationTests.Handlers
 {
@@ -71,8 +72,9 @@ namespace LearningEngine.IntegrationTests.Handlers
 
                 //Act
 
-                Func<Task> getRootTheme = () => getRootThemeByUserIdHandler.Handle(getRootThemeByUserIdQuery, CancellationToken.None);
-                var exception = await Assert.ThrowsAsync <Exception>(getRootTheme);
+                Func<Task> getRootTheme = () => getRootThemeByUserIdHandler.Handle
+                                                            (getRootThemeByUserIdQuery, CancellationToken.None);
+                var exception = await Assert.ThrowsAsync <RootThemesNotFoundException>(getRootTheme);
 
                 //Assert
                 Assert.Equal(ExceptionDescriptionConstants.RootThemesNotFount, exception.Message);

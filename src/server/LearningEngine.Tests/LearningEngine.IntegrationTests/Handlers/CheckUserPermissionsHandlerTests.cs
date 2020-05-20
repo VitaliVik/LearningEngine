@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Constants;
+﻿using LearningEngine.Application.Exceptions;
+using LearningEngine.Domain.Constants;
 using LearningEngine.Domain.Enum;
 using LearningEngine.Domain.Query;
 using LearningEngine.IntegrationTests.Fixtures;
@@ -70,7 +71,7 @@ namespace LearningEngine.IntegrationTests.Handlers
                 //Act
                 Func<Task> checkPermissions = () => chechUserPermissionHandler.Handle
                                                     (checkUserPermissionQuery, CancellationToken.None);
-                var exception = await Assert.ThrowsAsync<Exception>(checkPermissions);
+                var exception = await Assert.ThrowsAsync<NoPermissionException>(checkPermissions);
 
                 //Assert
                 Assert.Equal(ExceptionDescriptionConstants.NoPermissions, exception.Message);

@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Command;
+﻿using LearningEngine.Application.Exceptions;
+using LearningEngine.Domain.Command;
 using LearningEngine.Domain.Constants;
 using LearningEngine.Domain.Enum;
 using LearningEngine.IntegrationTests.Fixtures;
@@ -73,7 +74,7 @@ namespace LearningEngine.IntegrationTests.Handlers
 
                 //Act
                 Func<Task> createCard = () => createCardHandler.Handle(createCardQuery, CancellationToken.None);
-                Exception exception = await Assert.ThrowsAsync<Exception>(createCard);
+                Exception exception = await Assert.ThrowsAsync<ThemeNotFoundException>(createCard);
 
                 //Assert
                 Assert.Equal(ExceptionDescriptionConstants.ThemeNotFound, exception.Message);

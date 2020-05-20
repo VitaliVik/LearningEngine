@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Command;
+﻿using LearningEngine.Application.Exceptions;
+using LearningEngine.Domain.Command;
 using LearningEngine.Domain.Constants;
 using LearningEngine.Domain.Enum;
 using LearningEngine.IntegrationTests.Fixtures;
@@ -71,7 +72,7 @@ namespace LearningEngine.IntegrationTests.Handlers
                 //Act
                 Func<Task> createStatistic = () => createStatisticHandler.Handle
                                                     (createStatisticCommand, CancellationToken.None);
-                var exception = await Assert.ThrowsAsync<Exception>(createStatistic);
+                var exception = await Assert.ThrowsAsync<CardNotFoundException>(createStatistic);
 
                 //Assert
                 Assert.Equal(ExceptionDescriptionConstants.CardNotFound, exception.Message);
