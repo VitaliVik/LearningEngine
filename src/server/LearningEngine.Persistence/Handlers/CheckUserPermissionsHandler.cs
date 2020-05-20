@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Constants;
+﻿using LearningEngine.Application.Exceptions;
+using LearningEngine.Domain.Constants;
 using LearningEngine.Domain.Query;
 using LearningEngine.Persistence.Models;
 using MediatR;
@@ -27,7 +28,7 @@ namespace LearningEngine.Persistence.Handlers
             
             if(permissions == null || permissions.Access != request.Access)
             {
-                throw new Exception(ExceptionDescriptionConstants.NoPermissions);
+                throw new NoPermissionException();
             }
 
             return default;

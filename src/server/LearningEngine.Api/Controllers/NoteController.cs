@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LearningEngine.Api.AppFilters;
 using LearningEngine.Api.Extensions;
 using LearningEngine.Domain.Command;
 using LearningEngine.Domain.Enum;
@@ -24,38 +25,27 @@ namespace LearningEngine.Api.Controllers
             _mediator = mediator;
         }
 
+        [ExceptionFilter]
         [HttpGet("{themeId}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetNotes(int themeId)
         {
             var query = new GetThemeNotesQuery(themeId, this.GetUserId());
-            try
-            {
-                var result = await _mediator.Send(query);
 
-                return Ok(result);
-            }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            var result = await _mediator.Send(query);
+
+            return Ok(result);
         }
 
+        [ExceptionFilter]
         [HttpPost("{themeId}/note")]
         public async Task<IActionResult> AddNote([FromRoute]int themeId, [FromForm]string title, [FromForm]string content)
         {
             var command = new CreateNoteCommand(themeId, this.GetUserId(), title, content);
 
-            try
-            {
-                var result = await _mediator.Send(command);
+            await _mediator.Send(command);
 
-                return Ok();
-            }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            return Ok();
         }
     }
 }

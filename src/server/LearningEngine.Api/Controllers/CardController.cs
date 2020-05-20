@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LearningEngine.Api.AppFilters;
 using LearningEngine.Api.Extensions;
 using LearningEngine.Api.ViewModels;
 using LearningEngine.Application.UseCase.Command;
@@ -25,41 +26,28 @@ namespace LearningEngine.Api.Controllers
             _mediator = mediator;
         }
 
+        [ExceptionFilter]
         [HttpPost("{themeId}")]
         public async Task<IActionResult> CreateCard([FromRoute]int themeId, [FromForm]CreateCardViewModel vm)
         {
             var createCardCommand = new CreateCardAndStatisticCommand(this.GetUserId(), themeId, 
                                                                       vm.Question, vm.Answer);
 
-            try
-            {
-                await _mediator.Send(createCardCommand);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            await _mediator.Send(createCardCommand);
 
             return Ok();
         }
 
+        [ExceptionFilter]
         [HttpGet("{themeId}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetCards([FromRoute]int themeId)
         {
             var query = new GetThemeCardsQuery(themeId, this.GetUserId());
 
-            try
-            {
-                var result = await _mediator.Send(query);
+            var result = await _mediator.Send(query);
 
-                return Ok(result);
-            }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-
+            return Ok(result);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LearningEngine.Api.AppFilters;
 using LearningEngine.Api.Extensions;
 using LearningEngine.Domain.Command;
 using LearningEngine.Domain.Enum;
@@ -20,54 +21,38 @@ namespace LearningEngine.Api.Controllers
         {
             _mediator = mediator;
         }
+
+        [ExceptionFilter]
         [HttpPost("{cardId}")]
         public async Task<IActionResult> Create([FromRoute]int cardId)
         {
             var createStatisticCommand = new CreateStatisicCommand(this.GetUserId(), cardId);
-            try
-            {
-                await _mediator.Send(createStatisticCommand);
 
-                return Ok();
-            }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            await _mediator.Send(createStatisticCommand);
+
+            return Ok();
         }
 
+        [ExceptionFilter]
         [HttpPut("increaceKnowledge/{cardId}")]
         public async Task<IActionResult> IncreaceKnowledge([FromRoute]int cardId, [FromForm] int themeId)
         {
             var editStatisticCommand = new EditUserKnowledgeCommand(this.GetUserId(), themeId, cardId, 10);
 
-            try
-            {
-                await _mediator.Send(editStatisticCommand);
+            await _mediator.Send(editStatisticCommand);
 
-                return Ok();
-            }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }            
+            return Ok();
         }
 
+        [ExceptionFilter]
         [HttpPut("reduceKnowledge/{cardId}")]
         public async Task<IActionResult> ReduceKnowledge([FromRoute]int cardId, [FromForm] int themeId)
         {
             var editStatisticCommand = new EditUserKnowledgeCommand(this.GetUserId(), themeId, cardId, -10);
 
-            try
-            {
-                await _mediator.Send(editStatisticCommand);
+            await _mediator.Send(editStatisticCommand);
 
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            return Ok();
         }
     }
 }

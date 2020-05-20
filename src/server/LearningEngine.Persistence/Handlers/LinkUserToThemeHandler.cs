@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Command;
+﻿using LearningEngine.Application.Exceptions;
+using LearningEngine.Domain.Command;
 using LearningEngine.Persistence.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -25,11 +26,11 @@ namespace LearningEngine.Persistence.Handlers
                 .FirstOrDefaultAsync(thm => thm.Id == request.ThemeId);
             if (user == null)
             {
-                throw new Exception("Пользователь не найден");
+                throw new UserNotFoundException();
             }
             if (theme == null)
             {
-                throw new Exception("Тема не найдена");
+                throw new ThemeNotFoundException();
             }
             var permission = new Permission
             {

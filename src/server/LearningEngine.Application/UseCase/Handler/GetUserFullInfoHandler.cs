@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace LearningEngine.Application.UseCase.Handler
 {
-    public class GetUserThemesWithCardsHandler : BaseUseCaseHandler<ThemeDto, GetThemeFullInfoQuery>
+    public class GetUserFullInfoHandler : BaseUseCaseHandler<ThemeDto, GetThemeFullInfoQuery>
     {
         private readonly IMediator _mediator;
 
-        public GetUserThemesWithCardsHandler(IMediator mediator, ITransactionUnitOfWork uow) : base(uow)
+        public GetUserFullInfoHandler(IMediator mediator, ITransactionUnitOfWork uow) : base(uow)
         {
             _mediator = mediator;
         }

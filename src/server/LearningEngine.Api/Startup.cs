@@ -25,6 +25,7 @@ using LearningEngine.Domain.DTO;
 using LearningEngine.Api.Extensions;
 using LearningEngine.Domain.Command;
 using LearningEngine.Domain.Interfaces.PipelinePermissions;
+using LearningEngine.Application.PipelineBehaviors;
 
 namespace LearningEngine.Api
 {

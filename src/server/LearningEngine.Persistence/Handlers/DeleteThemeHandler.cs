@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Command;
+﻿using LearningEngine.Application.Exceptions;
+using LearningEngine.Domain.Command;
 using LearningEngine.Domain.Constants;
 using LearningEngine.Domain.Enum;
 using LearningEngine.Persistence.Models;
@@ -24,7 +25,7 @@ namespace LearningEngine.Persistence.Handlers
 
             if(theme == null)
             {
-                throw new Exception(ExceptionDescriptionConstants.ThemeNotFound);
+                throw new ThemeNotFoundException();
             }
 
             _context.Themes.Remove(theme);
