@@ -28,10 +28,10 @@ namespace LearningEngine.UnitTests.UseCase
 
             //Assert
             mocks.MockUow.Verify(_ => _.StartTransaction(), Times.Once);
-            mocks.CheckGetThemeHeader(td.GetThemeHeaderQuery.ObjectId, td.GetThemeHeaderQuery.UserId);
-            mocks.CheckGetThemeCardsHeader(td.GetThemeCardsQuery.ObjectId, td.GetThemeCardsQuery.ObjectId);
-            mocks.CheckGetThemeNotesHeader(td.GetThemeNotesQuery.ObjectId, td.GetThemeNotesQuery.UserId);
-            mocks.CheckGetThemeSubThemesHeader(td.GetThemeSubThemesQuery.ObjectId, td.GetThemeSubThemesQuery.UserId);
+            mocks.CheckGetThemeHeader(td.GetThemeHeaderQuery.ThemeId, td.GetThemeHeaderQuery.UserId);
+            mocks.CheckGetThemeCardsHeader(td.GetThemeCardsQuery.ThemeId, td.GetThemeCardsQuery.ThemeId);
+            mocks.CheckGetThemeNotesHeader(td.GetThemeNotesQuery.ThemeId, td.GetThemeNotesQuery.UserId);
+            mocks.CheckGetThemeSubThemesHeader(td.GetThemeSubThemesQuery.ThemeId, td.GetThemeSubThemesQuery.UserId);
             mocks.MockUow.Verify(_ => _.CommitTransaction(), Times.Once);
         }
 
@@ -62,25 +62,25 @@ namespace LearningEngine.UnitTests.UseCase
             public void CheckGetThemeHeader(int themeId, int userId)
             {
                 MockMediator.Verify(_ => _.Send(It.Is<GetThemeHeaderQuery>
-                       (c => c.ObjectId == themeId && c.UserId == userId), CancellationToken.None), Times.Once);
+                       (c => c.ThemeId == themeId && c.UserId == userId), CancellationToken.None), Times.Once);
             }
 
             public void CheckGetThemeCardsHeader(int themeId, int userId)
             {
                 MockMediator.Verify(_ => _.Send(It.Is<GetThemeCardsQuery>
-                       (c => c.ObjectId == themeId && c.UserId == userId), CancellationToken.None), Times.Once);
+                       (c => c.ThemeId == themeId && c.UserId == userId), CancellationToken.None), Times.Once);
             }
 
             public void CheckGetThemeNotesHeader(int themeId, int userId)
             {
                 MockMediator.Verify(_ => _.Send(It.Is<GetThemeNotesQuery>
-                       (c => c.ObjectId == themeId && c.UserId == userId), CancellationToken.None), Times.Once);
+                       (c => c.ThemeId == themeId && c.UserId == userId), CancellationToken.None), Times.Once);
             }
 
             public void CheckGetThemeSubThemesHeader(int themeId, int userId)
             {
                 MockMediator.Verify(_ => _.Send(It.Is<GetThemeSubThemesQuery>
-                       (c => c.ObjectId == themeId && c.UserId == userId), CancellationToken.None), Times.Once);
+                       (c => c.ThemeId == themeId && c.UserId == userId), CancellationToken.None), Times.Once);
             }
 
             public Mock<IMediator> MockMediator { get; set; }

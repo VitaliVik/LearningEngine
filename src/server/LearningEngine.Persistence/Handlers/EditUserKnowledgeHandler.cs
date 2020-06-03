@@ -24,14 +24,14 @@ namespace LearningEngine.Persistence.Handlers
 
         public async Task<Unit> Handle(EditUserKnowledgeCommand request, CancellationToken cancellationToken)
         {
-            var card = await _context.Cards.FirstOrDefaultAsync(card => card.Id == request.ObjectId);
+            var card = await _context.Cards.FirstOrDefaultAsync(card => card.Id == request.CardId);
 
             if(card == null)
             {
                 throw new CardNotFoundException();
             }
 
-            var statistic = await _context.Statistic.FirstOrDefaultAsync(stat => stat.CardId == request.ObjectId
+            var statistic = await _context.Statistic.FirstOrDefaultAsync(stat => stat.CardId == request.CardId
                                                                          && stat.UserId == request.UserId);
 
             if(statistic == null)

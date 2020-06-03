@@ -37,10 +37,10 @@ namespace LearningEngine.IntegrationTests.Handlers
 
                 new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, dataContainer.Access);
 
-                var checkUserPermissionQuery = new CheckUserPermissionsQuery(dataContainer.User.Id,
+                var checkUserPermissionQuery = new CheckUserThemePermissionsQuery(dataContainer.User.Id,
                                                                              dataContainer.Theme.Id,
                                                                              dataContainer.Access);
-                var chechUserPermissionHandler = new CheckUserPermissionsHandler(context);
+                var chechUserPermissionHandler = new CheckUserThemePermissionsHandler(context);
 
                 //Act
                 var hasPermissions = chechUserPermissionHandler.Handle(checkUserPermissionQuery, 
@@ -63,10 +63,10 @@ namespace LearningEngine.IntegrationTests.Handlers
 
                 new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, dataContainer.Access);
 
-                var checkUserPermissionQuery = new CheckUserPermissionsQuery(dataContainer.User.Id,
+                var checkUserPermissionQuery = new CheckUserThemePermissionsQuery(dataContainer.User.Id,
                                                                              dataContainer.Theme.Id,
                                                                              TypeAccess.Read);
-                var chechUserPermissionHandler = new CheckUserPermissionsHandler(context);
+                var chechUserPermissionHandler = new CheckUserThemePermissionsHandler(context);
 
                 //Act
                 Func<Task> checkPermissions = () => chechUserPermissionHandler.Handle

@@ -30,7 +30,7 @@ namespace LearningEngine.UnitTests.UseCase
 
             //Assert
             mocks.MockUow.Verify(_ => _.StartTransaction(), Times.Once);
-            mocks.CheckCreateCardCommand(td.CreateCardCommand.ObjectId, td.CreateCardCommand.UserId);
+            mocks.CheckCreateCardCommand(td.CreateCardCommand.ThemeId, td.CreateCardCommand.UserId);
             mocks.CheckCreateStatisicCommand(td.CreateStatisicCommand.UserId);
             mocks.MockUow.Verify(_ => _.CommitTransaction(), Times.Once);
         }
@@ -59,7 +59,7 @@ namespace LearningEngine.UnitTests.UseCase
             public void CheckCreateCardCommand(int themeId, int userId)
             {
                 MockMediator.Verify(_ => _.Send(It.Is<CreateCardCommand>
-                       (c => c.ObjectId == themeId && c.UserId == userId), CancellationToken.None), Times.Once);
+                       (c => c.ThemeId == themeId && c.UserId == userId), CancellationToken.None), Times.Once);
             }
 
             public void CheckCreateStatisicCommand(int userId)

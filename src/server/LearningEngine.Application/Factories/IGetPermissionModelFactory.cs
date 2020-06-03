@@ -9,6 +9,6 @@ namespace LearningEngine.Application.Factories
 {
     public interface IGetPermissionModelFactory
     {
-        IRequest<ThemeDto> GetModel(int objectId, ObjectType objectType);
+        IRequest GetModel(int objectId, int userId, TypeAccess access, ObjectType objectType);
     }
 }

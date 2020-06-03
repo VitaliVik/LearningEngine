@@ -12,21 +12,21 @@ using System.Threading.Tasks;
 
 namespace LearningEngine.Persistence.Handlers
 {
-    public class CheckUserPermissionsHandler : IRequestHandler<CheckUserPermissionsQuery>
+    public class CheckUserThemePermissionsHandler : IRequestHandler<CheckUserThemePermissionsQuery>
     {
         private readonly LearnEngineContext _context;
 
-        public CheckUserPermissionsHandler(LearnEngineContext context)
+        public CheckUserThemePermissionsHandler(LearnEngineContext context)
         {
             _context = context;
         }
 
-        public async Task<Unit> Handle(CheckUserPermissionsQuery request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CheckUserThemePermissionsQuery request, CancellationToken cancellationToken)
         {
             var permissions = await _context.Permissions.FirstOrDefaultAsync(permissions => permissions.ThemeId == request.ThemeId &&
                                                                                       permissions.UserId == request.UserId);
             
-            if(permissions == null || permissions.Access != request.Access)
+            if(permissions == null || permissions.Access <= request.Access)
             {
                 throw new NoPermissionException();
             }

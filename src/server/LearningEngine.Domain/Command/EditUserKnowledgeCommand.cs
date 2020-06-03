@@ -11,16 +11,17 @@ namespace LearningEngine.Domain.Command
     {
         public int UserId { get; set; }
 
-        public int ObjectId { get; set; }
+        public int CardId { get; set; }
 
         public double Value { get; set; }
 
         public ObjectType ObjectType => ObjectType.Card;
+        public int ObjectId => CardId;
 
         public EditUserKnowledgeCommand(int userId, int cardId, double value)
         {
             UserId = userId;
-            ObjectId = cardId;
+            CardId = cardId;
             Value = value;
         }
     }

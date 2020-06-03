@@ -12,14 +12,15 @@ namespace LearningEngine.Domain.Command
     {
         public int UserId { get; private set; }
 
-        public int ObjectId { get; private set; }
+        public int CardId { get; private set; }
 
         public ObjectType ObjectType => ObjectType.Card;
+        public int ObjectId => CardId;
 
         public CreateStatisicCommand(int userId, int cardId)
         {
             UserId = userId;
-            ObjectId = cardId;
+            CardId = cardId;
         }
     }
 }

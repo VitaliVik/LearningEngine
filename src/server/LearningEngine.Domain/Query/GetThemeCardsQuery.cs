@@ -9,14 +9,16 @@ namespace LearningEngine.Domain.Query
 {
     public class GetThemeCardsQuery : IRequest<List<CardDto>>, IPipelinePermissionQuery
     {
-        public int ObjectId { get; private set; }
+        public int ThemeId { get; private set; }
 
         public int UserId { get; private set; }
         public ObjectType ObjectType => ObjectType.Theme;
 
-        public GetThemeCardsQuery(int objectId, int userId)
+        public int ObjectId => ThemeId;
+
+        public GetThemeCardsQuery(int themeId, int userId)
         {
-            ObjectId = objectId;
+            ThemeId = themeId;
             UserId = userId;
         }
     }

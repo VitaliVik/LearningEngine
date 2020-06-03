@@ -1,4 +1,5 @@
 ﻿using LearningEngine.Application.Factories;
+using LearningEngine.Application.UseCase.Query;
 using LearningEngine.Domain.DTO;
 using LearningEngine.Domain.Enum;
 using LearningEngine.Domain.Query;
@@ -12,12 +13,15 @@ namespace LearningEngine.Api.Extensions
     {
         public static GetPermissionModelFactory RegisterQuery(this GetPermissionModelFactory getPermissionModelFactory)
         {
-            getPermissionModelFactory.AddQuery
-                (ObjectType.Card, (cardId) => new GetThemeByCardIdQuery(cardId));
-            getPermissionModelFactory.AddQuery
-                (ObjectType.Note, (noteId) => new GetThemeByNoteIdQuery(noteId));
-            getPermissionModelFactory.AddQuery
-                (ObjectType.Statistic, (statisticId) => new GetThemeByStatisticIdQuery(statisticId));
+            getPermissionModelFactory
+                .AddQuery(ObjectType.Card, (cardId, userId, access) => 
+                    new GetCardPermissionQuery(cardId, access, userId))
+                .AddQuery(ObjectType.Note, (noteId, userId, access) =>
+                    new GetNotePermissionQuery(noteId, access, userId))
+                .AddQuery(ObjectType.Statistic, (statisticId, userId, access) =>
+                    new GetStatisticPermissionQuery(statisticId, access, userId))
+                .AddQuery(ObjectType.Theme, (themeId, userId, access) =>
+                    new CheckUserThemePermissionsQuery(userId, themeId, access));
 
             return getPermissionModelFactory;
         }

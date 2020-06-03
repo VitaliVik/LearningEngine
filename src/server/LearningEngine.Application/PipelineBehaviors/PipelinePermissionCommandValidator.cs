@@ -26,23 +26,10 @@ namespace LearningEngine.Application.PipelineBehaviors
         public async Task<TResponse> Handle(IPipelinePermissionCommand request, 
                                         CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            int themeId;
+            var query = _getPermissionModelFactory.GetModel
+                        (request.ObjectId, request.UserId, TypeAccess.Write, request.ObjectType);
 
-            if(request.ObjectType == ObjectType.Theme)
-            {
-                themeId = request.ObjectId;
-            }
-            else
-            {
-                var query = _getPermissionModelFactory.GetModel(request.ObjectId, request.ObjectType);
-
-                var theme = await _mediator.Send(query);
-                themeId = theme.Id;
-            }
-
-            var checkUserPermissionQuery = new CheckUserPermissionsQuery(request.UserId, themeId, TypeAccess.Write);
-
-            await _mediator.Send(checkUserPermissionQuery, cancellationToken);
+            await _mediator.Send(query, cancellationToken);
 
             return await next();
         }

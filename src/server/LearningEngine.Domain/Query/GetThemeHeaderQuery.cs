@@ -7,16 +7,18 @@ namespace LearningEngine.Domain.Query
 {
     public class GetThemeHeaderQuery : IRequest<ThemeDto>, IPipelinePermissionQuery
     {
-        public GetThemeHeaderQuery(int objectId, int userId)
+        public GetThemeHeaderQuery(int themeId, int userId)
         {
-            ObjectId = objectId;
+            ThemeId = themeId;
             UserId = userId;
         }
 
-        public int ObjectId { get; private set; }
+        public int ThemeId { get; private set; }
 
         public int UserId { get; private set; }
 
         public ObjectType ObjectType => ObjectType.Theme;
+
+        public int ObjectId => ThemeId;
     }
 }

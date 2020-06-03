@@ -8,15 +8,17 @@ namespace LearningEngine.Domain.Query
 {
     public class GetThemeNotesQuery : IRequest<List<NoteDto>>, IPipelinePermissionQuery
     {
-        public int ObjectId { get; private set; }
+        public int ThemeId { get; private set; }
 
         public int UserId { get; private set; }
 
+        public int ObjectId => ThemeId;
+
         public ObjectType ObjectType => ObjectType.Theme;
 
-        public GetThemeNotesQuery(int objectId, int userId)
+        public GetThemeNotesQuery(int themeId, int userId)
         {
-            ObjectId = objectId;
+            ThemeId = themeId;
             UserId = userId;
         }
     }

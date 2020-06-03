@@ -8,14 +8,14 @@ namespace LearningEngine.Domain.Query
 {
     public class GetThemeSubThemesQuery : IRequest<List<ThemeDto>>, IPipelinePermissionQuery
     {
-        public int ObjectId { get; private set; }
+        public int ThemeId { get; private set; }
         public int UserId { get; private set; }
-
+        public int ObjectId => ThemeId;
         public ObjectType ObjectType => ObjectType.Theme;
 
-        public GetThemeSubThemesQuery(int objectId, int userId)
+        public GetThemeSubThemesQuery(int themeId, int userId)
         {
-            ObjectId = objectId;
+            ThemeId = themeId;
             UserId = userId;
         }
     }
