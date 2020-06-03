@@ -10,7 +10,6 @@ namespace LearningEngine.Application.Exceptions
         public RootThemesNotFoundException()
             : base(ExceptionDescriptionConstants.RootThemesNotFount)
         {
-
         }
     }
 }

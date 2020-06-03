@@ -10,13 +10,11 @@ namespace LearningEngine.Application.Exceptions
         public NoPermissionException(Exception innerException)
             : base(ExceptionDescriptionConstants.NoPermissions, innerException)
         {
-
         }
 
         public NoPermissionException()
             : base(ExceptionDescriptionConstants.NoPermissions)
         {
-
         }
     }
 }

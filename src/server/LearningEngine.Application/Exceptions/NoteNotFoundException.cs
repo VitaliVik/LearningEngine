@@ -10,7 +10,6 @@ namespace LearningEngine.Application.Exceptions
         public NoteNotFoundException()
             : base(ExceptionDescriptionConstants.NoteNotFound)
         {
-
         }
     }
 }

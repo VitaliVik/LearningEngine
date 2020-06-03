@@ -7,19 +7,19 @@ namespace LearningEngine.Application.UseCase.Command
     public class CreateCardAndStatisticCommand : IRequest, IPipelinePermissionQuery
     {
         public int UserId { get; private set; }
-        public int ObjectId { get; private set; }
+        public int ThemeId { get; private set; }
+        public int ObjectId => ThemeId;
         public string Question { get; private set; }
         public string Answer { get; private set; }
 
-        public ObjectType ObjectType { get; private set; }
+        public ObjectType ObjectType => ObjectType.Theme;
 
         public CreateCardAndStatisticCommand(int userId, int themeId, string question, string answer)
         {
             UserId = userId;
-            ObjectId = themeId;
+            ThemeId = themeId;
             Question = question;
             Answer = answer;
-            ObjectType = ObjectType.Theme;
         }
     }
 }

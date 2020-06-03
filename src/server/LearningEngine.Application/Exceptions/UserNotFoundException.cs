@@ -10,7 +10,6 @@ namespace LearningEngine.Application.Exceptions
         public UserNotFoundException()
             : base(ExceptionDescriptionConstants.UserNotFound)
         {
-
         }
     }
 }

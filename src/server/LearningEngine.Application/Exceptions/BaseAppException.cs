@@ -9,13 +9,11 @@ namespace LearningEngine.Application.Exceptions
         public BaseAppException(string message, Exception innerException)
             : base(message, innerException)
         {
-
         }
 
         public BaseAppException(string message)
             : base(message)
         {
-
         }
     }
 }
