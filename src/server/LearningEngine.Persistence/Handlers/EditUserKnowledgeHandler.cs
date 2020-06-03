@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Command;
+﻿using LearningEngine.Application.Exceptions;
+using LearningEngine.Domain.Command;
 using LearningEngine.Domain.Constants;
 using LearningEngine.Persistence.Models;
 using MediatR;
@@ -27,7 +28,7 @@ namespace LearningEngine.Persistence.Handlers
 
             if(card == null)
             {
-                throw new Exception(ExceptionDescriptionConstants.CardNotFound);
+                throw new CardNotFoundException();
             }
 
             var statistic = await _context.Statistic.FirstOrDefaultAsync(stat => stat.CardId == request.CardId
@@ -35,7 +36,7 @@ namespace LearningEngine.Persistence.Handlers
 
             if(statistic == null)
             {
-                throw new Exception(ExceptionDescriptionConstants.StatisticNotFound);
+                throw new StatisticNotFoundException();
             }
 
             statistic.CardKnowledge += request.Value;

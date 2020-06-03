@@ -36,7 +36,6 @@ namespace LearningEngine.Persistence.Handlers
             }
             catch (Exception ex)
             {
-
                 throw new RegisterUserException(ex);
             }
 

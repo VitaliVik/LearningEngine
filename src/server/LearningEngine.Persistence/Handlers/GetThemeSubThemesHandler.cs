@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using LearningEngine.Domain.Constants;
+using LearningEngine.Application.Exceptions;
 
 namespace LearningEngine.Persistence.Handlers
 {
@@ -45,7 +46,7 @@ namespace LearningEngine.Persistence.Handlers
             }
             else
             {
-                throw new Exception("тема не найдена");
+                throw new ThemeNotFoundException();
             }
         }
     }

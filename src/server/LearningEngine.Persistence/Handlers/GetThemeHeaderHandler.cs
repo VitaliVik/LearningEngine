@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.DTO;
+﻿using LearningEngine.Application.Exceptions;
+using LearningEngine.Domain.DTO;
 using LearningEngine.Domain.Query;
 using LearningEngine.Persistence.Models;
 using MediatR;
@@ -40,7 +41,7 @@ namespace LearningEngine.Persistence.Handlers
             }
             else
             {
-                throw new Exception("тема не найдена");
+                throw new ThemeNotFoundException();
             }
 
         }

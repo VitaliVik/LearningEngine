@@ -17,11 +17,11 @@ namespace LearningEngine.Api.Extensions
         private static string PipelineBehaviorInterfaceName = typeof(IPipelineBehavior<,>).Name;
         private static string MediatorIRequestName = typeof(IRequest<>).Name;
 
-        public static void RegisterAllAssignableType(this IServiceCollection services, Assembly commandQueryAssembly)
+        public static void RegisterAllAssignableType<T>(this IServiceCollection services, Assembly commandQueryAssembly)
         {
-            var interfacesAssembly = typeof(IPipelinePermissionCommand).Assembly;
+            var interfacesAssembly = typeof(T).Assembly;
             var interfacesTypes = interfacesAssembly.GetTypes().Where(p => p.IsInterface == true)
-                                    .Where(p => p.FullName.Contains(typeof(IPipelinePermissionCommand).Namespace));
+                                    .Where(p => p.FullName.Contains(typeof(T).Namespace));
 
             foreach (var interfaceType in interfacesTypes)
             {

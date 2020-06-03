@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Interfaces.PipelinePermissions;
+﻿using LearningEngine.Domain.Enum;
+using LearningEngine.Domain.Interfaces.PipelinePermissions;
 using MediatR;
 
 namespace LearningEngine.Domain.Command
@@ -12,5 +13,7 @@ namespace LearningEngine.Domain.Command
         }
         public int ThemeId { get; private set; }
         public int UserId { get; private set; }
+        public ObjectType ObjectType => ObjectType.Theme;
+        public int ObjectId => ThemeId;
     }
 }

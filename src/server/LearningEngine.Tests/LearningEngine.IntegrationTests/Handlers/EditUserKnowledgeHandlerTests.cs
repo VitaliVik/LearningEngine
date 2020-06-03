@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Command;
+﻿using LearningEngine.Application.Exceptions;
+using LearningEngine.Domain.Command;
 using LearningEngine.Domain.Constants;
 using LearningEngine.Domain.Enum;
 using LearningEngine.IntegrationTests.Fixtures;
@@ -37,7 +38,6 @@ namespace LearningEngine.IntegrationTests.Handlers
                                     TypeAccess.Write, dataContainer.Card, dataContainer.Statistic);
 
                 var editUserKnowledgeCommand = new EditUserKnowledgeCommand(dataContainer.User.Id,
-                                                                            dataContainer.Theme.Id,
                                                                             dataContainer.Card.Id,
                                                                             KnowledgeValue);
                 var editUserKnowledgeHandler = new EditUserKnowledgeHandler(context);
@@ -67,7 +67,6 @@ namespace LearningEngine.IntegrationTests.Handlers
                                     TypeAccess.Write, dataContainer.Card, dataContainer.Statistic);
 
                 var editUserKnowledgeCommand = new EditUserKnowledgeCommand(dataContainer.User.Id,
-                                                                            dataContainer.Theme.Id,
                                                                             -1,
                                                                             KnowledgeValue);
                 var editUserKnowledgeHandler = new EditUserKnowledgeHandler(context);
@@ -75,7 +74,7 @@ namespace LearningEngine.IntegrationTests.Handlers
                 //Act
                 Func<Task> editKnowledge = () => editUserKnowledgeHandler.Handle
                                                             (editUserKnowledgeCommand, CancellationToken.None);
-                Exception exception = await Assert.ThrowsAsync<Exception>(editKnowledge);
+                Exception exception = await Assert.ThrowsAsync<CardNotFoundException>(editKnowledge);
 
                 //Assert
                 Assert.Equal(ExceptionDescriptionConstants.CardNotFound, exception.Message);

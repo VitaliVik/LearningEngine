@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Command;
+﻿using LearningEngine.Application.Exceptions;
+using LearningEngine.Domain.Command;
 using LearningEngine.Domain.Constants;
 using LearningEngine.Domain.DTO;
 using LearningEngine.Domain.Enum;
@@ -86,7 +87,7 @@ namespace LearningEngine.IntegrationTests.Handlers
 
                 //Act
                 Func<Task> editTheme = () => handler.Handle(editThemeCommand, CancellationToken.None);
-                Exception exception = await Assert.ThrowsAsync<Exception>(editTheme);
+                Exception exception = await Assert.ThrowsAsync<ThemeNotFoundException>(editTheme);
 
                 //Assert
                 Assert.Equal(ExceptionDescriptionConstants.ThemeNotFound, exception.Message);

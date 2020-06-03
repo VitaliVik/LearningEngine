@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Constants;
+﻿using LearningEngine.Application.Exceptions;
+using LearningEngine.Domain.Constants;
 using LearningEngine.Domain.DTO;
 using LearningEngine.Domain.Enum;
 using LearningEngine.Domain.Query;
@@ -30,7 +31,7 @@ namespace LearningEngine.Persistence.Handlers
 
             if (!themes.Any())
             {
-                throw new Exception(ExceptionDescriptionConstants.RootThemesNotFount);
+                throw new RootThemesNotFoundException();
             }
 
             var result = themes.Select(theme => new ThemeHeaderDto

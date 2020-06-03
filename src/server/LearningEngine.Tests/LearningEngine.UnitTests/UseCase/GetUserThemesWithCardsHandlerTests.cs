@@ -56,7 +56,7 @@ namespace LearningEngine.UnitTests.UseCase
                 MockUow.Setup(m => m.CommitTransaction());
                 MockUow.Setup(m => m.StartTransaction());
                 MockUow.Setup(m => m.RollbackTransaction());
-                TestingHandler = new GetUserThemesWithCardsHandler(MockMediator.Object, MockUow.Object);
+                TestingHandler = new GetUserFullInfoHandler(MockMediator.Object, MockUow.Object);
             }
 
             public void CheckGetThemeHeader(int themeId, int userId)
@@ -85,7 +85,7 @@ namespace LearningEngine.UnitTests.UseCase
 
             public Mock<IMediator> MockMediator { get; set; }
             public Mock<ITransactionUnitOfWork> MockUow { get; set; }
-            public GetUserThemesWithCardsHandler TestingHandler { get; set; }
+            public GetUserFullInfoHandler TestingHandler { get; set; }
         }
 
         public class TestData
