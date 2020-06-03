@@ -20,7 +20,7 @@ namespace LearningEngine.Application.UseCase.Handler
 
         protected async override Task<Unit> Action(CreateCardAndStatisticCommand request)
         {
-            var createCardCommand = new CreateCardCommand(request.UserId, request.ThemeId, 
+            var createCardCommand = new CreateCardCommand(request.UserId, request.ObjectId, 
                                                           request.Question, request.Answer);
             var cardId = await _mediator.Send(createCardCommand);
 

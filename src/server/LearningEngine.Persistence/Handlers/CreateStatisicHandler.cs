@@ -23,7 +23,7 @@ namespace LearningEngine.Persistence.Handlers
 
         public async Task<Unit> Handle(CreateStatisicCommand request, CancellationToken cancellationToken)
         {
-            var card = await _context.Cards.FirstOrDefaultAsync(card => card.Id == request.CardId);
+            var card = await _context.Cards.FirstOrDefaultAsync(card => card.Id == request.ObjectId);
 
             if(card == null)
             {
@@ -31,7 +31,11 @@ namespace LearningEngine.Persistence.Handlers
             }
 
             await _context.Statistic.AddAsync(new Statistic 
-                                                    { CardId = request.CardId, UserId = request.UserId, CardKnowledge = 0.0 });
+            { 
+                CardId = request.ObjectId, 
+                UserId = request.UserId, 
+                CardKnowledge = 0.0 
+            });
             await _context.SaveChangesAsync();
 
             return default;

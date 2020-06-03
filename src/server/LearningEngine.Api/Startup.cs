@@ -26,6 +26,8 @@ using LearningEngine.Api.Extensions;
 using LearningEngine.Domain.Command;
 using LearningEngine.Domain.Interfaces.PipelinePermissions;
 using LearningEngine.Application.PipelineBehaviors;
+using LearningEngine.Application.Factories;
+using LearningEngine.Domain.Enum;
 
 namespace LearningEngine.Api
 {
@@ -65,9 +67,15 @@ namespace LearningEngine.Api
                 });
             services.AddSingleton<IPasswordHasher>(sp => new PasswordHasher());
             services.AddTransient<IEnviromentService, EnviromentService>();
-            services.RegisterAllAssignableType(typeof(GetThemeNotesQuery).GetTypeInfo().Assembly);
+            services.RegisterAllAssignableType<IPipelinePermissionCommand>
+                                              (typeof(GetThemeNotesQuery).GetTypeInfo().Assembly);
             services.AddScoped<IJwtTokenCryptographer, JwtTokenCoder>();
             services.AddTransient<JwtSecurityTokenHandler>();
+            services.AddTransient<IGetPermissionModelFactory, GetPermissionModelFactory>(sp =>
+            {
+                return sp.GetRequiredService<GetPermissionModelFactory>().RegisterQuery();
+            });
+            services.AddTransient<GetPermissionModelFactory>();
             services.AddTransient<IConfigurationService, ConfigurationService>(provider =>
             new ConfigurationService(provider.GetService<IEnviromentService>()));
             services.AddCors(options => options.AddPolicy("defaultPolicy",

@@ -38,7 +38,6 @@ namespace LearningEngine.IntegrationTests.Handlers
                                     TypeAccess.Write, dataContainer.Card, dataContainer.Statistic);
 
                 var editUserKnowledgeCommand = new EditUserKnowledgeCommand(dataContainer.User.Id,
-                                                                            dataContainer.Theme.Id,
                                                                             dataContainer.Card.Id,
                                                                             KnowledgeValue);
                 var editUserKnowledgeHandler = new EditUserKnowledgeHandler(context);
@@ -68,7 +67,6 @@ namespace LearningEngine.IntegrationTests.Handlers
                                     TypeAccess.Write, dataContainer.Card, dataContainer.Statistic);
 
                 var editUserKnowledgeCommand = new EditUserKnowledgeCommand(dataContainer.User.Id,
-                                                                            dataContainer.Theme.Id,
                                                                             -1,
                                                                             KnowledgeValue);
                 var editUserKnowledgeHandler = new EditUserKnowledgeHandler(context);

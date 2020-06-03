@@ -24,7 +24,7 @@ namespace LearningEngine.Api.Controllers
 
         [ExceptionFilter]
         [HttpPost("{cardId}")]
-        public async Task<IActionResult> Create([FromRoute]int cardId)
+        public async Task<IActionResult> Create([FromRoute] int cardId)
         {
             var createStatisticCommand = new CreateStatisicCommand(this.GetUserId(), cardId);
 
@@ -35,9 +35,9 @@ namespace LearningEngine.Api.Controllers
 
         [ExceptionFilter]
         [HttpPut("increaceKnowledge/{cardId}")]
-        public async Task<IActionResult> IncreaceKnowledge([FromRoute]int cardId, [FromForm] int themeId)
+        public async Task<IActionResult> IncreaceKnowledge([FromRoute] int cardId)
         {
-            var editStatisticCommand = new EditUserKnowledgeCommand(this.GetUserId(), themeId, cardId, 10);
+            var editStatisticCommand = new EditUserKnowledgeCommand(this.GetUserId(), cardId, 10);
 
             await _mediator.Send(editStatisticCommand);
 
@@ -46,9 +46,9 @@ namespace LearningEngine.Api.Controllers
 
         [ExceptionFilter]
         [HttpPut("reduceKnowledge/{cardId}")]
-        public async Task<IActionResult> ReduceKnowledge([FromRoute]int cardId, [FromForm] int themeId)
+        public async Task<IActionResult> ReduceKnowledge([FromRoute] int cardId)
         {
-            var editStatisticCommand = new EditUserKnowledgeCommand(this.GetUserId(), themeId, cardId, -10);
+            var editStatisticCommand = new EditUserKnowledgeCommand(this.GetUserId(), cardId, -10);
 
             await _mediator.Send(editStatisticCommand);
 

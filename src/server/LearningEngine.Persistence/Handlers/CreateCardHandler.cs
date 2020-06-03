@@ -24,14 +24,14 @@ namespace LearningEngine.Persistence.Handlers
 
         public async Task<int> Handle(CreateCardCommand request, CancellationToken cancellationToken)
         {
-            var theme = await _context.Themes.FirstOrDefaultAsync(theme => theme.Id == request.ThemeId);
+            var theme = await _context.Themes.FirstOrDefaultAsync(theme => theme.Id == request.ObjectId);
 
             if (theme == null)
             {
                 throw new ThemeNotFoundException();
             }
 
-            var card = new Card { Answer = request.Answer, Question = request.Question, ThemeId = request.ThemeId };
+            var card = new Card { Answer = request.Answer, Question = request.Question, ThemeId = request.ObjectId };
 
             await _context.Cards.AddAsync(card);
             await _context.SaveChangesAsync();

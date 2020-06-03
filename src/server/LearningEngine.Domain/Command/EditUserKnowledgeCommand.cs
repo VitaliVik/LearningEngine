@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Interfaces.PipelinePermissions;
+﻿using LearningEngine.Domain.Enum;
+using LearningEngine.Domain.Interfaces.PipelinePermissions;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -10,18 +11,18 @@ namespace LearningEngine.Domain.Command
     {
         public int UserId { get; set; }
 
-        public int ThemeId { get; set; }
-
-        public int CardId { get; set; }
+        public int ObjectId { get; set; }
 
         public double Value { get; set; }
 
-        public EditUserKnowledgeCommand(int userId, int themeId, int cardId, double value)
+        public ObjectType ObjectType { get; set; }
+
+        public EditUserKnowledgeCommand(int userId, int cardId, double value)
         {
             UserId = userId;
-            ThemeId = themeId;
-            CardId = cardId;
+            ObjectId = cardId;
             Value = value;
+            ObjectType = ObjectType.Card;
         }
     }
 }
