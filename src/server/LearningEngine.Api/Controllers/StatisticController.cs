@@ -22,7 +22,6 @@ namespace LearningEngine.Api.Controllers
             _mediator = mediator;
         }
 
-        [ExceptionFilter]
         [HttpPost("{cardId}")]
         public async Task<IActionResult> Create([FromRoute] int cardId)
         {
@@ -33,7 +32,6 @@ namespace LearningEngine.Api.Controllers
             return Ok();
         }
 
-        [ExceptionFilter]
         [HttpPut("increaceKnowledge/{cardId}")]
         public async Task<IActionResult> IncreaceKnowledge([FromRoute] int cardId)
         {
@@ -44,7 +42,6 @@ namespace LearningEngine.Api.Controllers
             return Ok();
         }
 
-        [ExceptionFilter]
         [HttpPut("reduceKnowledge/{cardId}")]
         public async Task<IActionResult> ReduceKnowledge([FromRoute] int cardId)
         {

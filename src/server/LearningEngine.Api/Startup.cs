@@ -28,6 +28,7 @@ using LearningEngine.Domain.Interfaces.PipelinePermissions;
 using LearningEngine.Application.PipelineBehaviors;
 using LearningEngine.Application.Factories;
 using LearningEngine.Domain.Enum;
+using LearningEngine.Api.AppFilters;
 
 namespace LearningEngine.Api
 {
@@ -71,6 +72,10 @@ namespace LearningEngine.Api
                                               (typeof(GetThemeNotesQuery).GetTypeInfo().Assembly);
             services.AddScoped<IJwtTokenCryptographer, JwtTokenCoder>();
             services.AddTransient<JwtSecurityTokenHandler>();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(ExceptionFilter));
+            });
             services.AddTransient<IGetPermissionModelFactory, GetPermissionModelFactory>(sp =>
             {
                 return sp.GetRequiredService<GetPermissionModelFactory>().RegisterQuery();

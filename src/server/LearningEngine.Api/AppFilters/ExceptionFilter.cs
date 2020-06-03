@@ -19,7 +19,6 @@ namespace LearningEngine.Api.AppFilters
                     Content = context.Exception.Message,
                     StatusCode = 400
                 };
-                context.ExceptionHandled = true;
             }
             else
             {
@@ -28,8 +27,8 @@ namespace LearningEngine.Api.AppFilters
                     Content = "Unexpected server exception",
                     StatusCode = 500
                 };
-                context.ExceptionHandled = true;
             }
+            context.ExceptionHandled = true;
         }
     }
 }

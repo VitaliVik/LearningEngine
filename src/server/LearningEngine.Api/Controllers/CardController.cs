@@ -26,7 +26,6 @@ namespace LearningEngine.Api.Controllers
             _mediator = mediator;
         }
 
-        [ExceptionFilter]
         [HttpPost("{themeId}")]
         public async Task<IActionResult> CreateCard([FromRoute]int themeId, [FromForm]CreateCardViewModel vm)
         {
@@ -38,7 +37,6 @@ namespace LearningEngine.Api.Controllers
             return Ok();
         }
 
-        [ExceptionFilter]
         [HttpGet("{themeId}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetCards([FromRoute]int themeId)

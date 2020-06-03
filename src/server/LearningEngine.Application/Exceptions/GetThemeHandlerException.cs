@@ -6,7 +6,8 @@ namespace LearningEngine.Application.Exceptions
 {
     public class GetThemeHandlerException : Exception
     {
-        public GetThemeHandlerException(Exception innerException):base("Ошибка при попытке выборки темы", innerException)
+        public GetThemeHandlerException(Exception innerException)
+            : base("Ошибка при попытке выборки темы", innerException)
         {
         }
     }

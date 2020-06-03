@@ -7,7 +7,8 @@ namespace LearningEngine.Application.Exceptions
 {
     public class UserNotFoundException : BaseAppException
     {
-        public UserNotFoundException() :base(ExceptionDescriptionConstants.UserNotFound)
+        public UserNotFoundException()
+            : base(ExceptionDescriptionConstants.UserNotFound)
         {
 
         }

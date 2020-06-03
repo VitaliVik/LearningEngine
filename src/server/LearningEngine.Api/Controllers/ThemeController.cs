@@ -34,7 +34,6 @@ namespace LearningEngine.Api.Controllers
             _workWithJwtToken = workWithJwtToken;
         }
 
-        [ExceptionFilter]
         [HttpPost]
         public async Task<IActionResult> CreateUserTheme([FromForm]CreateThemeViewModel vm)
         {
@@ -46,7 +45,6 @@ namespace LearningEngine.Api.Controllers
             return Ok();
         }
 
-        [ExceptionFilter]
         [HttpDelete("{themeId}")]
         public async Task<IActionResult> DeleteTheme([FromRoute] int themeId)
         {
@@ -57,7 +55,6 @@ namespace LearningEngine.Api.Controllers
             return Ok();
         }
 
-        [ExceptionFilter]
         [HttpGet("{themeId}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetTheme([FromRoute] int themeId)
@@ -69,7 +66,6 @@ namespace LearningEngine.Api.Controllers
             return Ok(themes);
         }
 
-        [ExceptionFilter]
         [HttpGet("{themeId}/fullInfo")]
         public async Task<IActionResult> GetFullInfo([FromRoute] int themeId)
         {
@@ -80,7 +76,6 @@ namespace LearningEngine.Api.Controllers
             return Ok(new { theme = result, isRoot = false });
         }
 
-        [ExceptionFilter]
         [HttpGet("userRootThemes")]
         public async Task<IActionResult> GetUserRootThemes()
         {
@@ -91,7 +86,6 @@ namespace LearningEngine.Api.Controllers
             return Ok(rootThemes);
         }
 
-        [ExceptionFilter]
         [HttpPost("linkUserToTheme")]
         public async Task<IActionResult> LinkUserToTheme([FromForm]int themeId, [FromForm]TypeAccess typeAccess)
         {
@@ -102,7 +96,6 @@ namespace LearningEngine.Api.Controllers
             return Ok();
         }
 
-        [ExceptionFilter]
         [HttpPut("{themeId}")]
         public async Task<IActionResult> EditTheme([FromForm]ThemeDto themeDto, [FromRoute]int themeId)
         {

@@ -15,14 +15,13 @@ namespace LearningEngine.Domain.Command
 
         public double Value { get; set; }
 
-        public ObjectType ObjectType { get; set; }
+        public ObjectType ObjectType => ObjectType.Card;
 
         public EditUserKnowledgeCommand(int userId, int cardId, double value)
         {
             UserId = userId;
             ObjectId = cardId;
             Value = value;
-            ObjectType = ObjectType.Card;
         }
     }
 }

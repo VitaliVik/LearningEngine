@@ -25,7 +25,6 @@ namespace LearningEngine.Api.Controllers
             _mediator = mediator;
         }
 
-        [ExceptionFilter]
         [HttpGet("{themeId}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetNotes(int themeId)
@@ -37,7 +36,6 @@ namespace LearningEngine.Api.Controllers
             return Ok(result);
         }
 
-        [ExceptionFilter]
         [HttpPost("{themeId}/note")]
         public async Task<IActionResult> AddNote([FromRoute]int themeId, [FromForm]string title, [FromForm]string content)
         {

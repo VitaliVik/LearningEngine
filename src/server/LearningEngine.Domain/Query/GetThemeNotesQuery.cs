@@ -12,13 +12,12 @@ namespace LearningEngine.Domain.Query
 
         public int UserId { get; private set; }
 
-        public ObjectType ObjectType { get; private set; }
+        public ObjectType ObjectType => ObjectType.Theme;
 
         public GetThemeNotesQuery(int objectId, int userId)
         {
             ObjectId = objectId;
             UserId = userId;
-            ObjectType = ObjectType.Theme;
         }
     }
 }

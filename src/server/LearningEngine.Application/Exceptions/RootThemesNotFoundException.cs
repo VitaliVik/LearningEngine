@@ -7,7 +7,8 @@ namespace LearningEngine.Application.Exceptions
 {
     public class RootThemesNotFoundException : BaseAppException
     {
-        public RootThemesNotFoundException() : base(ExceptionDescriptionConstants.RootThemesNotFount)
+        public RootThemesNotFoundException()
+            : base(ExceptionDescriptionConstants.RootThemesNotFount)
         {
 
         }

@@ -7,7 +7,8 @@ namespace LearningEngine.Application.Exceptions
 {
     public class NoteNotFoundException : BaseAppException
     {
-        public NoteNotFoundException() : base(ExceptionDescriptionConstants.NoteNotFound)
+        public NoteNotFoundException()
+            : base(ExceptionDescriptionConstants.NoteNotFound)
         {
 
         }

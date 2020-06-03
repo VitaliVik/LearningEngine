@@ -10,18 +10,18 @@ namespace LearningEngine.Application.Factories
 {
     public class GetPermissionModelFactory : IGetPermissionModelFactory
     {
-        private readonly Dictionary<ObjectType, Func<int, IRequest<ThemeDto>>> ThemeIdQueryGetter;
+        private readonly Dictionary<ObjectType, Func<int, IRequest<ThemeDto>>> themeIdQueryGetter;
         public GetPermissionModelFactory()
         {
-            ThemeIdQueryGetter = new Dictionary<ObjectType, Func<int, IRequest<ThemeDto>>>();
+            themeIdQueryGetter = new Dictionary<ObjectType, Func<int, IRequest<ThemeDto>>>();
         }
         public IRequest<ThemeDto> GetModel(int objectId, ObjectType objectType)
         {
-            return ThemeIdQueryGetter[objectType].Invoke(objectId);
+            return themeIdQueryGetter[objectType].Invoke(objectId);
         }
         public void AddQuery(ObjectType objectType, Func<int, IRequest<ThemeDto>> func)
         {
-            ThemeIdQueryGetter.Add(objectType, func);
+            themeIdQueryGetter.Add(objectType, func);
         }
     }
 }

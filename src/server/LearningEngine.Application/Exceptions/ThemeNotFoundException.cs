@@ -7,7 +7,8 @@ namespace LearningEngine.Application.Exceptions
 {
     public class ThemeNotFoundException : BaseAppException
     {
-        public ThemeNotFoundException() : base(ExceptionDescriptionConstants.ThemeNotFound)
+        public ThemeNotFoundException()
+            : base(ExceptionDescriptionConstants.ThemeNotFound)
         {
 
         }

@@ -6,7 +6,8 @@ namespace LearningEngine.Application.Exceptions
 {
     public class CreateThemeException : Exception
     {
-        public CreateThemeException(Exception innerException): base("Ошибка при создании темы", innerException)
+        public CreateThemeException(Exception innerException)
+            : base("Ошибка при создании темы", innerException)
         {
         }
     }

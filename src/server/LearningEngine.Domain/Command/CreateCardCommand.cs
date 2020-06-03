@@ -10,8 +10,7 @@ namespace LearningEngine.Domain.Command
         public int ObjectId { get; private set; }
         public string Question { get; private set; }
         public string Answer { get; private set; }
-
-        public ObjectType ObjectType { get; private set; }
+        public ObjectType ObjectType => ObjectType.Theme;
 
         public CreateCardCommand(int userId, int objectId, string question, string answer)
         {
@@ -19,7 +18,6 @@ namespace LearningEngine.Domain.Command
             ObjectId = objectId;
             Question = question;
             Answer = answer;
-            ObjectType = ObjectType.Theme;
         }
     }
 }

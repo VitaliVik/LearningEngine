@@ -6,7 +6,8 @@ namespace LearningEngine.Application.Exceptions
 {
     public class UseCaseTransactionException : Exception
     {
-        public UseCaseTransactionException(Exception exception): base("транзакция была прервана", exception)
+        public UseCaseTransactionException(Exception exception)
+            : base("транзакция была прервана", exception)
         {
         }
     }

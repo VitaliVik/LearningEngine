@@ -7,7 +7,8 @@ namespace LearningEngine.Application.Exceptions
 {
     public class CardNotFoundException : BaseAppException
     {
-        public CardNotFoundException() : base(ExceptionDescriptionConstants.CardNotFound)
+        public CardNotFoundException()
+            : base(ExceptionDescriptionConstants.CardNotFound)
         {
 
         }

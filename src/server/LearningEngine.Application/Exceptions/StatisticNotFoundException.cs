@@ -7,7 +7,8 @@ namespace LearningEngine.Application.Exceptions
 {
     public class StatisticNotFoundException : BaseAppException
     {
-        public StatisticNotFoundException() : base(ExceptionDescriptionConstants.StatisticNotFound)
+        public StatisticNotFoundException()
+            : base(ExceptionDescriptionConstants.StatisticNotFound)
         {
 
         }
