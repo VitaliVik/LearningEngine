@@ -10,7 +10,7 @@ using LearningEngine.Persistence.Utils;
 
 namespace LearningEngine.Persistence.Handlers
 {
-    public  class RegisterUserHandler : IRequestHandler<RegisterUserCommand>
+    public class RegisterUserHandler : IRequestHandler<RegisterUserCommand>
     {
         private readonly LearnEngineContext _context;
         private readonly IPasswordHasher _hasher;

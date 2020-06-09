@@ -8,7 +8,9 @@ namespace LearningEngine.Domain.Interfaces.PipelinePermissions
     public interface IPipelinePermissionCommand
     {
         int UserId { get; }
+
         int ObjectId { get; }
+
         ObjectType ObjectType { get; }
     }
 }

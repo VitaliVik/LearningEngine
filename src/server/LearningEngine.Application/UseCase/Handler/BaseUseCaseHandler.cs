@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace LearningEngine.Application.UseCase.Handler
 {
     public abstract class BaseUseCaseHandler<TResult, TRequestUseCase> : IRequestHandler<TRequestUseCase, TResult>
-        where TRequestUseCase: IRequest<TResult>
+        where TRequestUseCase : IRequest<TResult>
     {
         private readonly ITransactionUnitOfWork _uow;
         protected BaseUseCaseHandler(ITransactionUnitOfWork uow)

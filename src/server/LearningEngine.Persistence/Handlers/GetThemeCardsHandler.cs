@@ -31,7 +31,7 @@ namespace LearningEngine.Persistence.Handlers
                 var cards = theme.Cards
                     .Select(card => new CardDto { Answer = card.Answer, Question = card.Question, Id = card.Id })
                     .ToList();
-                    
+
                 return cards;
             }
             else

@@ -12,7 +12,7 @@ namespace LearningEngine.Application.PipelineValidators
     {
         private readonly IMediator _mediator;
         private readonly IGetPermissionModelFactory _getPermissionModelFactory;
-        
+
         public PipelinePermissionQueryValidator(IMediator mediator,
                                                   IGetPermissionModelFactory getPermissionModelFactory)
         {
@@ -20,7 +20,7 @@ namespace LearningEngine.Application.PipelineValidators
             _getPermissionModelFactory = getPermissionModelFactory;
         }
 
-        public async Task<TResponse> Handle(IPipelinePermissionQuery request, 
+        public async Task<TResponse> Handle(IPipelinePermissionQuery request,
                                         CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             var query = _getPermissionModelFactory.GetModel

@@ -35,9 +35,9 @@ namespace LearningEngine.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUserTheme([FromForm]CreateThemeViewModel vm)
+        public async Task<IActionResult> CreateUserTheme([FromForm] CreateThemeViewModel vm)
         {
-            var command = new CreateUserThemeCommand(this.GetUserName(), vm.ThemeName, vm.Description, 
+            var command = new CreateUserThemeCommand(this.GetUserName(), vm.ThemeName, vm.Description,
                                                      vm.IsPublic, this.GetUserId(), vm.ParentThemeId);
 
             await _mediator.Send(command);
@@ -87,7 +87,7 @@ namespace LearningEngine.Api.Controllers
         }
 
         [HttpPost("linkUserToTheme")]
-        public async Task<IActionResult> LinkUserToTheme([FromForm]int themeId, [FromForm]TypeAccess typeAccess)
+        public async Task<IActionResult> LinkUserToTheme([FromForm] int themeId, [FromForm] TypeAccess typeAccess)
         {
             var command = new LinkThemeAndAllSubThemesToUserCommand(this.GetUserId(), themeId, typeAccess);
 
@@ -97,7 +97,7 @@ namespace LearningEngine.Api.Controllers
         }
 
         [HttpPut("{themeId}")]
-        public async Task<IActionResult> EditTheme([FromForm]ThemeDto themeDto, [FromRoute]int themeId)
+        public async Task<IActionResult> EditTheme([FromForm] ThemeDto themeDto, [FromRoute] int themeId)
         {
             var command = new EditThemeCommand(themeDto, this.GetUserId(), themeId);
 

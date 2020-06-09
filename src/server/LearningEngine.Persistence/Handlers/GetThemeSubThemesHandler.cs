@@ -34,9 +34,9 @@ namespace LearningEngine.Persistence.Handlers
                 var themes = theme.SubThemes
                     .Select(thm => new ThemeDto
                     {
-                        Id = thm.Id, 
+                        Id = thm.Id,
                         Name = thm.Name,
-                        Desсription = thm.Description, 
+                        Desсription = thm.Description,
                         IsPublic = thm.IsPublic,
                         Notes = thm.Notes?.Select(note => new NoteDto { Content = note.Content, Title = note.Title }).ToList()
                     })

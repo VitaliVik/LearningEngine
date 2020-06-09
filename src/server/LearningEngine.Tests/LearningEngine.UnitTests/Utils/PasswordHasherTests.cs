@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 
 namespace LearningEngine.UnitTests.Utils
 {
-    
+
     public class PasswordHasherTests
     {
 

@@ -25,16 +25,16 @@ namespace LearningEngine.Persistence.Handlers
         {
             var card = await _context.Cards.FirstOrDefaultAsync(card => card.Id == request.CardId);
 
-            if(card == null)
+            if (card == null)
             {
                 throw new CardNotFoundException();
             }
 
-            await _context.Statistic.AddAsync(new Statistic 
-            { 
-                CardId = request.CardId, 
-                UserId = request.UserId, 
-                CardKnowledge = 0.0 
+            await _context.Statistic.AddAsync(new Statistic
+            {
+                CardId = request.CardId,
+                UserId = request.UserId,
+                CardKnowledge = 0.0
             });
             await _context.SaveChangesAsync();
 

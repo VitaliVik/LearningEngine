@@ -12,7 +12,7 @@ namespace LearningEngine.Persistence.Migrations
                 table: "Users",
                 maxLength: 64,
                 nullable: false,
-                defaultValue: new byte[] {  });
+                defaultValue: new byte[] { });
 
             migrationBuilder.UpdateData(
                 table: "Users",

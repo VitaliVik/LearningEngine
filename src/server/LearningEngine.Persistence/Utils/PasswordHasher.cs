@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace LearningEngine.Persistence.Utils
 {
-    public class PasswordHasher: IPasswordHasher
+    public class PasswordHasher : IPasswordHasher
     {
         public byte[] GetHash(string password, string username)
         {
@@ -21,6 +21,7 @@ namespace LearningEngine.Persistence.Utils
             }
             var hasher = SHA512.Create();
             var byteArray = hasher.ComputeHash(Encoding.ASCII.GetBytes(password + username));
+
             return byteArray;
         }
     }

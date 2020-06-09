@@ -10,11 +10,11 @@ namespace LearningEngine.Api.Authorization
 {
     public class JwtTokenCoder : IJwtTokenCryptographer
     {
-        private readonly JwtSecurityTokenHandler _JwtSecurityTokenHandler;
+        private readonly JwtSecurityTokenHandler jwtSecurityTokenHandler;
 
-        public JwtTokenCoder(JwtSecurityTokenHandler JwtSecurityTokenHandler)
+        public JwtTokenCoder(JwtSecurityTokenHandler jwtSecurityTokenHandler)
         {
-            _JwtSecurityTokenHandler = JwtSecurityTokenHandler;
+            this.jwtSecurityTokenHandler = jwtSecurityTokenHandler;
         }
 
         public string Encode(ClaimsIdentity claimsIdentity)
@@ -26,9 +26,8 @@ namespace LearningEngine.Api.Authorization
                 claims: claimsIdentity.Claims,
                 expires: now.Add(TimeSpan.FromDays(AuthOptions.LIFETIME)),
                 signingCredentials: new Microsoft.IdentityModel.Tokens
-                    .SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256Signature)
-                );
-           return _JwtSecurityTokenHandler.WriteToken(jwt);
+                    .SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256Signature));
+            return jwtSecurityTokenHandler.WriteToken(jwt);
         }
     }
 }

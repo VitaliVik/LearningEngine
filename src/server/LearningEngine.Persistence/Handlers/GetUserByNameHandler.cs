@@ -25,8 +25,8 @@ namespace LearningEngine.Persistence.Handlers
             var user = await _context.Users
                 .FirstOrDefaultAsync(usr => usr.UserName == request.UserName);
 
-            return user != null? 
-                new UserDto { UserName = user.UserName, Email = user.Email } 
+            return user != null ?
+                new UserDto { UserName = user.UserName, Email = user.Email }
                 : null;
         }
     }

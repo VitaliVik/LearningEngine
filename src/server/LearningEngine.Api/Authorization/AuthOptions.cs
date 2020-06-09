@@ -13,6 +13,7 @@ namespace LearningEngine.Api.Authorization
         public const string AUDIENCE = "Client";
         public const string KEY = "mysupersecret_secretkey!123";
         public const int LIFETIME = 1;
+
         public static SymmetricSecurityKey GetSymmetricSecurityKey()
         {
             return new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));

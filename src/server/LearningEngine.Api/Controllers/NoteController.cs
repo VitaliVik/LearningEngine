@@ -37,7 +37,7 @@ namespace LearningEngine.Api.Controllers
         }
 
         [HttpPost("{themeId}/note")]
-        public async Task<IActionResult> AddNote([FromRoute]int themeId, [FromForm]string title, [FromForm]string content)
+        public async Task<IActionResult> AddNote([FromRoute] int themeId, [FromForm] string title, [FromForm] string content)
         {
             var command = new CreateNoteCommand(themeId, this.GetUserId(), title, content);
 

@@ -95,18 +95,18 @@ namespace LearningEngine.Api
             //    optionsBuilder.UseSqlServer(connectionString, builder => builder.MigrationsAssembly("LearningEngine.Persistence"));
             //    return new LearnEngineContext(optionsBuilder.Options);
             //});
-            services.AddDbContext<LearnEngineContext>((provider, opt)  => 
+            services.AddDbContext<LearnEngineContext>((provider, opt) =>
             {
                 var configureService = provider.GetService<IConfigurationService>();
                 var connectionString = configureService.GetConfiguration().GetConnectionString(nameof(LearnEngineContext));
-                opt.UseSqlServer(connectionString, builder => builder.MigrationsAssembly("LearningEngine.Persistence")); 
+                opt.UseSqlServer(connectionString, builder => builder.MigrationsAssembly("LearningEngine.Persistence"));
             });
-            services.AddScoped<ITransactionUnitOfWork>(sp => 
+            services.AddScoped<ITransactionUnitOfWork>(sp =>
             new TransactionUnitOfWork(sp.GetRequiredService<LearnEngineContext>()));
             services.AddControllers();
-            services.AddMediatR(typeof(LearningEngine.Persistence.Handlers.GetIdentityHandler).Assembly, 
+            services.AddMediatR(typeof(LearningEngine.Persistence.Handlers.GetIdentityHandler).Assembly,
                 typeof(LearningEngine.Application.UseCase.Handler.CreateUserThemeHandler).Assembly);
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

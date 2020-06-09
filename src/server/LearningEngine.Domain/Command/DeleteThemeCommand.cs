@@ -11,9 +11,13 @@ namespace LearningEngine.Domain.Command
             ThemeId = themeId;
             UserId = userId;
         }
+
         public int ThemeId { get; private set; }
+
         public int UserId { get; private set; }
+
         public ObjectType ObjectType => ObjectType.Theme;
+
         public int ObjectId => ThemeId;
     }
 }

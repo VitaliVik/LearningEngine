@@ -19,32 +19,33 @@ namespace LearningEngine.Api.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly IMediator _mediator;
-        private readonly IJwtTokenCryptographer _workWithJwtToken;
+        private readonly IMediator mediator;
+        private readonly IJwtTokenCryptographer workWithJwtToken;
+
         public AccountController(IMediator mediator, IJwtTokenCryptographer workWithJwtToken)
         {
-            _mediator = mediator;
-            _workWithJwtToken = workWithJwtToken;
+            this.mediator = mediator;
+            this.workWithJwtToken = workWithJwtToken;
         }
-        /// <summary>
-        /// Deletes a specific TodoItem.
-        /// </summary>
+
         [HttpGet("token")]
         public IActionResult Token()
         {
+
             return Ok("bibus");
         }
+
         [HttpPost("token")]
-        public async Task<IActionResult> Token([FromForm]string username, [FromForm] string password)
+        public async Task<IActionResult> Token([FromForm] string username, [FromForm] string password)
         {
             var query = new GetIdentityQuery(username, password);
-            var identity = await _mediator.Send(query);
+            var identity = await mediator.Send(query);
             if (identity == null)
             {
                 return BadRequest();
             }
 
-            var encodedJwt = _workWithJwtToken.Encode(identity);
+            var encodedJwt = workWithJwtToken.Encode(identity);
 
             var response = new
             {
@@ -56,11 +57,11 @@ namespace LearningEngine.Api.Controllers
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromForm]RegisterViewModel vm)
+        public async Task<IActionResult> Register([FromForm] RegisterViewModel vm)
         {
             var command = new RegisterUserCommand(vm.UserName, vm.Email, vm.Password);
 
-            await _mediator.Send(command);
+            await mediator.Send(command);
 
             return Ok();
         }

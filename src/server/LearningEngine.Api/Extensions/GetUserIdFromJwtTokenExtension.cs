@@ -21,7 +21,7 @@ namespace LearningEngine.Api.Extensions
         private const int _userNamePosition = 0;
         public static int GetUserId(this ControllerBase httpContext)
         {
-            if(int.TryParse(httpContext.User.Claims.ElementAt(_userIdPosition).Value, out int result))
+            if (int.TryParse(httpContext.User.Claims.ElementAt(_userIdPosition).Value, out int result))
             {
                 return result;
             }

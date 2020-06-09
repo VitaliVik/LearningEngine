@@ -25,8 +25,8 @@ namespace LearningEngine.Persistence.Handlers
         {
             var permissions = await _context.Permissions.FirstOrDefaultAsync(permissions => permissions.ThemeId == request.ThemeId &&
                                                                                       permissions.UserId == request.UserId);
-            
-            if(permissions == null || permissions.Access <= request.Access)
+
+            if (permissions == null || permissions.Access < request.Access)
             {
                 throw new NoPermissionException();
             }

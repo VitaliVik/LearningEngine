@@ -15,7 +15,7 @@ namespace LearningEngine.Application.UseCase.Handler
     public class CreateUserThemeHandler : BaseUseCaseHandler<Unit, CreateUserThemeCommand>
     {
         private readonly IMediator _mediator;
-        public CreateUserThemeHandler(IMediator mediator, ITransactionUnitOfWork uow): base(uow)
+        public CreateUserThemeHandler(IMediator mediator, ITransactionUnitOfWork uow) : base(uow)
         {
             _mediator = mediator;
         }

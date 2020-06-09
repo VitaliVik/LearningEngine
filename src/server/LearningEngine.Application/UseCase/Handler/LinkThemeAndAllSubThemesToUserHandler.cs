@@ -25,13 +25,13 @@ namespace LearningEngine.Application.UseCase.Handler
             var getThemeHeaderQuery = new GetThemeHeaderQuery(request.ThemeId, request.UserId);
             themes.Add(await _mediator.Send(getThemeHeaderQuery));
 
-            for(int i = 0; i < themes.Count; i++)
+            for (int i = 0; i < themes.Count; i++)
             {
                 var getThemeSubThemes = new GetThemeSubThemesQuery(themes[i].Id, request.UserId);
                 themes.AddRange(await _mediator.Send(getThemeSubThemes));
             }
 
-            foreach(var theme in themes)
+            foreach (var theme in themes)
             {
                 var linkUserToThemeCommand = new LinkUserToThemeCommand(request.UserId, theme.Id, request.Access);
                 await _mediator.Send(linkUserToThemeCommand);

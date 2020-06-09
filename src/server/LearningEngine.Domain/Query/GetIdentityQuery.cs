@@ -10,7 +10,9 @@ namespace LearningEngine.Domain.Query
             UserName = username;
             Password = password;
         }
+
         public string UserName { get; private set; }
+
         public string Password { get; private set; }
     }
 }

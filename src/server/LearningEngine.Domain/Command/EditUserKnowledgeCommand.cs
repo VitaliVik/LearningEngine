@@ -16,6 +16,7 @@ namespace LearningEngine.Domain.Command
         public double Value { get; set; }
 
         public ObjectType ObjectType => ObjectType.Card;
+
         public int ObjectId => CardId;
 
         public EditUserKnowledgeCommand(int userId, int cardId, double value)

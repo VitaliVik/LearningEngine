@@ -27,9 +27,9 @@ namespace LearningEngine.Api.Controllers
         }
 
         [HttpPost("{themeId}")]
-        public async Task<IActionResult> CreateCard([FromRoute]int themeId, [FromForm]CreateCardViewModel vm)
+        public async Task<IActionResult> CreateCard([FromRoute] int themeId, [FromForm] CreateCardViewModel vm)
         {
-            var createCardCommand = new CreateCardAndStatisticCommand(this.GetUserId(), themeId, 
+            var createCardCommand = new CreateCardAndStatisticCommand(this.GetUserId(), themeId,
                                                                       vm.Question, vm.Answer);
 
             await _mediator.Send(createCardCommand);
@@ -39,7 +39,7 @@ namespace LearningEngine.Api.Controllers
 
         [HttpGet("{themeId}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetCards([FromRoute]int themeId)
+        public async Task<IActionResult> GetCards([FromRoute] int themeId)
         {
             var query = new GetThemeCardsQuery(themeId, this.GetUserId());
 

@@ -15,6 +15,7 @@ namespace LearningEngine.Domain.Command
         public int CardId { get; private set; }
 
         public ObjectType ObjectType => ObjectType.Card;
+
         public int ObjectId => CardId;
 
         public CreateStatisicCommand(int userId, int cardId)

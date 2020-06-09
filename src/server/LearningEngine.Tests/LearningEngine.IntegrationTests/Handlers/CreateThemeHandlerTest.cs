@@ -28,15 +28,15 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                //Arrange
+                ////Arrange
                 var command = new CreateThemeCommand("someTheme", "just theme", true);
                 var handler = new CreateThemeHandler(context);
                 var result = await handler.Handle(command, CancellationToken.None);
 
-                //Act
+                ////Act
                 var theme = context.Themes.OrderByDescending(thm => thm.Id).FirstOrDefault();
 
-                //Assert
+                ////Assert
                 Assert.Equal(command.ThemeName, theme.Name);
                 Assert.Equal(command.Description, theme.Description);
                 Assert.True(theme.IsPublic);
@@ -51,14 +51,14 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                //Arrange
+                ////Arrange
                 var command = new CreateThemeCommand(themeName, description, true);
                 var handler = new CreateThemeHandler(context);
 
-                //Act
-                Func<Task> act = async () =>  await handler.Handle(command, CancellationToken.None);
+                ////Act
+                Func<Task> act = async () => await handler.Handle(command, CancellationToken.None);
 
-                //Assert
+                ////Assert
                 await Assert.ThrowsAsync<CreateThemeException>(act);
             });
         }
@@ -68,7 +68,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                //Arrange
+                ////Arrange
                 var parentTheme = new Theme
                 {
                     Name = ".net",
@@ -79,10 +79,10 @@ namespace LearningEngine.IntegrationTests.Handlers
                 var command = new CreateThemeCommand("LINQ", "all about linq", true, parentTheme.Id);
                 var handler = new CreateThemeHandler(context);
 
-                //Act
+                ////Act
                 await handler.Handle(command, CancellationToken.None);
 
-                //Assert
+                ////Assert
                 var result = context.Themes
                     .Include(thm => thm.ParentTheme)
                     .OrderByDescending(thm => thm.Id)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LearningEngine.Api.Services
 {
-    public class ConfigurationService: IConfigurationService
+    public class ConfigurationService : IConfigurationService
     {
         public IEnviromentService EnvService { get; set; }
         public string CurrentDirectory { get; set; }

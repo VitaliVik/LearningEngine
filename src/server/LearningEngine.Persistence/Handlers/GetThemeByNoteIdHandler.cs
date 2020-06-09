@@ -23,7 +23,7 @@ namespace LearningEngine.Persistence.Handlers
         {
             var note = await _context.Notes.FirstOrDefaultAsync(note => note.Id == request.NoteId);
 
-            if(note == null)
+            if (note == null)
             {
                 throw new NoteNotFoundException();
             }

@@ -23,7 +23,7 @@ namespace LearningEngine.Persistence.Handlers
         {
             var theme = await _context.Themes.FirstOrDefaultAsync(theme => theme.Id == request.ThemeId);
 
-            if(theme == null)
+            if (theme == null)
             {
                 throw new ThemeNotFoundException();
             }

@@ -31,7 +31,7 @@ namespace LearningEngine.Api.Extensions
                 var pipelineBehaviorAssembly = typeof(PipelinePermissionCommandValidator<>).GetTypeInfo().Assembly;
                 var pipelineBehaviorClassType = pipelineBehaviorAssembly.GetTypes()
                                       .FirstOrDefault(p => p.GetTypeInfo().ImplementedInterfaces
-                                      .Where(inter => inter.Name == PipelineBehaviorInterfaceName 
+                                      .Where(inter => inter.Name == PipelineBehaviorInterfaceName
                                        && inter.GetGenericArguments()
                                       .Contains(interfaceType)).Any());
 

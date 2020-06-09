@@ -29,7 +29,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                //Arrange
+                ////Arrange
                 var dataContainer = new TestData();
                 dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
                 dataContainer.CreateTheme("test theme", "for testing");
@@ -37,14 +37,14 @@ namespace LearningEngine.IntegrationTests.Handlers
                 new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Write);
 
                 var deleteThemeCommand = new DeleteThemeCommand
-                                (context.Themes.FirstOrDefault(theme => theme.Name == dataContainer.Theme.Name).Id,                                             
+                                (context.Themes.FirstOrDefault(theme => theme.Name == dataContainer.Theme.Name).Id,
                                 context.Users.FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id);
                 var deleteThemeHandler = new DeleteThemeHandler(context);
-
-                //Act
+                
+                ////Act
                 await deleteThemeHandler.Handle(deleteThemeCommand, CancellationToken.None);
 
-                //Assert
+                ////Assert
                 Assert.Null(await context.Themes.FirstOrDefaultAsync(theme => theme.Name == dataContainer.Theme.Name));
             });
         }
@@ -66,11 +66,11 @@ namespace LearningEngine.IntegrationTests.Handlers
                                               context.Users.FirstOrDefault
                                               (user => user.UserName == dataContainer.User.UserName).Id);
                 var deleteThemeHandler = new DeleteThemeHandler(context);
-                
+
                 //Act
                 Func<Task> deleteTheme = () => deleteThemeHandler.Handle(deleteThemeCommand, CancellationToken.None);
                 Exception exception = await Assert.ThrowsAsync<ThemeNotFoundException>(deleteTheme);
-                
+
                 //Assert
                 Assert.Equal(ExceptionDescriptionConstants.ThemeNotFound, exception.Message);
             });
@@ -96,7 +96,9 @@ namespace LearningEngine.IntegrationTests.Handlers
         public class TestData
         {
             public User User { get; set; }
+
             public Theme Theme { get; set; }
+
             public void CreateUser(string userName, string email, byte[] password)
             {
                 User = new User { Email = email, Password = password, UserName = userName };

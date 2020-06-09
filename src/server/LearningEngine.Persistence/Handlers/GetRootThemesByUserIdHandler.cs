@@ -25,7 +25,7 @@ namespace LearningEngine.Persistence.Handlers
         public Task<List<ThemeHeaderDto>> Handle(GetRootThemesByUserIdQuery request, CancellationToken cancellationToken)
         {
             var themes = _context.Permissions
-                .Where(permission => permission.UserId == request.UserId 
+                .Where(permission => permission.UserId == request.UserId
                 && permission.Theme.ParentThemeId == null)
                 .Select(permission => permission.Theme);
 

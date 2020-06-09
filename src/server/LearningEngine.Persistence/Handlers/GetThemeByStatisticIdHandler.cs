@@ -25,21 +25,21 @@ namespace LearningEngine.Persistence.Handlers
             var statistic = await _context.Statistic.FirstOrDefaultAsync
                                                     (stat => stat.Id == request.StatisticId);
 
-            if(statistic == null)
+            if (statistic == null)
             {
-                throw new StatisticNotFoundException(); 
+                throw new StatisticNotFoundException();
             }
 
             var card = await _context.Cards.FirstOrDefaultAsync(card => card.Id == statistic.CardId);
 
-            if(card == null)
+            if (card == null)
             {
                 throw new CardNotFoundException();
             }
 
             var theme = await _context.Themes.FirstOrDefaultAsync(theme => theme.Id == card.ThemeId);
 
-            if(theme == null)
+            if (theme == null)
             {
                 throw new ThemeNotFoundException();
             }

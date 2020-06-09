@@ -35,7 +35,7 @@ namespace LearningEngine.Persistence.Handlers
             theme.Name = request.ThemeDto.Name;
             theme.Description = request.ThemeDto.Desсription;
             theme.IsPublic = request.ThemeDto.IsPublic;
-            if(request.ThemeDto.Notes != null)
+            if (request.ThemeDto.Notes != null)
             {
                 theme.Notes = request.ThemeDto.Notes.Select(note => new Note { Content = note.Content, Title = note.Title }).ToList();
             }

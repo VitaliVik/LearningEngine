@@ -29,7 +29,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                //Arrange
+                ////Arrange
                 var dataContainer = new TestData();
                 dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
                 dataContainer.CreateThemes(new List<Theme>
@@ -42,12 +42,12 @@ namespace LearningEngine.IntegrationTests.Handlers
                                        .FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id);
                 var getRootThemeByUserIdHandler = new GetRootThemesByUserIdHandler(context);
 
-                //Act
+                ////Act
                 var result = await getRootThemeByUserIdHandler.Handle(getRootThemeByUserIdQuery, CancellationToken.None);
 
-                //Assert
+                ////Assert
                 Assert.Equal(dataContainer.Themes.Count(), result.Count());
-                foreach(var theme in dataContainer.Themes)
+                foreach (var theme in dataContainer.Themes)
                 {
                     Assert.NotNull(result.FirstOrDefault(thm => thm.Name == theme.Name));
                 }
@@ -74,7 +74,7 @@ namespace LearningEngine.IntegrationTests.Handlers
 
                 Func<Task> getRootTheme = () => getRootThemeByUserIdHandler.Handle
                                                             (getRootThemeByUserIdQuery, CancellationToken.None);
-                var exception = await Assert.ThrowsAsync <RootThemesNotFoundException>(getRootTheme);
+                var exception = await Assert.ThrowsAsync<RootThemesNotFoundException>(getRootTheme);
 
                 //Assert
                 Assert.Equal(ExceptionDescriptionConstants.RootThemesNotFount, exception.Message);
@@ -107,7 +107,9 @@ namespace LearningEngine.IntegrationTests.Handlers
         public class TestData
         {
             public User User { get; set; }
+
             public List<Theme> Themes { get; set; }
+
             public void CreateUser(string userName, string email, byte[] password)
             {
                 User = new User { Email = email, Password = password, UserName = userName };

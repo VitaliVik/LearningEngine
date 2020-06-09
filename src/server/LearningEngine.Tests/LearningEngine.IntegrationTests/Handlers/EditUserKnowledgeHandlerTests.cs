@@ -27,7 +27,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                //Arrange
+                ////Arrange
                 var dataContainer = new TestData();
                 dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
                 dataContainer.CreateTheme("test theme", "for testing");
@@ -42,10 +42,10 @@ namespace LearningEngine.IntegrationTests.Handlers
                                                                             KnowledgeValue);
                 var editUserKnowledgeHandler = new EditUserKnowledgeHandler(context);
 
-                //Act
+                ////Act
                 await editUserKnowledgeHandler.Handle(editUserKnowledgeCommand, CancellationToken.None);
 
-                //Assert
+                ////Assert
                 Assert.Equal(KnowledgeValue, context.Statistic.FirstOrDefault
                                              (statistic => statistic.Id == dataContainer.Statistic.Id).CardKnowledge);
             });
@@ -56,7 +56,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                //Arrange
+                ////Arrange
                 var dataContainer = new TestData();
                 dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
                 dataContainer.CreateTheme("test theme", "for testing");
@@ -71,12 +71,12 @@ namespace LearningEngine.IntegrationTests.Handlers
                                                                             KnowledgeValue);
                 var editUserKnowledgeHandler = new EditUserKnowledgeHandler(context);
 
-                //Act
+                ////Act
                 Func<Task> editKnowledge = () => editUserKnowledgeHandler.Handle
                                                             (editUserKnowledgeCommand, CancellationToken.None);
                 Exception exception = await Assert.ThrowsAsync<CardNotFoundException>(editKnowledge);
 
-                //Assert
+                ////Assert
                 Assert.Equal(ExceptionDescriptionConstants.CardNotFound, exception.Message);
             });
         }
@@ -112,9 +112,13 @@ namespace LearningEngine.IntegrationTests.Handlers
         public class TestData
         {
             public User User { get; set; }
+
             public Theme Theme { get; set; }
+
             public Card Card { get; set; }
+
             public Statistic Statistic { get; set; }
+
             public void CreateUser(string userName, string email, byte[] password)
             {
                 User = new User { Email = email, Password = password, UserName = userName };

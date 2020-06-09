@@ -24,7 +24,7 @@ namespace LearningEngine.UnitTests.UseCase
         public async Task Success()
         {
             //arange
-            var td = new TestData("rolit", 1 ,"test");
+            var td = new TestData("rolit", 1, "test");
             var mocks = new Mocks(td);
 
             //act
@@ -49,7 +49,7 @@ namespace LearningEngine.UnitTests.UseCase
             var mocks = new Mocks(td);
 
             //act
-            Func<Task<Unit>> act =  () => mocks.TestingHandler.Handle(td.CreateUserThemeCommand, CancellationToken.None);
+            Func<Task<Unit>> act = () => mocks.TestingHandler.Handle(td.CreateUserThemeCommand, CancellationToken.None);
 
             //assert
             await Assert.ThrowsAsync<Exception>(act);
@@ -76,7 +76,7 @@ namespace LearningEngine.UnitTests.UseCase
             mocks.MockUow.Verify(_ => _.RollbackTransaction(), Times.Once);
         }
 
-        
+
 
         public class Mocks
         {
