@@ -19,39 +19,38 @@ namespace LearningEngine.UnitTests.UseCase
 {
     public class CreateUserThemeUseCaseTest
     {
-
         [Fact]
         public async Task Success()
         {
-            //arange
+            // arange
             var td = new TestData("rolit", 1, "test");
             var mocks = new Mocks(td);
 
-            //act
+            // act
             var result = await mocks.TestingHandler.Handle(td.CreateUserThemeCommand, CancellationToken.None);
 
-            //assert
+            // assert
             mocks.MockUow.Verify(_ => _.StartTransaction(), Times.Once);
-            mocks.MockMediator.Verify(_ => _.Send(It.Is<CreateThemeCommand>(
-                c => c.ThemeName == td.CreateThemeCommand.ThemeName), CancellationToken.None), Times.Once);
+            mocks.MockMediator.Verify(_ => _.Send(It.Is<CreateThemeCommand>(c => c.ThemeName == td.CreateThemeCommand.ThemeName),
+                                                                            CancellationToken.None), 
+                                                                            Times.Once);
             mocks.MockMediator.Verify(_ => _.Send(It.IsAny<LinkUserToThemeCommand>(), CancellationToken.None), Times.Once);
             mocks.MockUow.Verify(_ => _.CommitTransaction(), Times.Once);
         }
-
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
         public async Task ThrowExceptionUserNotFound(string userName)
         {
-            //arange
+            // arange
             var td = new TestData("rolit", 1, userName);
             var mocks = new Mocks(td);
 
-            //act
+            // act
             Func<Task<Unit>> act = () => mocks.TestingHandler.Handle(td.CreateUserThemeCommand, CancellationToken.None);
 
-            //assert
+            // assert
             await Assert.ThrowsAsync<Exception>(act);
             mocks.MockUow.Verify(_ => _.StartTransaction(), Times.Once);
             mocks.MockUow.Verify(_ => _.RollbackTransaction(), Times.Once);
@@ -63,20 +62,18 @@ namespace LearningEngine.UnitTests.UseCase
 
         public async Task ThrowExceptionIncorrectTheme(string themeName)
         {
-            //arange
+            // arange
             var td = new TestData("user", 1, themeName);
             var mocks = new Mocks(td);
 
-            //act
+            // act
             Func<Task<Unit>> act = () => mocks.TestingHandler.Handle(td.CreateUserThemeCommand, CancellationToken.None);
 
-            //assert
+            // assert
             await Assert.ThrowsAsync<Exception>(act);
             mocks.MockUow.Verify(_ => _.StartTransaction(), Times.Once);
             mocks.MockUow.Verify(_ => _.RollbackTransaction(), Times.Once);
         }
-
-
 
         public class Mocks
         {
@@ -84,15 +81,15 @@ namespace LearningEngine.UnitTests.UseCase
             {
                 MockMediator = new Mock<IMediator>();
                 MockUow = new Mock<ITransactionUnitOfWork>();
-                MockMediator.Setup(m => m.Send(It.Is<GetUserByNameQuery>(q => q.UserName == "" || q.UserName == null), CancellationToken.None))
+                MockMediator.Setup(m => m.Send(It.Is<GetUserByNameQuery>(q => q.UserName == string.Empty || q.UserName == null), CancellationToken.None))
                     .ReturnsAsync((UserDto)null);
                 MockMediator.Setup(m => m.Send(
-                    It.Is<GetUserByNameQuery>(q => td.User.UserName == q.UserName && (td.User.UserName != null && td.User.UserName != "")), CancellationToken.None))
+                    It.Is<GetUserByNameQuery>(q => td.User.UserName == q.UserName && (td.User.UserName != null && td.User.UserName != string.Empty)), CancellationToken.None))
                     .ReturnsAsync(new UserDto { UserName = td.User.UserName });
 
                 MockMediator.Setup(m => m.Send(It.IsAny<CreateThemeCommand>(), CancellationToken.None))
                     .ReturnsAsync(new int());
-                MockMediator.Setup(m => m.Send(It.Is<CreateThemeCommand>(c => c.ThemeName == null || c.ThemeName == ""), CancellationToken.None))
+                MockMediator.Setup(m => m.Send(It.Is<CreateThemeCommand>(c => c.ThemeName == null || c.ThemeName == string.Empty), CancellationToken.None))
                     .Throws<Exception>();
 
                 MockMediator.Setup(m => m.Send(It.IsAny<LinkUserToThemeCommand>(), CancellationToken.None))
@@ -103,11 +100,14 @@ namespace LearningEngine.UnitTests.UseCase
                 MockUow.Setup(m => m.RollbackTransaction());
                 TestingHandler = new CreateUserThemeHandler(MockMediator.Object, MockUow.Object);
             }
-            public Mock<IMediator> MockMediator { get; set; }
-            public Mock<ITransactionUnitOfWork> MockUow { get; set; }
-            public CreateUserThemeHandler TestingHandler { get; set; }
 
+            public Mock<IMediator> MockMediator { get; set; }
+
+            public Mock<ITransactionUnitOfWork> MockUow { get; set; }
+
+            public CreateUserThemeHandler TestingHandler { get; set; }
         }
+
         public class TestData
         {
             public TestData(string userName, int userId, string themeName)
@@ -129,12 +129,16 @@ namespace LearningEngine.UnitTests.UseCase
                     1,
                     TypeAccess.Write | TypeAccess.Read);
             }
-            public User User { get; set; }
-            public CreateUserThemeCommand CreateUserThemeCommand { get; set; }
-            public GetUserByNameQuery GetUserByNameQuery { get; set; }
-            public CreateThemeCommand CreateThemeCommand { get; set; }
-            public LinkUserToThemeCommand LinkUserToTheme { get; set; }
 
+            public User User { get; set; }
+
+            public CreateUserThemeCommand CreateUserThemeCommand { get; set; }
+
+            public GetUserByNameQuery GetUserByNameQuery { get; set; }
+
+            public CreateThemeCommand CreateThemeCommand { get; set; }
+
+            public LinkUserToThemeCommand LinkUserToTheme { get; set; }        
         }
     }
 }

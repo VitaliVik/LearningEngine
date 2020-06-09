@@ -18,11 +18,11 @@ namespace LearningEngine.Api.Controllers
     [ApiController]
     public class NoteController : ControllerBase
     {
-        readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         public NoteController(IMediator mediator)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         [HttpGet("{themeId}")]
@@ -31,7 +31,7 @@ namespace LearningEngine.Api.Controllers
         {
             var query = new GetThemeNotesQuery(themeId, this.GetUserId());
 
-            var result = await _mediator.Send(query);
+            var result = await mediator.Send(query);
 
             return Ok(result);
         }
@@ -41,7 +41,7 @@ namespace LearningEngine.Api.Controllers
         {
             var command = new CreateNoteCommand(themeId, this.GetUserId(), title, content);
 
-            await _mediator.Send(command);
+            await mediator.Send(command);
 
             return Ok();
         }

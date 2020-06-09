@@ -29,7 +29,7 @@ namespace LearningEngine.IntegrationTests.Handlers
                     Name = "themeNotesTests",
                     Description = "theme notes tests"
                 };
-                var notes = new List<Note>
+                var notes = new List<Note>()
                 {
                     new Note { Theme = theme, Title = "1", Content = "first"},
                     new Note { Theme = theme, Title = "2", Content = "second"},

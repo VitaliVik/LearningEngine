@@ -14,16 +14,16 @@ namespace LearningEngine.Persistence.Handlers
 {
     public class CheckUserThemePermissionsHandler : IRequestHandler<CheckUserThemePermissionsQuery>
     {
-        private readonly LearnEngineContext _context;
+        private readonly LearnEngineContext context;
 
         public CheckUserThemePermissionsHandler(LearnEngineContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         public async Task<Unit> Handle(CheckUserThemePermissionsQuery request, CancellationToken cancellationToken)
         {
-            var permissions = await _context.Permissions.FirstOrDefaultAsync(permissions => permissions.ThemeId == request.ThemeId &&
+            var permissions = await context.Permissions.FirstOrDefaultAsync(permissions => permissions.ThemeId == request.ThemeId &&
                                                                                       permissions.UserId == request.UserId);
 
             if (permissions == null || permissions.Access < request.Access)

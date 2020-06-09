@@ -11,23 +11,24 @@ namespace LearningEngine.Application.UseCase.Handler
 {
     public class GetNotePermissionHandler : BaseUseCaseHandler<Unit, GetNotePermissionQuery>
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         public GetNotePermissionHandler(IMediator mediator, ITransactionUnitOfWork uow) : base(uow)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         protected override async Task<Unit> Action(GetNotePermissionQuery request)
         {
             var getThemeByNoteIdQuery = new GetThemeByNoteIdQuery(request.NoteId);
 
-            var theme = await _mediator.Send(getThemeByNoteIdQuery);
+            var theme = await mediator.Send(getThemeByNoteIdQuery);
 
-            var checkUserPermissionsQuery = new CheckUserThemePermissionsQuery
-                                                (request.UserId, theme.Id, request.Access);
+            var checkUserPermissionsQuery = new CheckUserThemePermissionsQuery(request.UserId, 
+                                                                               theme.Id, 
+                                                                               request.Access);
 
-            await _mediator.Send(checkUserPermissionsQuery);
+            await mediator.Send(checkUserPermissionsQuery);
 
             return default;
         }

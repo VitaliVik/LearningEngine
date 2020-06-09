@@ -16,16 +16,16 @@ namespace LearningEngine.Persistence.Handlers
 {
     public class GetThemeSubThemesHandler : IRequestHandler<GetThemeSubThemesQuery, List<ThemeDto>>
     {
-        readonly LearnEngineContext _context;
+        private readonly LearnEngineContext context;
 
         public GetThemeSubThemesHandler(LearnEngineContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         public async Task<List<ThemeDto>> Handle(GetThemeSubThemesQuery request, CancellationToken cancellationToken)
         {
-            var theme = await _context.Themes
+            var theme = await context.Themes
                 .Include(thm => thm.SubThemes)
                 .FirstOrDefaultAsync(thm => thm.Id == request.ThemeId);
 

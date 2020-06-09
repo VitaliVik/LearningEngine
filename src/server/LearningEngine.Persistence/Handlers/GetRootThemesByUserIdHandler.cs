@@ -17,14 +17,16 @@ namespace LearningEngine.Persistence.Handlers
 {
     public class GetRootThemesByUserIdHandler : IRequestHandler<GetRootThemesByUserIdQuery, List<ThemeHeaderDto>>
     {
-        private readonly LearnEngineContext _context;
-        public GetRootThemesByUserIdHandler(LearnEngineContext _context)
+        private readonly LearnEngineContext context;
+
+        public GetRootThemesByUserIdHandler(LearnEngineContext context)
         {
-            this._context = _context;
+            this.context = context;
         }
+
         public Task<List<ThemeHeaderDto>> Handle(GetRootThemesByUserIdQuery request, CancellationToken cancellationToken)
         {
-            var themes = _context.Permissions
+            var themes = context.Permissions
                 .Where(permission => permission.UserId == request.UserId
                 && permission.Theme.ParentThemeId == null)
                 .Select(permission => permission.Theme);

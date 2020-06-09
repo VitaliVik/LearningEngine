@@ -14,14 +14,16 @@ namespace LearningEngine.Persistence.Handlers
 {
     public class GetThemeNotesHandler : IRequestHandler<GetThemeNotesQuery, List<NoteDto>>
     {
-        readonly LearnEngineContext _context;
+        private readonly LearnEngineContext context;
+
         public GetThemeNotesHandler(LearnEngineContext context)
         {
-            _context = context;
+            this.context = context;
         }
+
         public async Task<List<NoteDto>> Handle(GetThemeNotesQuery request, CancellationToken cancellationToken)
         {
-            var theme = await _context.Themes
+            var theme = await context.Themes
                 .Include(thm => thm.Notes)
                 .FirstOrDefaultAsync(thm => thm.Id == request.ThemeId);
 

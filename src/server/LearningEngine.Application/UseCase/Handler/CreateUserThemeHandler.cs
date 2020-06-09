@@ -14,19 +14,25 @@ namespace LearningEngine.Application.UseCase.Handler
 {
     public class CreateUserThemeHandler : BaseUseCaseHandler<Unit, CreateUserThemeCommand>
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
+
         public CreateUserThemeHandler(IMediator mediator, ITransactionUnitOfWork uow) : base(uow)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         protected override async Task<Unit> Action(CreateUserThemeCommand request)
         {
-            var createThemeCommand = new CreateThemeCommand(request.ThemeName, request.Description, request.IsPublic, request.ParentThemeId);
-            var userId = await _mediator.Send(createThemeCommand);
+            var createThemeCommand = new CreateThemeCommand(request.ThemeName, 
+                                                            request.Description, 
+                                                            request.IsPublic, 
+                                                            request.ParentThemeId);
+            var userId = await mediator.Send(createThemeCommand);
 
-            var linkCommand = new LinkUserToThemeCommand(request.UserId, userId, TypeAccess.Read | TypeAccess.Write);
-            await _mediator.Send(linkCommand);
+            var linkCommand = new LinkUserToThemeCommand(request.UserId, 
+                                                         userId, 
+                                                         TypeAccess.Read | TypeAccess.Write);
+            await mediator.Send(linkCommand);
 
             return default;
         }

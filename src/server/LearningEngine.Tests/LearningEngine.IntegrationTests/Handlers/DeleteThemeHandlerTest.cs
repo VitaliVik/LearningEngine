@@ -29,22 +29,23 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                ////Arrange
+                // Arrange
                 var dataContainer = new TestData();
                 dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
                 dataContainer.CreateTheme("test theme", "for testing");
 
                 new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Write);
 
-                var deleteThemeCommand = new DeleteThemeCommand
-                                (context.Themes.FirstOrDefault(theme => theme.Name == dataContainer.Theme.Name).Id,
-                                context.Users.FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id);
+                var themeId = context.Themes.FirstOrDefault(theme => theme.Name == dataContainer.Theme.Name).Id;
+                var userId = context.Users.FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id;
+
+                var deleteThemeCommand = new DeleteThemeCommand(themeId, userId);
                 var deleteThemeHandler = new DeleteThemeHandler(context);
                 
-                ////Act
+                // Act
                 await deleteThemeHandler.Handle(deleteThemeCommand, CancellationToken.None);
 
-                ////Assert
+                // Assert
                 Assert.Null(await context.Themes.FirstOrDefaultAsync(theme => theme.Name == dataContainer.Theme.Name));
             });
         }
@@ -54,24 +55,22 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                //Arrange
+                // Arrange
                 var dataContainer = new TestData();
                 dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
                 dataContainer.CreateTheme("test theme", "for testing");
-
                 new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, TypeAccess.Read);
 
-                var deleteThemeCommand = new DeleteThemeCommand
-                                              (-1,
-                                              context.Users.FirstOrDefault
-                                              (user => user.UserName == dataContainer.User.UserName).Id);
+                var userId = context.Users.FirstOrDefault(user => user.UserName == dataContainer.User.UserName).Id;
+
+                var deleteThemeCommand = new DeleteThemeCommand(-1, userId);
                 var deleteThemeHandler = new DeleteThemeHandler(context);
 
-                //Act
+                // Act
                 Func<Task> deleteTheme = () => deleteThemeHandler.Handle(deleteThemeCommand, CancellationToken.None);
                 Exception exception = await Assert.ThrowsAsync<ThemeNotFoundException>(deleteTheme);
 
-                //Assert
+                // Assert
                 Assert.Equal(ExceptionDescriptionConstants.ThemeNotFound, exception.Message);
             });
         }
@@ -90,7 +89,6 @@ namespace LearningEngine.IntegrationTests.Handlers
 
                 context.SaveChanges();
             }
-
         }
 
         public class TestData
@@ -103,6 +101,7 @@ namespace LearningEngine.IntegrationTests.Handlers
             {
                 User = new User { Email = email, Password = password, UserName = userName };
             }
+
             public void CreateTheme(string name, string description)
             {
                 Theme = new Theme { Name = name, Description = description };

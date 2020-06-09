@@ -16,11 +16,11 @@ namespace LearningEngine.Api.Extensions
             return getPermissionModelFactory
                 .AddQuery(ObjectType.Card, (cardId, userId, access) =>
                     new GetCardPermissionQuery(cardId, access, userId))
-                .AddQuery(ObjectType.Note, (noteId, userId, access) =>
+                .AddQuery(ObjectType.Note, (noteId, userId, access) => 
                     new GetNotePermissionQuery(noteId, access, userId))
-                .AddQuery(ObjectType.Statistic, (statisticId, userId, access) =>
+                .AddQuery(ObjectType.Statistic, (statisticId, userId, access) => 
                     new GetStatisticPermissionQuery(statisticId, access, userId))
-                .AddQuery(ObjectType.Theme, (themeId, userId, access) =>
+                .AddQuery(ObjectType.Theme, (themeId, userId, access) => 
                     new CheckUserThemePermissionsQuery(userId, themeId, access));
         }
     }

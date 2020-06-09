@@ -15,10 +15,12 @@ namespace LearningEngine.Persistence.Utils
             {
                 throw new ArgumentNullException("Поле пароль имеет некорректное значение");
             }
+
             if (string.IsNullOrEmpty(username))
             {
                 throw new ArgumentNullException("Поле имя пользователя имеет некорректное значение");
             }
+
             var hasher = SHA512.Create();
             var byteArray = hasher.ComputeHash(Encoding.ASCII.GetBytes(password + username));
 

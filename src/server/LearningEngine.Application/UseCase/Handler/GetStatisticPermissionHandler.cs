@@ -11,23 +11,24 @@ namespace LearningEngine.Application.UseCase.Handler
 {
     public class GetStatisticPermissionHandler : BaseUseCaseHandler<Unit, GetStatisticPermissionQuery>
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         public GetStatisticPermissionHandler(IMediator mediator, ITransactionUnitOfWork uow) : base(uow)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         protected override async Task<Unit> Action(GetStatisticPermissionQuery request)
         {
             var getThemeByStatisticIdQuery = new GetThemeByStatisticIdQuery(request.StatisticId);
 
-            var theme = await _mediator.Send(getThemeByStatisticIdQuery);
+            var theme = await mediator.Send(getThemeByStatisticIdQuery);
 
-            var checkUserPermissionsQuery = new CheckUserThemePermissionsQuery
-                                                (request.UserId, theme.Id, request.Access);
+            var checkUserPermissionsQuery = new CheckUserThemePermissionsQuery(request.UserId, 
+                                                                               theme.Id, 
+                                                                               request.Access);
 
-            await _mediator.Send(checkUserPermissionsQuery);
+            await mediator.Send(checkUserPermissionsQuery);
 
             return default;
         }

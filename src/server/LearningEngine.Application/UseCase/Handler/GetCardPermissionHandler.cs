@@ -13,23 +13,24 @@ namespace LearningEngine.Application.UseCase.Handler
 {
     public class GetCardPermissionHandler : BaseUseCaseHandler<Unit, GetCardPermissionQuery>
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         public GetCardPermissionHandler(IMediator mediator, ITransactionUnitOfWork uow) : base(uow)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         protected override async Task<Unit> Action(GetCardPermissionQuery request)
         {
             var getThemeByCardIdQuery = new GetThemeByCardIdQuery(request.CardId);
 
-            var theme = await _mediator.Send(getThemeByCardIdQuery);
+            var theme = await mediator.Send(getThemeByCardIdQuery);
 
-            var checkUserPermissionsQuery = new CheckUserThemePermissionsQuery
-                                                (request.UserId, theme.Id, request.Access);
+            var checkUserPermissionsQuery = new CheckUserThemePermissionsQuery(request.UserId,
+                                                                               theme.Id, 
+                                                                               request.Access);
 
-            await _mediator.Send(checkUserPermissionsQuery);
+            await mediator.Send(checkUserPermissionsQuery);
 
             return default;
         }

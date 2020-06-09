@@ -8,22 +8,20 @@ using System.Security.Cryptography;
 
 namespace LearningEngine.UnitTests.Utils
 {
-
     public class PasswordHasherTests
     {
-
         [Theory]
         [InlineData("rolit", "123")]
         [InlineData("Kekekekekekekekekekek", "123456789")]
         public void ArrayMayHave64Symbols(string username, string password)
         {
-            //arange
+            // arange
             PasswordHasher hasher = new PasswordHasher();
 
-            //act
+            // act
             byte[] result = hasher.GetHash(password, username);
 
-            //assert
+            // assert
             Assert.NotNull(result);
             Assert.Equal(64, result.Length);
         }
@@ -36,30 +34,29 @@ namespace LearningEngine.UnitTests.Utils
         [InlineData(null, "rolit")]
         public void ThrowExceptionWhenIncorrectData(string username, string password)
         {
-            //arange
+            // arange
             PasswordHasher hasher = new PasswordHasher();
 
-            //act
+            // act
             Action act = () => hasher.GetHash(password, username);
 
-            //assert
+            // assert
             Assert.Throws<ArgumentNullException>(act);
         }
 
         [Fact]
         public void ValueMayBeEqual()
         {
-            //arange
+            // arange
             PasswordHasher hasher = new PasswordHasher();
             byte[] expected = Convert.FromBase64String("Ihb7p9dl8NU3Yhuf+He/34s1gwXx4M9Ts85Msr9ehmacrN7SSm" +
                 "sWag4bsYhOxdCI11r1apHbMglq//tCb/SioQ==");
 
-            //act
+            // act
             byte[] result1 = hasher.GetHash("123", "rolit");
 
-            //assert
+            // assert
             Assert.Equal(expected, result1);
         }
-
     }
 }

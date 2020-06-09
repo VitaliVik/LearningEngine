@@ -16,16 +16,16 @@ namespace LearningEngine.Persistence.Handlers
 {
     public class EditThemeHandler : IRequestHandler<EditThemeCommand>
     {
-        private readonly LearnEngineContext _context;
+        private readonly LearnEngineContext context;
 
         public EditThemeHandler(LearnEngineContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         public async Task<Unit> Handle(EditThemeCommand request, CancellationToken cancellationToken)
         {
-            var theme = await _context.Themes.FirstOrDefaultAsync(theme => theme.Id == request.ThemeDto.Id);
+            var theme = await context.Themes.FirstOrDefaultAsync(theme => theme.Id == request.ThemeDto.Id);
 
             if (theme == null)
             {
@@ -40,8 +40,8 @@ namespace LearningEngine.Persistence.Handlers
                 theme.Notes = request.ThemeDto.Notes.Select(note => new Note { Content = note.Content, Title = note.Title }).ToList();
             }
 
-            _context.Themes.Update(theme);
-            await _context.SaveChangesAsync();
+            context.Themes.Update(theme);
+            await context.SaveChangesAsync();
 
             return default;
         }

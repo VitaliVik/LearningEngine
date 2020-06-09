@@ -20,7 +20,6 @@ namespace LearningEngine.Persistence.Models
 
         public LearnEngineContext(DbContextOptions<LearnEngineContext> options) : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -82,7 +81,8 @@ namespace LearningEngine.Persistence.Models
                 .IsRequired();
 
             modelBuilder.Entity<Theme>()
-                .HasData(new List<Theme> {
+                .HasData(new List<Theme> 
+                {
                     new Theme
                     {
                         Id = 2,

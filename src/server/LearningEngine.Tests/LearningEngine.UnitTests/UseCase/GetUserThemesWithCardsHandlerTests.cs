@@ -19,14 +19,14 @@ namespace LearningEngine.UnitTests.UseCase
         [Fact]
         public async Task Success()
         {
-            //arange
+            // arange
             var td = new TestData(1, 1);
             var mocks = new Mocks();
 
-            //act
+            // act
             var result = await mocks.TestingHandler.Handle(td.GetThemeFullInfoQuery, CancellationToken.None);
 
-            //Assert
+            // Assert
             mocks.MockUow.Verify(_ => _.StartTransaction(), Times.Once);
             mocks.CheckGetThemeHeader(td.GetThemeHeaderQuery.ThemeId, td.GetThemeHeaderQuery.UserId);
             mocks.CheckGetThemeCardsHeader(td.GetThemeCardsQuery.ThemeId, td.GetThemeCardsQuery.ThemeId);
@@ -61,40 +61,51 @@ namespace LearningEngine.UnitTests.UseCase
 
             public void CheckGetThemeHeader(int themeId, int userId)
             {
-                MockMediator.Verify(_ => _.Send(It.Is<GetThemeHeaderQuery>
-                       (c => c.ThemeId == themeId && c.UserId == userId), CancellationToken.None), Times.Once);
+                MockMediator.Verify(_ => _.Send(It.Is<GetThemeHeaderQuery>(c => c.ThemeId == themeId && c.UserId == userId),
+                                                                           CancellationToken.None), 
+                                                                           Times.Once);
             }
 
             public void CheckGetThemeCardsHeader(int themeId, int userId)
             {
-                MockMediator.Verify(_ => _.Send(It.Is<GetThemeCardsQuery>
-                       (c => c.ThemeId == themeId && c.UserId == userId), CancellationToken.None), Times.Once);
+                MockMediator.Verify(_ => _.Send(It.Is<GetThemeCardsQuery>(c => c.ThemeId == themeId && c.UserId == userId), 
+                                                                          CancellationToken.None), 
+                                                                          Times.Once);
             }
 
             public void CheckGetThemeNotesHeader(int themeId, int userId)
             {
-                MockMediator.Verify(_ => _.Send(It.Is<GetThemeNotesQuery>
-                       (c => c.ThemeId == themeId && c.UserId == userId), CancellationToken.None), Times.Once);
+                MockMediator.Verify(_ => _.Send(It.Is<GetThemeNotesQuery>(c => c.ThemeId == themeId && c.UserId == userId), 
+                                                                          CancellationToken.None), 
+                                                                          Times.Once);
             }
 
             public void CheckGetThemeSubThemesHeader(int themeId, int userId)
             {
-                MockMediator.Verify(_ => _.Send(It.Is<GetThemeSubThemesQuery>
-                       (c => c.ThemeId == themeId && c.UserId == userId), CancellationToken.None), Times.Once);
+                MockMediator.Verify(_ => _.Send(It.Is<GetThemeSubThemesQuery>(c => c.ThemeId == themeId && c.UserId == userId), 
+                                                                             CancellationToken.None),
+                                                                             Times.Once);
             }
 
             public Mock<IMediator> MockMediator { get; set; }
+
             public Mock<ITransactionUnitOfWork> MockUow { get; set; }
+
             public GetUserFullInfoHandler TestingHandler { get; set; }
         }
 
         public class TestData
         {
             public GetThemeFullInfoQuery GetThemeFullInfoQuery { get; set; }
+
             public GetThemeHeaderQuery GetThemeHeaderQuery { get; set; }
+
             public GetThemeCardsQuery GetThemeCardsQuery { get; set; }
+
             public GetThemeNotesQuery GetThemeNotesQuery { get; set; }
+
             public GetThemeSubThemesQuery GetThemeSubThemesQuery { get; set; }
+
             public TestData(int userId, int themeId)
             {
                 GetThemeFullInfoQuery = new GetThemeFullInfoQuery(userId, themeId);

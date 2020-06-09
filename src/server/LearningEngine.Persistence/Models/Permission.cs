@@ -1,6 +1,5 @@
 ﻿using LearningEngine.Domain.Enum;
 
-
 namespace LearningEngine.Persistence.Models
 {
     public class Permission

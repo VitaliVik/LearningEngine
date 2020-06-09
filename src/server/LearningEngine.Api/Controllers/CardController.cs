@@ -20,19 +20,22 @@ namespace LearningEngine.Api.Controllers
     [ApiController]
     public class CardController : ControllerBase
     {
-        readonly IMediator _mediator;
+        private readonly IMediator mediator;
+
         public CardController(IMediator mediator)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         [HttpPost("{themeId}")]
         public async Task<IActionResult> CreateCard([FromRoute] int themeId, [FromForm] CreateCardViewModel vm)
         {
-            var createCardCommand = new CreateCardAndStatisticCommand(this.GetUserId(), themeId,
-                                                                      vm.Question, vm.Answer);
+            var createCardCommand = new CreateCardAndStatisticCommand(this.GetUserId(), 
+                                                                      themeId,
+                                                                      vm.Question, 
+                                                                      vm.Answer);
 
-            await _mediator.Send(createCardCommand);
+            await mediator.Send(createCardCommand);
 
             return Ok();
         }
@@ -43,7 +46,7 @@ namespace LearningEngine.Api.Controllers
         {
             var query = new GetThemeCardsQuery(themeId, this.GetUserId());
 
-            var result = await _mediator.Send(query);
+            var result = await mediator.Send(query);
 
             return Ok(result);
         }

@@ -7,8 +7,12 @@ namespace LearningEngine.Application.UseCase.Command
 {
     public class CreateUserThemeCommand : IRequest
     {
-        public CreateUserThemeCommand(string userName, string themeName, string description,
-                                      bool isPublic, int userId, int? parentThemeId = null)
+        public CreateUserThemeCommand(string userName, 
+                                      string themeName, 
+                                      string description,
+                                      bool isPublic, 
+                                      int userId, 
+                                      int? parentThemeId = null)
         {
             UserName = userName;
             ThemeName = themeName;

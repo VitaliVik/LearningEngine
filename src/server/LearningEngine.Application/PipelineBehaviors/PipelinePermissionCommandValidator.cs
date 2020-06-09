@@ -16,18 +16,21 @@ namespace LearningEngine.Application.PipelineBehaviors
         private readonly IMediator mediator;
         private readonly IGetPermissionModelFactory getPermissionModelFactory;
 
-        public PipelinePermissionCommandValidator
-              (IMediator mediator, IGetPermissionModelFactory getPermissionModelFactory)
+        public PipelinePermissionCommandValidator(IMediator mediator, 
+                                                  IGetPermissionModelFactory getPermissionModelFactory)
         {
             this.mediator = mediator;
             this.getPermissionModelFactory = getPermissionModelFactory;
         }
 
         public async Task<TResponse> Handle(IPipelinePermissionCommand request,
-                                        CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+                                            CancellationToken cancellationToken, 
+                                            RequestHandlerDelegate<TResponse> next)
         {
-            var query = getPermissionModelFactory.GetModel
-                        (request.ObjectId, request.UserId, TypeAccess.Write, request.ObjectType);
+            var query = getPermissionModelFactory.GetModel(request.ObjectId, 
+                                                           request.UserId, 
+                                                           TypeAccess.Write, 
+                                                           request.ObjectType);
 
             await mediator.Send(query, cancellationToken);
 

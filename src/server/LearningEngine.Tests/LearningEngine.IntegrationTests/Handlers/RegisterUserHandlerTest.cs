@@ -22,7 +22,6 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
         }
 
-
         [Fact]
         public async Task RegisterUserTest()
         {

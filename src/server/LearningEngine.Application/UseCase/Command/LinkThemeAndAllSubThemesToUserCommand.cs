@@ -13,6 +13,7 @@ namespace LearningEngine.Application.UseCase.Command
         public int ThemeId { get; private set; }
 
         public TypeAccess Access { get; private set; }
+
         public LinkThemeAndAllSubThemesToUserCommand(int userId, int themeId, TypeAccess access)
         {
             UserId = userId;

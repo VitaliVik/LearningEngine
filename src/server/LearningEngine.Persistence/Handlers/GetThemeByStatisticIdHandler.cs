@@ -15,29 +15,30 @@ namespace LearningEngine.Persistence.Handlers
 {
     public class GetThemeByStatisticIdHandler : IRequestHandler<GetThemeByStatisticIdQuery, ThemeDto>
     {
-        private readonly LearnEngineContext _context;
+        private readonly LearnEngineContext context;
+
         public GetThemeByStatisticIdHandler(LearnEngineContext context)
         {
-            _context = context;
+            this.context = context;
         }
+
         public async Task<ThemeDto> Handle(GetThemeByStatisticIdQuery request, CancellationToken cancellationToken)
         {
-            var statistic = await _context.Statistic.FirstOrDefaultAsync
-                                                    (stat => stat.Id == request.StatisticId);
+            var statistic = await context.Statistic.FirstOrDefaultAsync(stat => stat.Id == request.StatisticId);
 
             if (statistic == null)
             {
                 throw new StatisticNotFoundException();
             }
 
-            var card = await _context.Cards.FirstOrDefaultAsync(card => card.Id == statistic.CardId);
+            var card = await context.Cards.FirstOrDefaultAsync(card => card.Id == statistic.CardId);
 
             if (card == null)
             {
                 throw new CardNotFoundException();
             }
 
-            var theme = await _context.Themes.FirstOrDefaultAsync(theme => theme.Id == card.ThemeId);
+            var theme = await context.Themes.FirstOrDefaultAsync(theme => theme.Id == card.ThemeId);
 
             if (theme == null)
             {

@@ -31,7 +31,6 @@ namespace LearningEngine.Api.Controllers
         [HttpGet("token")]
         public IActionResult Token()
         {
-
             return Ok("bibus");
         }
 

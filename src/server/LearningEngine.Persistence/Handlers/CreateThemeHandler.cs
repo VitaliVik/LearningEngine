@@ -11,11 +11,13 @@ namespace LearningEngine.Persistence.Handlers
 {
     public class CreateThemeHandler : IRequestHandler<CreateThemeCommand, int>
     {
-        private readonly LearnEngineContext _context;
+        private readonly LearnEngineContext context;
+
         public CreateThemeHandler(LearnEngineContext context)
         {
-            _context = context;
+            this.context = context;
         }
+
         public async Task<int> Handle(CreateThemeCommand request, CancellationToken cancellationToken)
         {
             try
@@ -27,17 +29,14 @@ namespace LearningEngine.Persistence.Handlers
                     Description = request.Description,
                     ParentThemeId = request.ParentThemeId
                 };
-                _context.Themes.Add(theme);
-                await _context.SaveChangesAsync();
+                context.Themes.Add(theme);
+                await context.SaveChangesAsync();
                 return theme.Id;
             }
             catch (Exception ex)
             {
                 throw new CreateThemeException(ex);
             }
-
         }
-
-
     }
 }

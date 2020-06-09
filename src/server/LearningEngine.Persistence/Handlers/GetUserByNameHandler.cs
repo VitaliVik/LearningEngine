@@ -12,17 +12,18 @@ using LearningEngine.Domain.DTO;
 
 namespace LearningEngine.Persistence.Handlers
 {
-    class GetUserByNameHandler : IRequestHandler<GetUserByNameQuery, UserDto>
+    public class GetUserByNameHandler : IRequestHandler<GetUserByNameQuery, UserDto>
     {
-        private readonly LearnEngineContext _context;
+        private readonly LearnEngineContext context;
+
         public GetUserByNameHandler(LearnEngineContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         public async Task<UserDto> Handle(GetUserByNameQuery request, CancellationToken cancellationToken)
         {
-            var user = await _context.Users
+            var user = await context.Users
                 .FirstOrDefaultAsync(usr => usr.UserName == request.UserName);
 
             return user != null ?

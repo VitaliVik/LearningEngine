@@ -14,36 +14,42 @@ namespace LearningEngine.Persistence.Handlers
 {
     public class GetIdentityHandler : IRequestHandler<GetIdentityQuery, ClaimsIdentity>
     {
-        private readonly LearnEngineContext _context;
-        private readonly IPasswordHasher _hasher;
+        private readonly LearnEngineContext context;
+        private readonly IPasswordHasher hasher;
+
         public GetIdentityHandler(LearnEngineContext context, IPasswordHasher hasher)
         {
-            _context = context;
-            _hasher = hasher;
+            this.context = context;
+            this.hasher = hasher;
         }
 
         public Task<ClaimsIdentity> Handle(GetIdentityQuery request, CancellationToken cancellationToken)
         {
-            var user = _context.Users
+            var user = context.Users
                 .FirstOrDefault(usr => usr.UserName == request.UserName);
             if (user != null)
             {
-                var passwordCorrect = user.Password.SequenceEqual(_hasher.GetHash(request.Password, request.UserName));
+                var passwordCorrect = user.Password.SequenceEqual(hasher.GetHash(request.Password, request.UserName));
                 if (!passwordCorrect)
                 {
                     return Task.FromResult((ClaimsIdentity)null);
                 }
+
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
                     new Claim("UserId", user.Id.ToString()),
                     new Claim(ClaimsIdentity.DefaultRoleClaimType, "user")
                 };
-                ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+                ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, 
+                                                                  "Token", 
+                                                                  ClaimsIdentity.DefaultNameClaimType, 
+                                                                  ClaimsIdentity.DefaultRoleClaimType);
+
                 return Task.Run(() => claimsIdentity);
             }
+
             return Task.FromResult((ClaimsIdentity)null);
         }
-
     }
 }

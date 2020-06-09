@@ -12,14 +12,14 @@ namespace LearningEngine.Persistence.Handlers
 {
     public class RegisterUserHandler : IRequestHandler<RegisterUserCommand>
     {
-        private readonly LearnEngineContext _context;
-        private readonly IPasswordHasher _hasher;
+        private readonly LearnEngineContext context;
+        private readonly IPasswordHasher hasher;
+
         public RegisterUserHandler(LearnEngineContext context, IPasswordHasher hasher)
         {
-            _context = context;
-            _hasher = hasher;
+            this.context = context;
+            this.hasher = hasher;
         }
-
 
         public async Task<Unit> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
@@ -28,11 +28,11 @@ namespace LearningEngine.Persistence.Handlers
                 Email = request.Email,
                 UserName = request.UserName,
             };
-            user.Password = _hasher.GetHash(request.Password, request.UserName);
-            await _context.Users.AddAsync(user);
+            user.Password = hasher.GetHash(request.Password, request.UserName);
+            await context.Users.AddAsync(user);
             try
             {
-                await _context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -41,7 +41,5 @@ namespace LearningEngine.Persistence.Handlers
 
             return default;
         }
-
-
     }
 }

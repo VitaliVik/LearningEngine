@@ -13,23 +13,24 @@ namespace LearningEngine.Persistence.Handlers
 {
     public class DeleteThemeHandler : IRequestHandler<DeleteThemeCommand>
     {
-        private readonly LearnEngineContext _context;
+        private readonly LearnEngineContext context;
+
         public DeleteThemeHandler(LearnEngineContext context)
         {
-            _context = context;
+            this.context = context;
         }
-        //deleting theme without deleting the subthemes
+
         public async Task<Unit> Handle(DeleteThemeCommand request, CancellationToken cancellationToken)
         {
-            var theme = await _context.Themes.FirstOrDefaultAsync(theme => theme.Id == request.ThemeId);
+            var theme = await context.Themes.FirstOrDefaultAsync(theme => theme.Id == request.ThemeId);
 
             if (theme == null)
             {
                 throw new ThemeNotFoundException();
             }
 
-            _context.Themes.Remove(theme);
-            await _context.SaveChangesAsync();
+            context.Themes.Remove(theme);
+            await context.SaveChangesAsync();
 
             return default;
         }

@@ -20,13 +20,13 @@ namespace LearningEngine.Api.Authorization
         public string Encode(ClaimsIdentity claimsIdentity)
         {
             var now = DateTime.UtcNow;
-            var jwt = new JwtSecurityToken(
-                issuer: AuthOptions.ISSUER,
-                audience: AuthOptions.AUDIENCE,
-                claims: claimsIdentity.Claims,
-                expires: now.Add(TimeSpan.FromDays(AuthOptions.LIFETIME)),
-                signingCredentials: new Microsoft.IdentityModel.Tokens
-                    .SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256Signature));
+            var jwt = new JwtSecurityToken(issuer: AuthOptions.ISSUER,
+                                           audience: AuthOptions.AUDIENCE,
+                                           claims: claimsIdentity.Claims,
+                                           expires: now.Add(TimeSpan.FromDays(AuthOptions.LIFETIME)),
+                                           signingCredentials: new Microsoft.IdentityModel.Tokens
+                                           .SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), 
+                                                               SecurityAlgorithms.HmacSha256Signature));
             return jwtSecurityTokenHandler.WriteToken(jwt);
         }
     }

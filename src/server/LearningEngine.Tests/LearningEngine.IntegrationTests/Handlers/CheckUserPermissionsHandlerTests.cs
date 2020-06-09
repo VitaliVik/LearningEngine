@@ -37,13 +37,14 @@ namespace LearningEngine.IntegrationTests.Handlers
 
                 new DatabaseFiller(context, dataContainer.User, dataContainer.Theme, dataContainer.Access);
 
-                var checkUserPermissionQuery = new CheckUserThemePermissionsQuery(
-                    dataContainer.User.Id, dataContainer.Theme.Id, dataContainer.Access);
+                var checkUserPermissionQuery = new CheckUserThemePermissionsQuery(dataContainer.User.Id, 
+                                                                                  dataContainer.Theme.Id, 
+                                                                                  dataContainer.Access);
                 var chechUserPermissionHandler = new CheckUserThemePermissionsHandler(context);
 
                 ////Act
-                var hasPermissions = await chechUserPermissionHandler.Handle(
-                    checkUserPermissionQuery, CancellationToken.None);
+                var hasPermissions = await chechUserPermissionHandler.Handle(checkUserPermissionQuery, 
+                                                                             CancellationToken.None);
                 ////Assert
                 Assert.Equal(default, hasPermissions);
             });
@@ -54,7 +55,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                ////Arrange
+                // Arrange
                 var dataContainer = new TestData();
                 dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
                 dataContainer.CreateTheme("test theme", "for testing");
@@ -67,12 +68,12 @@ namespace LearningEngine.IntegrationTests.Handlers
                                                                                   TypeAccess.Write);
                 var chechUserPermissionHandler = new CheckUserThemePermissionsHandler(context);
 
-                ////Act
-                Func<Task> checkPermissions = () => chechUserPermissionHandler.Handle(
-                    checkUserPermissionQuery, CancellationToken.None);
+                // Act
+                Func<Task> checkPermissions = () => chechUserPermissionHandler.Handle(checkUserPermissionQuery, 
+                                                                                      CancellationToken.None);
                 var exception = await Assert.ThrowsAsync<NoPermissionException>(checkPermissions);
 
-                ////Assert
+                // Assert
                 Assert.Equal(ExceptionDescriptionConstants.NoPermissions, exception.Message);
             });
         }

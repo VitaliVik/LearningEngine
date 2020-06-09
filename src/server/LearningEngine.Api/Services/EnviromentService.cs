@@ -11,6 +11,7 @@ namespace LearningEngine.Api.Services
         {
             EnviromentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIROMENT") ?? "develop";
         }
+
         public string EnviromentName { get; set; }
     }
 }

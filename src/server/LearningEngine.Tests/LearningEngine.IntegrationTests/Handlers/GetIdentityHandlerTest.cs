@@ -61,7 +61,6 @@ namespace LearningEngine.IntegrationTests.Handlers
                 var result = await handler.Handle(query, CancellationToken.None);
 
                 Assert.Null(result);
-
             });
         }
     }
