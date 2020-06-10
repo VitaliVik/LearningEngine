@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Enum;
+﻿using FluentValidation;
+using LearningEngine.Domain.Enum;
 using LearningEngine.Domain.Interfaces.PipelinePermissions;
 using MediatR;
 
@@ -25,5 +26,16 @@ namespace LearningEngine.Domain.Command
         public ObjectType ObjectType => ObjectType.Theme;
 
         public int ObjectId => ThemeId;
+    }
+
+    public class CreateNoteCommandValidator : AbstractValidator<CreateNoteCommand>
+    {
+        public CreateNoteCommandValidator()
+        {
+            RuleFor(note => note.UserId).GreaterThan(0);
+            RuleFor(note => note.ThemeId).GreaterThan(0);
+            RuleFor(note => note.Title).NotNull().NotEmpty().MinimumLength(4);
+            RuleFor(note => note.Content).NotNull().NotEmpty().MinimumLength(4);
+        }
     }
 }

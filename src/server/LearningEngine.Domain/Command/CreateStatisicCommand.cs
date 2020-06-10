@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Enum;
+﻿using FluentValidation;
+using LearningEngine.Domain.Enum;
 using LearningEngine.Domain.Interfaces;
 using LearningEngine.Domain.Interfaces.PipelinePermissions;
 using MediatR;
@@ -22,6 +23,15 @@ namespace LearningEngine.Domain.Command
         {
             UserId = userId;
             CardId = cardId;
+        }
+    }
+
+    public class CreateStatisicCommandValidator : AbstractValidator<CreateStatisicCommand>
+    {
+        public CreateStatisicCommandValidator()
+        {
+            RuleFor(note => note.UserId).GreaterThan(0);
+            RuleFor(note => note.CardId).GreaterThan(0);
         }
     }
 }

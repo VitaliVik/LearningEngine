@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.DTO;
+﻿using FluentValidation;
+using LearningEngine.Domain.DTO;
 using MediatR;
 
 namespace LearningEngine.Domain.Query
@@ -10,6 +11,14 @@ namespace LearningEngine.Domain.Query
         public GetUserByNameQuery(string userName)
         {
             UserName = userName;
+        }
+    }
+
+    public class GetUserByNameQueryValidator : AbstractValidator<GetUserByNameQuery>
+    {
+        public GetUserByNameQueryValidator()
+        {
+            RuleFor(user => user.UserName).NotNull().NotEmpty();
         }
     }
 }

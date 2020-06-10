@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.DTO;
+﻿using FluentValidation;
+using LearningEngine.Domain.DTO;
 using LearningEngine.Domain.Enum;
 using LearningEngine.Domain.Interfaces.PipelinePermissions;
 using MediatR;
@@ -20,5 +21,14 @@ namespace LearningEngine.Domain.Query
         public ObjectType ObjectType => ObjectType.Theme;
 
         public int ObjectId => ThemeId;
+    }
+
+    public class GetThemeHeaderQueryValidator : AbstractValidator<GetThemeHeaderQuery>
+    {
+        public GetThemeHeaderQueryValidator()
+        {
+            RuleFor(theme => theme.ThemeId).GreaterThan(0);
+            RuleFor(theme => theme.UserId).GreaterThan(0);
+        }
     }
 }

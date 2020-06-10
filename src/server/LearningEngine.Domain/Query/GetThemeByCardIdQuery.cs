@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.DTO;
+﻿using FluentValidation;
+using LearningEngine.Domain.DTO;
 using MediatR;
 
 namespace LearningEngine.Domain.Query
@@ -10,6 +11,14 @@ namespace LearningEngine.Domain.Query
         public GetThemeByCardIdQuery(int cardId)
         {
             CardId = cardId;
+        }
+    }
+
+    public class GetThemeByCardIdQueryValidator : AbstractValidator<GetThemeByCardIdQuery>
+    {
+        public GetThemeByCardIdQueryValidator()
+        {
+            RuleFor(card => card.CardId).GreaterThan(0);
         }
     }
 }

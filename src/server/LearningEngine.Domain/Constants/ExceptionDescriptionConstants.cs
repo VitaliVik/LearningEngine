@@ -4,6 +4,8 @@
     {
         public static string RootThemesNotFount => "User has no root themes connected with him";
 
+        public static string ValidationError => "Validation failed";
+
         public static string CardNotFound => "Card, connected to this theme not found";
 
         public static string NoteNotFound => "Note, connected to this theme not found";

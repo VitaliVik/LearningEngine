@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Enum;
+﻿using FluentValidation;
+using LearningEngine.Domain.Enum;
 using LearningEngine.Domain.Interfaces.PipelinePermissions;
 using MediatR;
 
@@ -24,6 +25,17 @@ namespace LearningEngine.Domain.Command
             ThemeId = themeId;
             Question = question;
             Answer = answer;
+        }
+    }
+
+    public class CreateCardCommandValidator : AbstractValidator<CreateCardCommand>
+    {
+        public CreateCardCommandValidator()
+        {
+            RuleFor(card => card.UserId).GreaterThan(0);
+            RuleFor(card => card.ThemeId).GreaterThan(0);
+            RuleFor(card => card.Question).NotNull().NotEmpty().MinimumLength(4);
+            RuleFor(card => card.Answer).NotNull().NotEmpty().MinimumLength(4);
         }
     }
 }

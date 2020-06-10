@@ -29,6 +29,7 @@ using LearningEngine.Application.PipelineBehaviors;
 using LearningEngine.Application.Factories;
 using LearningEngine.Domain.Enum;
 using LearningEngine.Api.AppFilters;
+using FluentValidation;
 
 namespace LearningEngine.Api
 {
@@ -68,19 +69,21 @@ namespace LearningEngine.Api
                 });
             services.AddSingleton<IPasswordHasher>(sp => new PasswordHasher());
             services.AddTransient<IEnviromentService, EnviromentService>();
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PipelineSimpleValidator<,>));
             var assembly = typeof(GetThemeNotesQuery).GetTypeInfo().Assembly;
             services.RegisterAllAssignableType<IPipelinePermissionCommand>(assembly);
+            services.AddValidatorsFromAssembly(typeof(GetThemeHeaderQuery).Assembly);
             services.AddScoped<IJwtTokenCryptographer, JwtTokenCoder>();
             services.AddTransient<JwtSecurityTokenHandler>();
             services.AddControllers(options =>
             {
                 options.Filters.Add(typeof(ExceptionFilter));
             });
+            services.AddTransient<GetPermissionModelFactory>();
             services.AddTransient<IGetPermissionModelFactory, GetPermissionModelFactory>(sp =>
             {
                 return sp.GetRequiredService<GetPermissionModelFactory>().RegisterQuery();
             });
-            services.AddTransient<GetPermissionModelFactory>();
             services.AddTransient<IConfigurationService, ConfigurationService>(provider =>
             new ConfigurationService(provider.GetService<IEnviromentService>()));
             services.AddCors(options => options.AddPolicy("defaultPolicy",

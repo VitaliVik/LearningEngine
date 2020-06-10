@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,5 +23,14 @@ namespace LearningEngine.Domain.Command
         public bool IsPublic { get; }
 
         public int? ParentThemeId { get; }
+    }
+
+    public class CreateThemeCommandValidator : AbstractValidator<CreateThemeCommand>
+    {
+        public CreateThemeCommandValidator()
+        {
+            RuleFor(theme => theme.ThemeName).NotNull().NotEmpty();
+            RuleFor(theme => theme.Description).NotNull().NotEmpty().MinimumLength(4);
+        }
     }
 }

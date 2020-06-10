@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.DTO;
+﻿using FluentValidation;
+using LearningEngine.Domain.DTO;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,14 @@ namespace LearningEngine.Domain.Query
         public GetThemeByStatisticIdQuery(int statisticId)
         {
             StatisticId = statisticId;
+        }
+
+        public class GetThemeByStatisticIdQueryValidator : AbstractValidator<GetThemeByStatisticIdQuery>
+        {
+            public GetThemeByStatisticIdQueryValidator()
+            {
+                RuleFor(statistic => statistic.StatisticId).GreaterThan(0);
+            }
         }
     }
 }
