@@ -15,14 +15,16 @@ namespace LearningEngine.Persistence.Handlers
 {
     public class GetThemeCardsHandler : IRequestHandler<GetThemeCardsQuery, List<CardDto>>
     {
-        readonly LearnEngineContext _context;
+        private readonly LearnEngineContext context;
+
         public GetThemeCardsHandler(LearnEngineContext context)
         {
-            _context = context;
+            this.context = context;
         }
+
         public async Task<List<CardDto>> Handle(GetThemeCardsQuery request, CancellationToken cancellationToken)
         {
-            var theme = await _context.Themes
+            var theme = await context.Themes
                 .Include(thm => thm.Cards)
                 .FirstOrDefaultAsync(thm => thm.Id == request.ThemeId);
 
@@ -31,7 +33,7 @@ namespace LearningEngine.Persistence.Handlers
                 var cards = theme.Cards
                     .Select(card => new CardDto { Answer = card.Answer, Question = card.Question, Id = card.Id })
                     .ToList();
-                    
+
                 return cards;
             }
             else

@@ -11,25 +11,27 @@ using System.Threading.Tasks;
 namespace LearningEngine.Application.UseCase.Handler
 {
     public abstract class BaseUseCaseHandler<TResult, TRequestUseCase> : IRequestHandler<TRequestUseCase, TResult>
-        where TRequestUseCase: IRequest<TResult>
+        where TRequestUseCase : IRequest<TResult>
     {
-        private readonly ITransactionUnitOfWork _uow;
+        private readonly ITransactionUnitOfWork uow;
+
         protected BaseUseCaseHandler(ITransactionUnitOfWork uow)
         {
-            _uow = uow;
+            this.uow = uow;
         }
+
         public async Task<TResult> Execute(TRequestUseCase request)
         {
-            await _uow.StartTransaction();
+            await uow.StartTransaction();
             try
             {
                 var result = await Action(request);
-                await _uow.CommitTransaction();
+                await uow.CommitTransaction();
                 return result;
             }
             catch
             {
-                await _uow.RollbackTransaction();
+                await uow.RollbackTransaction();
                 throw;
             }
         }
@@ -40,6 +42,5 @@ namespace LearningEngine.Application.UseCase.Handler
         }
 
         protected abstract Task<TResult> Action(TRequestUseCase request);
-
     }
 }

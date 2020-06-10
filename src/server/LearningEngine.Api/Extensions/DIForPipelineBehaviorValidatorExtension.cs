@@ -14,8 +14,8 @@ namespace LearningEngine.Api.Extensions
 {
     public static class DIForPipelineBehaviorValidatorExtension
     {
-        private static string PipelineBehaviorInterfaceName = typeof(IPipelineBehavior<,>).Name;
-        private static string MediatorIRequestName = typeof(IRequest<>).Name;
+        private static string pipelineBehaviorInterfaceName = typeof(IPipelineBehavior<,>).Name;
+        private static string mediatorIRequestName = typeof(IRequest<>).Name;
 
         public static void RegisterAllAssignableType<T>(this IServiceCollection services, Assembly commandQueryAssembly)
         {
@@ -31,7 +31,7 @@ namespace LearningEngine.Api.Extensions
                 var pipelineBehaviorAssembly = typeof(PipelinePermissionCommandValidator<>).GetTypeInfo().Assembly;
                 var pipelineBehaviorClassType = pipelineBehaviorAssembly.GetTypes()
                                       .FirstOrDefault(p => p.GetTypeInfo().ImplementedInterfaces
-                                      .Where(inter => inter.Name == PipelineBehaviorInterfaceName 
+                                      .Where(inter => inter.Name == pipelineBehaviorInterfaceName
                                        && inter.GetGenericArguments()
                                       .Contains(interfaceType)).Any());
 
@@ -42,7 +42,7 @@ namespace LearningEngine.Api.Extensions
                         continue;
                     }
 
-                    var genericArg = type.GetInterfaces().FirstOrDefault(inter => inter.Name == MediatorIRequestName)
+                    var genericArg = type.GetInterfaces().FirstOrDefault(inter => inter.Name == mediatorIRequestName)
                                                                                      .GenericTypeArguments[0];
 
                     services.AddTransient(typeof(IPipelineBehavior<,>).MakeGenericType(type, genericArg),

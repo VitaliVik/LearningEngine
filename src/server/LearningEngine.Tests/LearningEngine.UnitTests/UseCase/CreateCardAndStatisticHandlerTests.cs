@@ -16,19 +16,18 @@ namespace LearningEngine.UnitTests.UseCase
 {
     public class CreateCardAndStatisticHandlerTests
     {
-
         [Fact]
         public async Task Success()
         {
-            //arange
+            // arange
             var td = new TestData(1, 1, "question", "answer");
             var mocks = new Mocks();
 
-            //act
+            // act
             var result = await mocks.TestingHandler.Handle(td.CreateCardAndStatisticCommand,
                                                                     CancellationToken.None);
 
-            //Assert
+            // Assert
             mocks.MockUow.Verify(_ => _.StartTransaction(), Times.Once);
             mocks.CheckCreateCardCommand(td.CreateCardCommand.ThemeId, td.CreateCardCommand.UserId);
             mocks.CheckCreateStatisicCommand(td.CreateStatisicCommand.UserId);
@@ -52,36 +51,45 @@ namespace LearningEngine.UnitTests.UseCase
                 MockUow.Setup(m => m.RollbackTransaction());
                 TestingHandler = new CreateCardAndStatisticHandler(MockMediator.Object, MockUow.Object);
             }
+
             public Mock<IMediator> MockMediator { get; set; }
+
             public Mock<ITransactionUnitOfWork> MockUow { get; set; }
+
             public CreateCardAndStatisticHandler TestingHandler { get; set; }
 
             public void CheckCreateCardCommand(int themeId, int userId)
             {
-                MockMediator.Verify(_ => _.Send(It.Is<CreateCardCommand>
-                       (c => c.ThemeId == themeId && c.UserId == userId), CancellationToken.None), Times.Once);
+                MockMediator.Verify(_ => _.Send(It.Is<CreateCardCommand>(c => c.ThemeId == themeId && c.UserId == userId),
+                                                                        CancellationToken.None), 
+                                                                        Times.Once);
             }
 
             public void CheckCreateStatisicCommand(int userId)
             {
-                MockMediator.Verify(_ => _.Send(It.Is<CreateStatisicCommand>
-                                               (c => c.UserId == userId), CancellationToken.None), Times.Once);
+                MockMediator.Verify(_ => _.Send(It.Is<CreateStatisicCommand>(c => c.UserId == userId), 
+                                                                             CancellationToken.None), 
+                                                                             Times.Once);
             }
         }
 
         public class TestData
         {
             public CreateCardAndStatisticCommand CreateCardAndStatisticCommand { get; set; }
+
             public CreateCardCommand CreateCardCommand { get; set; }
+
             public CreateStatisicCommand CreateStatisicCommand { get; set; }
+
             public TestData(int userId, int themeId, string quertion, string answer)
             {
-                CreateCardAndStatisticCommand = new CreateCardAndStatisticCommand
-                                                    (userId, themeId, quertion, answer);
+                CreateCardAndStatisticCommand = new CreateCardAndStatisticCommand(userId, 
+                                                                                  themeId, 
+                                                                                  quertion, 
+                                                                                  answer);
                 CreateCardCommand = new CreateCardCommand(userId, themeId, quertion, answer);
                 CreateStatisicCommand = new CreateStatisicCommand(userId, 1);
             }
         }
-
     }
 }

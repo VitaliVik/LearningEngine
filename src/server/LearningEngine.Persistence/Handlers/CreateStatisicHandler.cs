@@ -14,29 +14,29 @@ namespace LearningEngine.Persistence.Handlers
 {
     public class CreateStatisicHandler : IRequestHandler<CreateStatisicCommand>
     {
-        private readonly LearnEngineContext _context;
+        private readonly LearnEngineContext context;
 
         public CreateStatisicHandler(LearnEngineContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         public async Task<Unit> Handle(CreateStatisicCommand request, CancellationToken cancellationToken)
         {
-            var card = await _context.Cards.FirstOrDefaultAsync(card => card.Id == request.CardId);
+            var card = await context.Cards.FirstOrDefaultAsync(card => card.Id == request.CardId);
 
-            if(card == null)
+            if (card == null)
             {
                 throw new CardNotFoundException();
             }
 
-            await _context.Statistic.AddAsync(new Statistic 
-            { 
-                CardId = request.CardId, 
-                UserId = request.UserId, 
-                CardKnowledge = 0.0 
+            await context.Statistic.AddAsync(new Statistic
+            {
+                CardId = request.CardId,
+                UserId = request.UserId,
+                CardKnowledge = 0.0
             });
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
             return default;
         }

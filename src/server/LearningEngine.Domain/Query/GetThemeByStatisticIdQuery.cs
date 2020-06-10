@@ -9,6 +9,7 @@ namespace LearningEngine.Domain.Query
     public class GetThemeByStatisticIdQuery : IRequest<ThemeDto>
     {
         public int StatisticId { get; set; }
+
         public GetThemeByStatisticIdQuery(int statisticId)
         {
             StatisticId = statisticId;

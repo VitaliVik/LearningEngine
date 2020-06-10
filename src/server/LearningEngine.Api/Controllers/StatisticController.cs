@@ -16,10 +16,11 @@ namespace LearningEngine.Api.Controllers
     [ApiController]
     public class StatisticController : ControllerBase
     {
-        readonly IMediator _mediator;
+        private readonly IMediator mediator;
+
         public StatisticController(IMediator mediator)
         {
-            _mediator = mediator;
+            this.mediator = mediator;
         }
 
         [HttpPost("{cardId}")]
@@ -27,7 +28,7 @@ namespace LearningEngine.Api.Controllers
         {
             var createStatisticCommand = new CreateStatisicCommand(this.GetUserId(), cardId);
 
-            await _mediator.Send(createStatisticCommand);
+            await mediator.Send(createStatisticCommand);
 
             return Ok();
         }
@@ -37,7 +38,7 @@ namespace LearningEngine.Api.Controllers
         {
             var editStatisticCommand = new EditUserKnowledgeCommand(this.GetUserId(), cardId, 10);
 
-            await _mediator.Send(editStatisticCommand);
+            await mediator.Send(editStatisticCommand);
 
             return Ok();
         }
@@ -47,7 +48,7 @@ namespace LearningEngine.Api.Controllers
         {
             var editStatisticCommand = new EditUserKnowledgeCommand(this.GetUserId(), cardId, -10);
 
-            await _mediator.Send(editStatisticCommand);
+            await mediator.Send(editStatisticCommand);
 
             return Ok();
         }

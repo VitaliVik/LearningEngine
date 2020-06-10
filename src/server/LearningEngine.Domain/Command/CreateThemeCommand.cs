@@ -16,9 +16,11 @@ namespace LearningEngine.Domain.Command
         }
 
         public string ThemeName { get; }
-        public string Description { get; }
-        public bool IsPublic { get; }
-        public int? ParentThemeId { get; }
 
+        public string Description { get; }
+
+        public bool IsPublic { get; }
+
+        public int? ParentThemeId { get; }
     }
 }

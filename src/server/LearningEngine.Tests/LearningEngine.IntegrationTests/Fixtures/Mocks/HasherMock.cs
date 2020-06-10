@@ -9,7 +9,9 @@ namespace LearningEngine.IntegrationTests.Fixtures.Mocks
     public class HasherMocks
     {
         public Mock<IPasswordHasher> HasherMock { get; }
+
         public byte[] Hash { get; }
+
         public HasherMocks()
         {
             Hash = new byte[64];
@@ -17,6 +19,7 @@ namespace LearningEngine.IntegrationTests.Fixtures.Mocks
             HasherMock.Setup(m => m.GetHash(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Hash);
         }
+
         public HasherMocks(byte[] byteArray)
         {
             HasherMock = new Mock<IPasswordHasher>();
@@ -24,6 +27,5 @@ namespace LearningEngine.IntegrationTests.Fixtures.Mocks
                 .Returns(byteArray);
             Hash = byteArray;
         }
-
     }
 }

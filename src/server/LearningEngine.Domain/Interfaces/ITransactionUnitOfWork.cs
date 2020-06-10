@@ -8,7 +8,9 @@ namespace LearningEngine.Domain.Interfaces
     public interface ITransactionUnitOfWork
     {
         Task StartTransaction();
+
         Task CommitTransaction();
+
         Task RollbackTransaction();
     }
 }

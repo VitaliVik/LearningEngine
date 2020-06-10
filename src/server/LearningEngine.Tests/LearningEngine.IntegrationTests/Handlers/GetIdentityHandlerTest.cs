@@ -32,7 +32,7 @@ namespace LearningEngine.IntegrationTests.Handlers
                 var mock = new HasherMocks();
                 var query = new GetIdentityQuery("somename", "123");
                 var handler = new GetIdentityHandler(context, mock.HasherMock.Object);
-                context.Add(new User { UserName = "somename", Password =  mock.Hash});
+                context.Add(new User { UserName = "somename", Password = mock.Hash });
                 context.SaveChanges();
 
                 var result = await handler.Handle(query, CancellationToken.None);
@@ -61,7 +61,6 @@ namespace LearningEngine.IntegrationTests.Handlers
                 var result = await handler.Handle(query, CancellationToken.None);
 
                 Assert.Null(result);
-
             });
         }
     }

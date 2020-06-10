@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LearningEngine.Domain.Command
 {
-    public class RegisterUserCommand: IRequest
+    public class RegisterUserCommand : IRequest
     {
         public RegisterUserCommand(string userName, string email, string password)
         {
@@ -15,7 +15,9 @@ namespace LearningEngine.Domain.Command
         }
 
         public string UserName { get; }
+
         public string Email { get; }
+
         public string Password { get; }
     }
 }

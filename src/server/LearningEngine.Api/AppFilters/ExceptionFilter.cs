@@ -12,7 +12,7 @@ namespace LearningEngine.Api.AppFilters
     {
         public void OnException(ExceptionContext context)
         {
-            if(context.Exception is BaseAppException)
+            if (context.Exception is BaseAppException)
             {
                 context.Result = new ContentResult
                 {
@@ -28,6 +28,7 @@ namespace LearningEngine.Api.AppFilters
                     StatusCode = 500
                 };
             }
+
             context.ExceptionHandled = true;
         }
     }

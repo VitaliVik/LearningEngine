@@ -10,12 +10,14 @@ namespace LearningEngine.Persistence.Transaction
 {
     public class TransactionUnitOfWork : ITransactionUnitOfWork
     {
-        private readonly LearnEngineContext _context;
+        private readonly LearnEngineContext context;
         private IDbContextTransaction transaction;
+
         public TransactionUnitOfWork(LearnEngineContext context)
         {
-            _context = context;
+            this.context = context;
         }
+
         public async Task CommitTransaction()
         {
             await transaction.CommitAsync();
@@ -28,7 +30,7 @@ namespace LearningEngine.Persistence.Transaction
 
         public async Task StartTransaction()
         {
-            transaction = await _context.Database.BeginTransactionAsync();
+            transaction = await context.Database.BeginTransactionAsync();
         }
     }
 }

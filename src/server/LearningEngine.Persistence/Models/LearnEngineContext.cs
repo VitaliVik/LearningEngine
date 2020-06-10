@@ -7,15 +7,19 @@ namespace LearningEngine.Persistence.Models
     public class LearnEngineContext : DbContext
     {
         public DbSet<Card> Cards { get; set; }
+
         public DbSet<Note> Notes { get; set; }
+
         public DbSet<Permission> Permissions { get; set; }
+
         public DbSet<User> Users { get; set; }
+
         public DbSet<Theme> Themes { get; set; }
+
         public DbSet<Statistic> Statistic { get; set; }
 
         public LearnEngineContext(DbContextOptions<LearnEngineContext> options) : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -77,7 +81,8 @@ namespace LearningEngine.Persistence.Models
                 .IsRequired();
 
             modelBuilder.Entity<Theme>()
-                .HasData(new List<Theme> {
+                .HasData(new List<Theme> 
+                {
                     new Theme
                     {
                         Id = 2,

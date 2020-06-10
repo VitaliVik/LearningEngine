@@ -14,23 +14,25 @@ namespace LearningEngine.Persistence.Handlers
 {
     public class GetThemeByCardIdHandler : IRequestHandler<GetThemeByCardIdQuery, ThemeDto>
     {
-        private readonly LearnEngineContext _context;
+        private readonly LearnEngineContext context;
+
         public GetThemeByCardIdHandler(LearnEngineContext context)
         {
-            _context = context;
+            this.context = context;
         }
+
         public async Task<ThemeDto> Handle(GetThemeByCardIdQuery request, CancellationToken cancellationToken)
         {
-            var card = await _context.Cards.FirstOrDefaultAsync(card => card.Id == request.CardId);
+            var card = await context.Cards.FirstOrDefaultAsync(card => card.Id == request.CardId);
 
-            if(card == null)
+            if (card == null)
             {
                 throw new CardNotFoundException();
             }
 
-            var theme = await _context.Themes.FirstOrDefaultAsync(theme => theme.Id == card.ThemeId);
+            var theme = await context.Themes.FirstOrDefaultAsync(theme => theme.Id == card.ThemeId);
 
-            if(theme == null)
+            if (theme == null)
             {
                 throw new ThemeNotFoundException();
             }

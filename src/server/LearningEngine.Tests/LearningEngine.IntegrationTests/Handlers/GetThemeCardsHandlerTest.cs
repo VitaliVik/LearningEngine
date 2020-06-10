@@ -31,7 +31,7 @@ namespace LearningEngine.IntegrationTests.Handlers
                     Name = "themeCardsTests",
                     Description = "theme cards tests"
                 };
-                var cards = new List<Card>
+                var cards = new List<Card>()
                 {
                     new Card { Theme = theme, Question = "1", Answer = "first"},
                     new Card { Theme = theme, Question = "2", Answer = "second"},

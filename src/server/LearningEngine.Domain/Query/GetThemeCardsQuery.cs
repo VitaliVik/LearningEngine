@@ -4,7 +4,6 @@ using LearningEngine.Domain.Interfaces.PipelinePermissions;
 using MediatR;
 using System.Collections.Generic;
 
-
 namespace LearningEngine.Domain.Query
 {
     public class GetThemeCardsQuery : IRequest<List<CardDto>>, IPipelinePermissionQuery
@@ -12,6 +11,7 @@ namespace LearningEngine.Domain.Query
         public int ThemeId { get; private set; }
 
         public int UserId { get; private set; }
+
         public ObjectType ObjectType => ObjectType.Theme;
 
         public int ObjectId => ThemeId;

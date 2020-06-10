@@ -8,6 +8,7 @@ namespace LearningEngine.Api.ViewModels
     public class CreateCardViewModel
     {
         public string Question { get; set; }
+
         public string Answer { get; set; }
     }
 }

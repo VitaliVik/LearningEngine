@@ -30,7 +30,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                //Arrange
+                // Arrange
                 var dataContainer = new TestData();
                 dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
                 dataContainer.CreateTheme("test theme", "for testing", true);
@@ -49,12 +49,12 @@ namespace LearningEngine.IntegrationTests.Handlers
                     dataContainer.Theme.Id);
                 var handler = new EditThemeHandler(context);
 
-                //Act
+                // Act
                 await handler.Handle(editThemeCommand, CancellationToken.None);
 
                 var editedTheme = await context.Themes.FirstOrDefaultAsync(theme => theme.Id == dataContainer.Theme.Id);
 
-                //Assert
+                // Assert
                 Assert.Equal(dataContainer.Theme.Description, editedTheme.Description);
                 Assert.Equal(dataContainer.Theme.Name, editedTheme.Name);
                 Assert.Equal(dataContainer.Theme.IsPublic, editedTheme.IsPublic);
@@ -66,7 +66,7 @@ namespace LearningEngine.IntegrationTests.Handlers
         {
             await UseContext(async (context) =>
             {
-                //Arrange
+                // Arrange
                 var dataContainer = new TestData();
                 dataContainer.CreateUser("Vasyan", "sobaka@gmail.com", new byte[0]);
                 dataContainer.CreateTheme("test theme", "for testing", true);
@@ -85,11 +85,11 @@ namespace LearningEngine.IntegrationTests.Handlers
                     -1);
                 var handler = new EditThemeHandler(context);
 
-                //Act
+                // Act
                 Func<Task> editTheme = () => handler.Handle(editThemeCommand, CancellationToken.None);
                 Exception exception = await Assert.ThrowsAsync<ThemeNotFoundException>(editTheme);
 
-                //Assert
+                // Assert
                 Assert.Equal(ExceptionDescriptionConstants.ThemeNotFound, exception.Message);
             });
         }
@@ -108,17 +108,19 @@ namespace LearningEngine.IntegrationTests.Handlers
 
                 context.SaveChanges();
             }
-
         }
 
         public class TestData
         {
             public User User { get; set; }
+
             public Theme Theme { get; set; }
+
             public void CreateUser(string userName, string email, byte[] password)
             {
                 User = new User { Email = email, Password = password, UserName = userName };
             }
+
             public void CreateTheme(string name, string description, bool isPublic)
             {
                 Theme = new Theme { Name = name, Description = description, IsPublic = isPublic };

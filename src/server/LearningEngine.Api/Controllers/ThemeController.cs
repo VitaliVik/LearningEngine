@@ -25,22 +25,26 @@ namespace LearningEngine.Api.Controllers
     [ApiController]
     public class ThemeController : ControllerBase
     {
-        private readonly IMediator _mediator;
-        private readonly IJwtTokenCryptographer _workWithJwtToken;
+        private readonly IMediator mediator;
+        private readonly IJwtTokenCryptographer workWithJwtToken;
 
         public ThemeController(IMediator mediator, IJwtTokenCryptographer workWithJwtToken)
         {
-            _mediator = mediator;
-            _workWithJwtToken = workWithJwtToken;
+            this.mediator = mediator;
+            this.workWithJwtToken = workWithJwtToken;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUserTheme([FromForm]CreateThemeViewModel vm)
+        public async Task<IActionResult> CreateUserTheme([FromForm] CreateThemeViewModel vm)
         {
-            var command = new CreateUserThemeCommand(this.GetUserName(), vm.ThemeName, vm.Description, 
-                                                     vm.IsPublic, this.GetUserId(), vm.ParentThemeId);
+            var command = new CreateUserThemeCommand(this.GetUserName(), 
+                                                     vm.ThemeName, 
+                                                     vm.Description,
+                                                     vm.IsPublic, 
+                                                     this.GetUserId(), 
+                                                     vm.ParentThemeId);
 
-            await _mediator.Send(command);
+            await mediator.Send(command);
 
             return Ok();
         }
@@ -50,7 +54,7 @@ namespace LearningEngine.Api.Controllers
         {
             var command = new DeleteThemeCommand(themeId, this.GetUserId());
 
-            await _mediator.Send(command);
+            await mediator.Send(command);
 
             return Ok();
         }
@@ -61,7 +65,7 @@ namespace LearningEngine.Api.Controllers
         {
             var query = new GetThemeHeaderQuery(themeId, this.GetUserId());
 
-            var themes = await _mediator.Send(query);
+            var themes = await mediator.Send(query);
 
             return Ok(themes);
         }
@@ -71,7 +75,7 @@ namespace LearningEngine.Api.Controllers
         {
             var query = new GetThemeFullInfoQuery(this.GetUserId(), themeId);
 
-            var result = await _mediator.Send(query);
+            var result = await mediator.Send(query);
 
             return Ok(new { theme = result, isRoot = false });
         }
@@ -81,27 +85,27 @@ namespace LearningEngine.Api.Controllers
         {
             var query = new GetRootThemesByUserIdQuery(this.GetUserId());
 
-            var rootThemes = await _mediator.Send(query);
+            var rootThemes = await mediator.Send(query);
 
             return Ok(rootThemes);
         }
 
         [HttpPost("linkUserToTheme")]
-        public async Task<IActionResult> LinkUserToTheme([FromForm]int themeId, [FromForm]TypeAccess typeAccess)
+        public async Task<IActionResult> LinkUserToTheme([FromForm] int themeId, [FromForm] TypeAccess typeAccess)
         {
             var command = new LinkThemeAndAllSubThemesToUserCommand(this.GetUserId(), themeId, typeAccess);
 
-            await _mediator.Send(command);
+            await mediator.Send(command);
 
             return Ok();
         }
 
         [HttpPut("{themeId}")]
-        public async Task<IActionResult> EditTheme([FromForm]ThemeDto themeDto, [FromRoute]int themeId)
+        public async Task<IActionResult> EditTheme([FromForm] ThemeDto themeDto, [FromRoute] int themeId)
         {
             var command = new EditThemeCommand(themeDto, this.GetUserId(), themeId);
 
-            await _mediator.Send(command);
+            await mediator.Send(command);
 
             return Ok();
         }

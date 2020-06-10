@@ -17,16 +17,20 @@ namespace LearningEngine.UnitTests.Utils
         [InlineData("bodyanka", "20", "starsta")]
         public void WorkWithJwtToken_WithValidUserName_ShouldReturnUserClaims(string userName, string id, string role)
         {
-            //arange
-            ClaimsIdentity claimsIdentity = new ClaimsIdentity(new List<Claim> { new Claim("UserName", userName),
-            new Claim("UserId", id), new Claim("Role", role) });
+            // arange
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(new List<Claim> 
+            { 
+                new Claim("UserName", userName),
+                new Claim("UserId", id),
+                new Claim("Role", role) 
+            });
             JwtSecurityTokenHandler jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
             JwtTokenCoder workWithJwtToken = new JwtTokenCoder(jwtSecurityTokenHandler);
 
-            //act
+            // act
             var jwtToken = workWithJwtToken.Encode(claimsIdentity);
 
-            //assert
+            // assert
             var claims = jwtSecurityTokenHandler.ReadJwtToken(jwtToken).Claims.ToList();
             Assert.Equal(claims[0].Value, userName);
             Assert.Equal(claims[1].Value, id);

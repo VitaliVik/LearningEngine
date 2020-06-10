@@ -14,21 +14,23 @@ namespace LearningEngine.Persistence.Handlers
 {
     public class GetThemeByNoteIdHandler : IRequestHandler<GetThemeByNoteIdQuery, ThemeDto>
     {
-        private readonly LearnEngineContext _context;
+        private readonly LearnEngineContext context;
+
         public GetThemeByNoteIdHandler(LearnEngineContext context)
         {
-            _context = context;
+            this.context = context;
         }
+
         public async Task<ThemeDto> Handle(GetThemeByNoteIdQuery request, CancellationToken cancellationToken)
         {
-            var note = await _context.Notes.FirstOrDefaultAsync(note => note.Id == request.NoteId);
+            var note = await context.Notes.FirstOrDefaultAsync(note => note.Id == request.NoteId);
 
-            if(note == null)
+            if (note == null)
             {
                 throw new NoteNotFoundException();
             }
 
-            var theme = await _context.Themes.FirstOrDefaultAsync(theme => theme.Id == note.ThemeId);
+            var theme = await context.Themes.FirstOrDefaultAsync(theme => theme.Id == note.ThemeId);
 
             return new ThemeDto
             {

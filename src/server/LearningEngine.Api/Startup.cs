@@ -68,8 +68,8 @@ namespace LearningEngine.Api
                 });
             services.AddSingleton<IPasswordHasher>(sp => new PasswordHasher());
             services.AddTransient<IEnviromentService, EnviromentService>();
-            services.RegisterAllAssignableType<IPipelinePermissionCommand>
-                                              (typeof(GetThemeNotesQuery).GetTypeInfo().Assembly);
+            var assembly = typeof(GetThemeNotesQuery).GetTypeInfo().Assembly;
+            services.RegisterAllAssignableType<IPipelinePermissionCommand>(assembly);
             services.AddScoped<IJwtTokenCryptographer, JwtTokenCoder>();
             services.AddTransient<JwtSecurityTokenHandler>();
             services.AddControllers(options =>
@@ -84,29 +84,18 @@ namespace LearningEngine.Api
             services.AddTransient<IConfigurationService, ConfigurationService>(provider =>
             new ConfigurationService(provider.GetService<IEnviromentService>()));
             services.AddCors(options => options.AddPolicy("defaultPolicy",
-                builder => builder.WithOrigins("http://localhost:3000").WithHeaders("Authorization")
-                ));
-
-            //services.AddScoped(provider =>
-            //{
-            //    var configureService = provider.GetService<IConfigurationService>();
-            //    var connectionString = configureService.GetConfiguration().GetConnectionString(nameof(LearnEngineContext));
-            //    var optionsBuilder = new DbContextOptionsBuilder<LearnEngineContext>();
-            //    optionsBuilder.UseSqlServer(connectionString, builder => builder.MigrationsAssembly("LearningEngine.Persistence"));
-            //    return new LearnEngineContext(optionsBuilder.Options);
-            //});
-            services.AddDbContext<LearnEngineContext>((provider, opt)  => 
+                builder => builder.WithOrigins("http://localhost:3000").WithHeaders("Authorization")));
+            services.AddDbContext<LearnEngineContext>((provider, opt) =>
             {
                 var configureService = provider.GetService<IConfigurationService>();
                 var connectionString = configureService.GetConfiguration().GetConnectionString(nameof(LearnEngineContext));
-                opt.UseSqlServer(connectionString, builder => builder.MigrationsAssembly("LearningEngine.Persistence")); 
+                opt.UseSqlServer(connectionString, builder => builder.MigrationsAssembly("LearningEngine.Persistence"));
             });
-            services.AddScoped<ITransactionUnitOfWork>(sp => 
+            services.AddScoped<ITransactionUnitOfWork>(sp =>
             new TransactionUnitOfWork(sp.GetRequiredService<LearnEngineContext>()));
             services.AddControllers();
-            services.AddMediatR(typeof(LearningEngine.Persistence.Handlers.GetIdentityHandler).Assembly, 
+            services.AddMediatR(typeof(LearningEngine.Persistence.Handlers.GetIdentityHandler).Assembly,
                 typeof(LearningEngine.Application.UseCase.Handler.CreateUserThemeHandler).Assembly);
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -116,6 +105,7 @@ namespace LearningEngine.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseSwagger();
             app.UseCors("defaultPolicy");
             app.UseDefaultFiles();

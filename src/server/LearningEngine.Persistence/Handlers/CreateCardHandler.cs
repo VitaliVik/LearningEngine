@@ -15,16 +15,16 @@ namespace LearningEngine.Persistence.Handlers
 {
     public class CreateCardHandler : IRequestHandler<CreateCardCommand, int>
     {
-        private readonly LearnEngineContext _context;
+        private readonly LearnEngineContext context;
 
         public CreateCardHandler(LearnEngineContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         public async Task<int> Handle(CreateCardCommand request, CancellationToken cancellationToken)
         {
-            var theme = await _context.Themes.FirstOrDefaultAsync(theme => theme.Id == request.ThemeId);
+            var theme = await context.Themes.FirstOrDefaultAsync(theme => theme.Id == request.ThemeId);
 
             if (theme == null)
             {
@@ -33,8 +33,8 @@ namespace LearningEngine.Persistence.Handlers
 
             var card = new Card { Answer = request.Answer, Question = request.Question, ThemeId = request.ThemeId };
 
-            await _context.Cards.AddAsync(card);
-            await _context.SaveChangesAsync();
+            await context.Cards.AddAsync(card);
+            await context.SaveChangesAsync();
 
             return card.Id;
         }
