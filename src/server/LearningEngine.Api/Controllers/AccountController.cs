@@ -35,9 +35,9 @@ namespace LearningEngine.Api.Controllers
         }
 
         [HttpPost("token")]
-        public async Task<IActionResult> Token([FromForm] string username, [FromForm] string password)
+        public async Task<IActionResult> Token([FromForm] LoginViewModel login)
         {
-            var query = new GetIdentityQuery(username, password);
+            var query = new GetIdentityQuery(login.UserName, login.Password);
             var identity = await mediator.Send(query);
             if (identity == null)
             {

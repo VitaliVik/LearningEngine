@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.DTO;
+﻿using FluentValidation;
+using LearningEngine.Domain.DTO;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,14 @@ namespace LearningEngine.Domain.Query
         public GetThemeByNoteIdQuery(int noteId)
         {
             NoteId = noteId;
+        }
+    }
+
+    public class GetThemeByNoteIdQueryValidator : AbstractValidator<GetThemeByNoteIdQuery>
+    {
+        public GetThemeByNoteIdQueryValidator()
+        {
+            RuleFor(note => note.NoteId).GreaterThan(0);
         }
     }
 }

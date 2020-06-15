@@ -5,6 +5,7 @@ using LearningEngine.Domain.Query;
 using LearningEngine.Domain.Enum;
 using LearningEngine.Domain.Interfaces.PipelinePermissions;
 using LearningEngine.Application.Factories;
+using LearningEngine.Application.Exceptions;
 
 namespace LearningEngine.Application.PipelineValidators
 {

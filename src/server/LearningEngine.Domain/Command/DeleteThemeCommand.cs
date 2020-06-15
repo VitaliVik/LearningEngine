@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Enum;
+﻿using FluentValidation;
+using LearningEngine.Domain.Enum;
 using LearningEngine.Domain.Interfaces.PipelinePermissions;
 using MediatR;
 
@@ -19,5 +20,14 @@ namespace LearningEngine.Domain.Command
         public ObjectType ObjectType => ObjectType.Theme;
 
         public int ObjectId => ThemeId;
+    }
+
+    public class DeleteThemeCommandValidator : AbstractValidator<DeleteThemeCommand>
+    {
+        public DeleteThemeCommandValidator()
+        {
+            RuleFor(theme => theme.ThemeId).GreaterThan(0);
+            RuleFor(theme => theme.UserId).GreaterThan(0);
+        }
     }
 }

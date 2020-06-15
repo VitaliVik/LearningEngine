@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,5 +20,15 @@ namespace LearningEngine.Domain.Command
         public string Email { get; }
 
         public string Password { get; }
+    }
+
+    public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
+    {
+        public RegisterUserCommandValidator()
+        {
+            RuleFor(user => user.UserName).NotNull().NotEmpty().MinimumLength(3);
+            RuleFor(user => user.Email).NotNull().NotEmpty().EmailAddress();
+            RuleFor(user => user.Password).NotNull().NotEmpty().MinimumLength(4);
+        }
     }
 }

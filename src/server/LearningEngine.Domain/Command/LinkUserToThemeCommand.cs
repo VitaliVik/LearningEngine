@@ -1,4 +1,5 @@
-﻿using LearningEngine.Domain.Enum;
+﻿using FluentValidation;
+using LearningEngine.Domain.Enum;
 using MediatR;
 
 namespace LearningEngine.Domain.Command
@@ -16,6 +17,15 @@ namespace LearningEngine.Domain.Command
             UserId = userId;
             ThemeId = themeId;
             Access = access;
+        }
+    }
+
+    public class LinkUserToThemeCommandValidator : AbstractValidator<LinkUserToThemeCommand>
+    {
+        public LinkUserToThemeCommandValidator()
+        {
+            RuleFor(theme => theme.ThemeId).GreaterThan(0);
+            RuleFor(theme => theme.UserId).GreaterThan(0);
         }
     }
 }
